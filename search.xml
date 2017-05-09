@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
-    <title><![CDATA[Hexo+github_pages网站搭建]]></title>
+    <title><![CDATA[Hexo usage]]></title>
     <url>%2F2017%2F05%2F09%2Fhello-world%2F</url>
-    <content type="text"><![CDATA[搭建过程网上已经很多。参考如下。http://www.jeyzhang.com/hexo-github-blog-building.htmlhttps://help.github.com/articles/connecting-to-github-with-ssh/http://huzhifeng.github.io/2014/10/04/hexo-guide/ Hexo使用Create a new post1$ hexo new "My New Post" More info: Writing Run server1$ hexo server More info: Server Generate static files1$ hexo generate More info: Generating Deploy to remote sites1$ hexo deploy More info: Deployment]]></content>
+    <content type="text"><![CDATA[Hexo使用Create a new post1$ hexo new "My New Post" More info: Writing Run server1$ hexo server More info: Server Generate static files1$ hexo generate More info: Generating Deploy to remote sites1$ hexo deploy More info: Deployment]]></content>
       <categories>
         <category>blog</category>
       </categories>
