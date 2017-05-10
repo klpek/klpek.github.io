@@ -1,6 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title><![CDATA[test2]]></title>
+    <url>%2F2017%2F05%2F10%2Ftest2%2F</url>
+    <content type="text"><![CDATA[\sum_{i=1}^n a_i=0]]></content>
+      <tags>
+        <tag>test</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[test3]]></title>
+    <url>%2F2017%2F05%2F10%2Ftest3%2F</url>
+    <content type="text"><![CDATA[\sum_{i=1}^n a_i=0]]></content>
+      <tags>
+        <tag>test</tag>
+      </tags>
+  </entry>
+  <entry>
     <title><![CDATA[Hexo usage]]></title>
     <url>%2F2017%2F05%2F10%2Fstart%2F</url>
     <content type="text"><![CDATA[Create a new post1$ hexo new "My New Post" More info: Writing Run server1$ hexo server More info: Server Generate static files1$ hexo generate More info: Generating Deploy to remote sites1$ hexo deploy More info: Deployment]]></content>
@@ -15,14 +31,6 @@
   <entry>
     <title><![CDATA[test]]></title>
     <url>%2F2017%2F05%2F09%2Ftest%2F</url>
-    <content type="text"><![CDATA[\sum_{i=1}^n a_i=0]]></content>
-      <tags>
-        <tag>test</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title><![CDATA[test]]></title>
-    <url>%2F2017%2F05%2F09%2Ftest2%2F</url>
     <content type="text"><![CDATA[\sum_{i=1}^n a_i=0]]></content>
       <tags>
         <tag>test</tag>
