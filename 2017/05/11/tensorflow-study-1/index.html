@@ -112,8 +112,8 @@
 
 操作(operations)
 张量(tensor">
-<meta property="og:image" content="http://yoursite.com/./img/assign.png">
-<meta property="og:updated_time" content="2017-05-11T07:31:41.655Z">
+<meta property="og:image" content="http://ops2n4lue.bkt.clouddn.com/assign.png">
+<meta property="og:updated_time" content="2017-05-11T07:52:45.854Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Tensorflow学习笔记（一）">
 <meta name="twitter:description" content="TF的编程模型来源：http://blog.csdn.net/tinyzhao/article/details/52755647
@@ -121,7 +121,7 @@
 
 操作(operations)
 张量(tensor">
-<meta name="twitter:image" content="http://yoursite.com/./img/assign.png">
+<meta name="twitter:image" content="http://ops2n4lue.bkt.clouddn.com/assign.png">
 
 
 
@@ -448,7 +448,7 @@
 <li>一个产生初始值的操作，通常是一个常量节点</li>
 <li>一个初始化操作，把初始值赋予到变量</li>
 </ul>
-<p><img src="./img/assign.png" alt="a"><br>如图所示，v代表的是实际的变量，i是产生初始值的节点，上面的assign节点将初始值赋予变量，assign操作以后，产生已经初始化的变量值v’。</p>
+<p><img src="http://ops2n4lue.bkt.clouddn.com/assign.png" alt="a"><br>如图所示，v代表的是实际的变量，i是产生初始值的节点，上面的assign节点将初始值赋予变量，assign操作以后，产生已经初始化的变量值v’。</p>
 <h2 id="tensorflow的基本运作方式"><a href="#tensorflow的基本运作方式" class="headerlink" title="tensorflow的基本运作方式"></a>tensorflow的基本运作方式</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line"><span class="comment">#coding=utf-8</span></div><div class="line"><span class="keyword">import</span> tensorflow <span class="keyword">as</span> tf</div><div class="line"><span class="comment">#定义占位符</span></div><div class="line">a = tf.placeholder(tf.int32,shape=())</div><div class="line">b = tf.placeholder(tf.int32,shape=())</div><div class="line"><span class="comment">#构建运算图</span></div><div class="line">y = tf.multiply(a, b) <span class="comment">#构造一个op节点</span></div><div class="line"><span class="comment">#创建会话</span></div><div class="line">sess = tf.Session()</div><div class="line"><span class="comment">#运行会话，输入数据，并计算节点，同时打印结果</span></div><div class="line">print(sess.run(y, feed_dict=&#123;a: <span class="number">3</span>, b: <span class="number">3</span>&#125;))</div><div class="line"><span class="comment"># 任务完成, 关闭会话.</span></div><div class="line">sess.close()</div></pre></td></tr></table></figure>
 <h2 id="TF的运行流程"><a href="#TF的运行流程" class="headerlink" title="TF的运行流程"></a>TF的运行流程</h2><p>来源：<a href="http://www.cnblogs.com/wuzhitj/p/6297734.html" target="_blank" rel="external">http://www.cnblogs.com/wuzhitj/p/6297734.html</a></p>
 <h3 id="概念描述"><a href="#概念描述" class="headerlink" title="概念描述"></a>概念描述</h3><h4 id="Tensor"><a href="#Tensor" class="headerlink" title="Tensor"></a>Tensor</h4><p>在训练开始前，所有的数据都是抽象的概念<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> tensorflow <span class="keyword">as</span> tf <span class="comment"># 在下面所有代码中，都去掉了这一行，默认已经导入</span></div><div class="line">a = tf.zeros(shape=[<span class="number">1</span>,<span class="number">2</span>])</div><div class="line">print(a)</div><div class="line"><span class="comment">#Tensor("zeros:0", shape=(1, 2), dtype=float32)</span></div></pre></td></tr></table></figure></p>
@@ -493,8 +493,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2017/05/10/test2/" rel="next" title="test2">
-                <i class="fa fa-chevron-left"></i> test2
+              <a href="/2017/05/10/start/" rel="next" title="Hexo usage">
+                <i class="fa fa-chevron-left"></i> Hexo usage
               </a>
             
           </div>
@@ -580,7 +580,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">5</span>
+                <span class="site-state-item-count">2</span>
                 <span class="site-state-item-name">posts</span>
               </a>
             </div>
