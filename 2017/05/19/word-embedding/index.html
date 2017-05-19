@@ -110,7 +110,7 @@
 <meta property="og:image" content="http://ops2n4lue.bkt.clouddn.com/RNNLM.png">
 <meta property="og:image" content="http://ops2n4lue.bkt.clouddn.com/CBOW.png">
 <meta property="og:image" content="http://ops2n4lue.bkt.clouddn.com/Skip-gram.png">
-<meta property="og:updated_time" content="2017-05-19T09:01:11.503Z">
+<meta property="og:updated_time" content="2017-05-19T09:11:13.483Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="词向量 word embedding">
 <meta name="twitter:description" content="Objective问题起源文本是符号数据,两个词只要字面不同,就难以刻画它们之间的联系,即使是“麦克风”和“话筒”这样的同义词,从字面上也难以看出这两者意思相同(语义鸿沟现象)。（符号性这个角度类似于生物序列数据）我们希望计算机可以从大规模无标注的文本数据中自动学习得到文本表示,这种表示需要包含对应语言单元(词或文档)的语义信息,同时可以直接通过这种表示度量文本之间的语义相似度。
@@ -452,7 +452,7 @@ P(w_1 , w_2 , ..., w_m ) = P (w_1 ) P (w_2 |w_1 )
 P (w_i | w_1 , w_2 , ..., w_i−1 ) ≈ P (w_i | w_{i−(n−1)} , . . . , w_i−1 )</script><p>在 n 元模型中,传统的方法一般采用频率计数的比例来估算 $n$ 元条件概率:</p>
 <script type="math/tex; mode=display">
 P (w_i | w_{i−(n−1)} , . . . , w_{i−1} ) = \frac{count(w_{i−(n−1)} , . . . , w_{i−1} , w_i ) }{count(w_{i−(n−1)} , . . . , w_{i−1} )}</script><p>其中,$count(w<em>{i−(n−1)} , . . . , w</em>{i−1} )$ 表示文本序列 $w<em>{i−(n−1)} , . . . , w</em>{i−1}$ 在语料中出现的次数。</p>
-<h3 id="Method"><a href="#Method" class="headerlink" title="Method"></a>Method</h3><h4 id="Method-1-神经网络语言模型-NNLM"><a href="#Method-1-神经网络语言模型-NNLM" class="headerlink" title="Method 1: 神经网络语言模型(NNLM)"></a>Method 1: 神经网络语言模型(NNLM)</h4><p>RNNLM 利用前n个词的上文信息,预测下一个词.即,直接对$ P (w<em>i | w_1 , w_2 , …, w</em>{i−1} ) $进行建模.<br>RNNLM是利用神经网络对<strong>条件概率</strong>建模.</p>
+<h3 id="Method"><a href="#Method" class="headerlink" title="Method"></a>Method</h3><h4 id="Method-1-神经网络语言模型-NNLM"><a href="#Method-1-神经网络语言模型-NNLM" class="headerlink" title="Method 1: 神经网络语言模型(NNLM)"></a>Method 1: 神经网络语言模型(NNLM)</h4><p>RNNLM 利用前n个词的上文信息,预测下一个词.即,直接对<script type="math/tex">P (w_i | w_1 , w_2 , ..., w_{i−1} )</script>进行建模.<br>RNNLM是利用神经网络对<strong>条件概率</strong>建模.</p>
 <h5 id="网络输入输出"><a href="#网络输入输出" class="headerlink" title="网络输入输出"></a>网络输入输出</h5><blockquote>
 <p><strong>目标: 最大化 $P (w<em>{i-(n-1)/2}| w</em>{i−(n−1)} , . . . , w_{i−1} )$</strong><br><strong>输入: 整个词序列 $w<em>{i−(n−1)} , . . . , w</em>{i−1}$</strong><br><strong>输出: 目标词的分布</strong></p>
 </blockquote>
