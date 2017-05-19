@@ -1,0 +1,1073 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="en">
+<head>
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+<script>
+  (function(){
+    if (''){
+      if (prompt('Please input reading password','') !== ''){
+        alert('error password.');
+        history.back();
+        }
+    }
+  })();
+</script>
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="embedding,neural_network," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="Objective问题起源文本是符号数据,两个词只要字面不同,就难以刻画它们之间的联系,即使是“麦克风”和“话筒”这样的同义词,从字面上也难以看出这两者意思相同(语义鸿沟现象)。（符号性这个角度类似于生物序列数据）我们希望计算机可以从大规模无标注的文本数据中自动学习得到文本表示,这种表示需要包含对应语言单元(词或文档)的语义信息,同时可以直接通过这种表示度量文本之间的语义相似度。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="词向量 word embedding">
+<meta property="og:url" content="http://yoursite.com/2017/05/19/word-embedding/index.html">
+<meta property="og:site_name" content="Klpek's Blog">
+<meta property="og:description" content="Objective问题起源文本是符号数据,两个词只要字面不同,就难以刻画它们之间的联系,即使是“麦克风”和“话筒”这样的同义词,从字面上也难以看出这两者意思相同(语义鸿沟现象)。（符号性这个角度类似于生物序列数据）我们希望计算机可以从大规模无标注的文本数据中自动学习得到文本表示,这种表示需要包含对应语言单元(词或文档)的语义信息,同时可以直接通过这种表示度量文本之间的语义相似度。">
+<meta property="og:image" content="http://ops2n4lue.bkt.clouddn.com/NNLM.png">
+<meta property="og:image" content="http://ops2n4lue.bkt.clouddn.com/RNNLM.png">
+<meta property="og:image" content="http://ops2n4lue.bkt.clouddn.com/CBOW.png">
+<meta property="og:image" content="http://ops2n4lue.bkt.clouddn.com/Skip-gram.png">
+<meta property="og:updated_time" content="2017-05-19T09:54:11.422Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="词向量 word embedding">
+<meta name="twitter:description" content="Objective问题起源文本是符号数据,两个词只要字面不同,就难以刻画它们之间的联系,即使是“麦克风”和“话筒”这样的同义词,从字面上也难以看出这两者意思相同(语义鸿沟现象)。（符号性这个角度类似于生物序列数据）我们希望计算机可以从大规模无标注的文本数据中自动学习得到文本表示,这种表示需要包含对应语言单元(词或文档)的语义信息,同时可以直接通过这种表示度量文本之间的语义相似度。">
+<meta name="twitter:image" content="http://ops2n4lue.bkt.clouddn.com/NNLM.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2017/05/19/word-embedding/"/>
+
+
+
+
+
+  <title> 词向量 word embedding | Klpek's Blog </title><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="en">
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Klpek's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            Categories
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            Archives
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            Tags
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            Search
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocapitalize="off" autocomplete="off" autocorrect="off"
+             placeholder="Searching..." spellcheck="false"
+             type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/05/19/word-embedding/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Klpek">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Klpek's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                词向量 word embedding
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-05-19T16:48:32+08:00">
+                2017-05-19
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/NLP/" itemprop="url" rel="index">
+                    <span itemprop="name">NLP</span>
+                  </a>
+                </span>
+
+                
+                
+                  , 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/NLP/summary/" itemprop="url" rel="index">
+                    <span itemprop="name">summary</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2017/05/19/word-embedding/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2017/05/19/word-embedding/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h3 id="Objective"><a href="#Objective" class="headerlink" title="Objective"></a>Objective</h3><h4 id="问题起源"><a href="#问题起源" class="headerlink" title="问题起源"></a>问题起源</h4><p>文本是符号数据,两个词只要字面不同,就难以刻画它们之间的联系,即使是“麦克风”和“话筒”这样的同义词,从字面上也难以看出这两者意思相同(语义鸿沟现象)。（符号性这个角度类似于生物序列数据）<br>我们希望计算机可以从大规模无标注的文本数据中自动学习得到文本表示,这种表示需要包含对应语言单元(词或文档)的语义信息,同时可以直接通过这种表示度量文本之间的语义相似度。<br><a id="more"></a></p>
+<h5 id="形式化问题-1"><a href="#形式化问题-1" class="headerlink" title="形式化问题 1"></a>形式化问题 1</h5><blockquote>
+<p><strong>输入：语句的集合/文章的集合</strong><br><strong>输出: 语言中词的一种表示</strong>  </p>
+</blockquote>
+<p>1954年，Harris 提出分布假说(distributional hypothesis),即“上下文相似的词,其语义也相似“。（只针对词）<br>在分布假说中,需要关注的对象有两个:词和上下文,其中最关键的是上下文的表示。</p>
+<h5 id="形式化问题-2"><a href="#形式化问题-2" class="headerlink" title="形式化问题 2"></a>形式化问题 2</h5><blockquote>
+<p><strong>输入：词的上下文</strong><br><strong>输出: 词的一种表示</strong>  </p>
+</blockquote>
+<p>上下文只能使用传统的词袋子表示(后面解释),如果需要表示复杂的上下文,会遇到维数灾难问题。</p>
+<p>神经网络模型可以使用组合方式(?)对上下文进行建模,只需线性复杂度即可对复杂的 n 元短语进行建模。神经网络模型生成的词表示通常被称为词向量(word embedding)。</p>
+<blockquote>
+<p>词向量：一个低维的实数向量表示。通过这种表示,可以直接对词之间的相似度进行刻画。</p>
+</blockquote>
+<h4 id="问题形式化"><a href="#问题形式化" class="headerlink" title="问题形式化"></a>问题形式化</h4><blockquote>
+<p><strong>输入: 词的上下文</strong><br><strong>输出: 词的低维实数向量表示</strong><br><strong>方法: 神经网络</strong>  </p>
+</blockquote>
+<h3 id="Related-Knowledge"><a href="#Related-Knowledge" class="headerlink" title="Related Knowledge"></a>Related Knowledge</h3><h4 id="符号表示"><a href="#符号表示" class="headerlink" title="符号表示"></a>符号表示</h4><p>$w$ 表示一个词语.<br>$w_1 , w_2 , …, w_m $表示一条由m个词语组成的语句.</p>
+<h4 id="语言模型"><a href="#语言模型" class="headerlink" title="语言模型"></a>语言模型</h4><p>语言模型可以对一段文本的概率进行估计.<br>形式化的讲,统计语言模型的作用是为一个长度为 $m$ 的字符串确定一个概率分布 $P (w_1 , w_2 , …, w_m )$</p>
+<script type="math/tex; mode=display">
+P(w_1 , w_2 , ..., w_m ) = P (w_1 ) P (w_2 |w_1 )
+\dots P (w_i | w_1 , w_2 , ..., w_{i−1} )\dots P (w_m | w_1 , w_2 , ..., w_{m−1} )</script><h4 id="n-元-n-gram-模型"><a href="#n-元-n-gram-模型" class="headerlink" title="$n$元(n-gram)模型"></a>$n$元(n-gram)模型</h4><p>如果文本的长度较长,公式右部$ P (w<em>i | w_1 , w_2 , \dots , w</em>{i−1} ) $的估算会非常困难。<br>因此,研究者们提出使用一个简化模型:$n$ 元模型.对上述条件概率做了以下近似:</p>
+<script type="math/tex; mode=display">
+P (w_i | w_1 , w_2 , ..., w_i−1 ) ≈ P (w_i | w_{i−(n−1)} , . . . , w_i−1 )</script><p>在 n 元模型中,传统的方法一般采用频率计数的比例来估算 $n$ 元条件概率:</p>
+<script type="math/tex; mode=display">
+P (w_i | w_{i−(n−1)} , . . . , w_{i−1} ) = \frac{count(w_{i−(n−1)} , . . . , w_{i−1} , w_i ) }{count(w_{i−(n−1)} , . . . , w_{i−1} )}</script><p>其中,$count(w<em>{i−(n−1)} , . . . , w</em>{i−1} )$ 表示文本序列 $w<em>{i−(n−1)} , . . . , w</em>{i−1}$ 在语料中出现的次数。</p>
+<h3 id="Method"><a href="#Method" class="headerlink" title="Method"></a>Method</h3><h4 id="Method-1-神经网络语言模型-NNLM"><a href="#Method-1-神经网络语言模型-NNLM" class="headerlink" title="Method 1: 神经网络语言模型(NNLM)"></a>Method 1: 神经网络语言模型(NNLM)</h4><p>RNNLM 利用前n个词的上文信息,预测下一个词.即,直接对$ P (w<em>i | w_1 , w_2 , …, w</em>{i−1} ) $进行建模.<br>RNNLM是利用神经网络对<strong>条件概率</strong>建模.</p>
+<h5 id="网络输入输出"><a href="#网络输入输出" class="headerlink" title="网络输入输出"></a>网络输入输出</h5><blockquote>
+<p><strong>目标: 最大化 $P (w<em>{i-(n-1)/2}| w</em>{i−(n−1)} , . . . , w_{i−1} )$</strong><br><strong>输入: 整个词序列 $w<em>{i−(n−1)} , . . . , w</em>{i−1}$</strong><br><strong>输出: 目标词的分布</strong>  </p>
+</blockquote>
+<h5 id="网络结构"><a href="#网络结构" class="headerlink" title="网络结构"></a>网络结构</h5><h6 id="示意图"><a href="#示意图" class="headerlink" title="示意图"></a>示意图</h6><p><img src="http://ops2n4lue.bkt.clouddn.com/NNLM.png" alt=""></p>
+<h6 id="输入层"><a href="#输入层" class="headerlink" title="输入层"></a>输入层</h6><p>词$w<em>{i−(n−1)} , . . . , w</em>{i−1}$的词向量的顺序拼接</p>
+<script type="math/tex; mode=display">x = [e(w_{i−(n−1)} ); . . . ; e(w_{i−2} ); e(w_{i−1} )]</script><h6 id="隐藏层h"><a href="#隐藏层h" class="headerlink" title="隐藏层h"></a>隐藏层h</h6><script type="math/tex; mode=display">h= tanh(b^{(1)} + Hx)</script><script type="math/tex; mode=display">y = b ^{(2)} + W x + U h</script><p>其中,其中,$φ$ 为非线性激活函数。<br>根据公式,每一个隐藏层包含了当前词的信息以及上一个隐藏层的信息。通过这种迭代推进的方式,每个隐藏层实际上包含了此前所有上文的信息.</p>
+<h6 id="输出层"><a href="#输出层" class="headerlink" title="输出层"></a>输出层</h6><script type="math/tex; mode=display">
+P (w_i | w_{i−(n−1)} , . . . , w_{i−1} ) = \frac {exp (y(w_i))}{\sum_{k=1}^{|V|}exp(y(v_k))}</script><h6 id="网络目标"><a href="#网络目标" class="headerlink" title="网络目标"></a>网络目标</h6><p>最大化 $\sum\limits <em>{w </em>{i−(n−1):i} ∈D}log P (w<em>i | w</em>{i−(n−1)} ,\dots, w_{i−1} )$<br>即最大化语言模型.</p>
+<h4 id="Method-2-循环神经网络语言模型-RNNLM"><a href="#Method-2-循环神经网络语言模型-RNNLM" class="headerlink" title="Method 2: 循环神经网络语言模型(RNNLM)"></a>Method 2: 循环神经网络语言模型(RNNLM)</h4><p>RNNLM 利用所有的上文信息,预测下一个词.即,直接对$ P (w<em>i | w_1 , w_2 , …, w</em>{i−1} ) $进行建模.<br>RNNLM是利用神经网络对<strong>条件概率</strong>建模.</p>
+<h5 id="网络输入输出-1"><a href="#网络输入输出-1" class="headerlink" title="网络输入输出"></a>网络输入输出</h5><blockquote>
+<p><strong>目标: 最大化 $P (w<em>i | w</em>{i−(n−1)} , . . . , w_1 )$</strong><br><strong>输入: 整个词序列 $w<em>{i−(n−1)} , . . . , w</em>{i−1}$</strong><br><strong>输出: 目标词的分布</strong></p>
+</blockquote>
+<h5 id="网络结构-1"><a href="#网络结构-1" class="headerlink" title="网络结构"></a>网络结构</h5><h6 id="示意图-1"><a href="#示意图-1" class="headerlink" title="示意图"></a>示意图</h6><p><img src="http://ops2n4lue.bkt.clouddn.com/RNNLM.png" alt=""></p>
+<h6 id="输入层-1"><a href="#输入层-1" class="headerlink" title="输入层"></a>输入层</h6><p>词$w<em>{i−(n−1)} , . . . , w</em>{i−1}$的词向量的顺序拼接</p>
+<script type="math/tex; mode=display">x = [e(w_{i−(n−1)} ); . . . ; e(w_{i−2} ); e(w_{i−1} )]</script><h6 id="隐藏层h-1"><a href="#隐藏层h-1" class="headerlink" title="隐藏层h"></a>隐藏层h</h6><script type="math/tex; mode=display">h(i) = φ(e(w_i ) + w_h(i − 1))</script><script type="math/tex; mode=display">y(i) = b + uh(i)</script><p>其中,其中,$φ$ 为非线性激活函数。<br>根据公式,每一个隐藏层包含了当前词的信息以及上一个隐藏层的信息。通过这种迭代推进的方式,每个隐藏层实际上包含了此前所有上文的信息.</p>
+<h6 id="输出层-1"><a href="#输出层-1" class="headerlink" title="输出层"></a>输出层</h6><script type="math/tex; mode=display">
+P (w_i | w_{i−(n−1)} , . . . , w_1 ) = \frac {exp (y(w_i))}{\sum_{k=1}^{|V|}exp(y(v_k))}</script><h6 id="网络目标-1"><a href="#网络目标-1" class="headerlink" title="网络目标"></a>网络目标</h6><p>最大化语言模型$\sum\limits <em>{w </em>{i−(n−1):i} ∈D}log P (w<em>i | w</em>{i−(n−1)} ,\dots, w_1 )$</p>
+<h4 id="Method-3-CBOW-模型"><a href="#Method-3-CBOW-模型" class="headerlink" title="Method 3: CBOW 模型"></a>Method 3: CBOW 模型</h4><p>该模型一方面使用一段文本的中间词作为目标词;另一方面,又以 NNLM 作为蓝本,并在其基础上做了两个简化。<br>一、CBOW 没有隐藏层,去掉隐藏层之后,模型从神经网络结构直接转化为 log 线性结构,与 Logistic 回归一致。log 线性结构比三层神经网络结构少了一个矩阵运算,大幅度地提升了模型的训练速度。<br>二、CBOW 去除了上下文各词的词序信息,使用上下文各词词向量的平均值,代替神经网络语言模型使用的上文各词词向量的拼接。</p>
+<h5 id="网络输入输出-2"><a href="#网络输入输出-2" class="headerlink" title="网络输入输出"></a>网络输入输出</h5><blockquote>
+<p><strong>目标: 最大化 $P (w<em>{i-(n-1)/2} | w</em>{i−(n−1)} , . . . , w_{i−1} )$</strong><br><strong>输入: 整个词序列 $w<em>{i−(n−1)} , . . . , w</em>{i−1}$</strong><br><strong>输出: 目标词的分布</strong>  </p>
+</blockquote>
+<h5 id="网络结构-2"><a href="#网络结构-2" class="headerlink" title="网络结构"></a>网络结构</h5><h6 id="示意图-2"><a href="#示意图-2" class="headerlink" title="示意图"></a>示意图</h6><p><img src="http://ops2n4lue.bkt.clouddn.com/CBOW.png" alt=""></p>
+<h6 id="输入层-2"><a href="#输入层-2" class="headerlink" title="输入层"></a>输入层</h6><p>词$w<em>{i−(n−1)} , . . . , w</em>{i−1}$的词向量的组合</p>
+<script type="math/tex; mode=display">x = \frac{1}{n-1}\sum\limits _{w_j \in c}e(w_j)</script><h6 id="隐藏层h-2"><a href="#隐藏层h-2" class="headerlink" title="隐藏层h"></a>隐藏层h</h6><p>没有</p>
+<h6 id="输出层-2"><a href="#输出层-2" class="headerlink" title="输出层"></a>输出层</h6><p>c表示上下文</p>
+<script type="math/tex; mode=display">
+P (w |c) = \frac {exp (e'(w)^Tx)}{\sum_{w' \in V}exp(e'(w')^Tx)}</script><h6 id="网络目标-2"><a href="#网络目标-2" class="headerlink" title="网络目标"></a>网络目标</h6><p>最大化 $\sum\limits_{(w,c)\in D}logP(w|c)$</p>
+<h4 id="Method-4-Skip-gram-模型"><a href="#Method-4-Skip-gram-模型" class="headerlink" title="Method 4: Skip-gram 模型"></a>Method 4: Skip-gram 模型</h4><p>与 CBOW 模型一样, Skip-gram 模型中也没有隐藏层。和 CBOW 模型不同的是,Skip-gram 模型每次从目标词 w 的上下文 c 中选择一个词,将其词向量作为模型的输入 x,也就是上下文的表示。 Skip-gram模型同样通过上下文预测目标词,对于整个语料的优化目标为最大化:</p>
+<script type="math/tex; mode=display">\sum_{(w,c) \in D}\sum_{w_j \in c}log P (w|w_j )</script><blockquote>
+<p>在 Skip-gram 的论文 中将模型描述成通过目标词预测上下文。由于模型需要遍历整个语料,任意一个窗口中的两个词 w_a , w_b 都需要计算 P (w_a |w_b ) + P (w_b |w_a ),因此这两种描述方式是等价的。</p>
+</blockquote>
+<h5 id="网络输入输出-3"><a href="#网络输入输出-3" class="headerlink" title="网络输入输出"></a>网络输入输出</h5><blockquote>
+<p><strong>目标: 最大化 $P (w<em>i | w</em>{i−(n−1)} , . . . , w_{i−1} )$</strong><br><strong>输入: 整个词序列 $w<em>{i−(n−1)} , . . . , w</em>{i−1}$</strong><br><strong>输出: 目标词的分布</strong>  </p>
+</blockquote>
+<h5 id="网络结构-3"><a href="#网络结构-3" class="headerlink" title="网络结构"></a>网络结构</h5><h6 id="示意图-3"><a href="#示意图-3" class="headerlink" title="示意图"></a>示意图</h6><p><img src="http://ops2n4lue.bkt.clouddn.com/Skip-gram.png" alt=""></p>
+<h6 id="输入层-3"><a href="#输入层-3" class="headerlink" title="输入层"></a>输入层</h6><p>词$w<em>{i−(n−1)} , . . . , w</em>{i−1}$的词向量的组合</p>
+<script type="math/tex; mode=display">x = \frac{1}{n-1}\sum\limits _{w_j \in c}e(w_j)</script><h6 id="隐藏层h-3"><a href="#隐藏层h-3" class="headerlink" title="隐藏层h"></a>隐藏层h</h6><p>没有</p>
+<h6 id="输出层-3"><a href="#输出层-3" class="headerlink" title="输出层"></a>输出层</h6><p>c表示上下文</p>
+<script type="math/tex; mode=display">
+P (w |c) = \frac {exp (e'(w)^Tx)}{\sum_{w' \in V}exp(e'(w')^Tx)}</script><h6 id="网络目标-3"><a href="#网络目标-3" class="headerlink" title="网络目标"></a>网络目标</h6><p>最大化 $\sum\limits <em>{(w,c) \in D}\sum\limits </em>{w_j \in c}log P (w|w_j )$</p>
+<h5 id="采用手段"><a href="#采用手段" class="headerlink" title="采用手段"></a>采用手段</h5><h6 id="负采样技术-negative-sampling"><a href="#负采样技术-negative-sampling" class="headerlink" title="负采样技术(negative sampling)"></a>负采样技术(negative sampling)</h6><p>构造负样本,构造出了一个优化目标,最大化正样本的似然,同时最小化负样本的似然。其中训练时,一个正样本可以对应多个负样本.</p>
+<h6 id="二次采样技术-subsampling"><a href="#二次采样技术-subsampling" class="headerlink" title="二次采样技术(subsampling)"></a>二次采样技术(subsampling)</h6><p>在大规模语料中,高频词通常就是停用词.一方面,这些高频词只能带来非常少量的语义信息.另一方面,训练高频词本身占据了大量的时间,但在迭代过程中,这些高频词的词向量变化并不大。<br>如果词 w 在语料中的出现频率 $f (w) $大于阈值 t,则有 $P (w)$ 的概率在训练时跳过这个词。</p>
+<script type="math/tex; mode=display">
+P (w) = \frac{f (w) − t}{f (w)} - \sqrt{\frac{t}{f(w)}}</script><h4 id="模型总结"><a href="#模型总结" class="headerlink" title="模型总结"></a>模型总结</h4><div class="table-container">
+<table>
+<thead>
+<tr>
+<th>模型名称</th>
+<th>上下文</th>
+<th>隐含层</th>
+<th>词序</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>NNLM</td>
+<td>n-gram(前n个词)</td>
+<td>非线性变换</td>
+<td>有词序</td>
+</tr>
+<tr>
+<td>RNNLM</td>
+<td>前面所有词</td>
+<td>非线性变换</td>
+<td>有词序</td>
+</tr>
+<tr>
+<td>CBOW</td>
+<td>n-gram(前后n个词)</td>
+<td>无,线性组合</td>
+<td>无词序</td>
+</tr>
+<tr>
+<td>NNLM</td>
+<td>n-gram(前或者后面1个词)</td>
+<td>无</td>
+<td>无词序</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>研究者进行一些对比试验,因需要引入其他知识,此处暂不列出.他们得出以下结论.</p>
+<blockquote>
+<p>一、简单模型在小语料上整体表现更好,而复杂的模型需要更大的语料作支撑。<br>二、对于实际的自然语言处理任务,各模型的差异不大。<br>三、同领域的语料,语料越大效果越好。<br>四、领域内的语料对相似领域任务的效果提升非常明显,但在领域不契合时甚至会有负面作用。<br>五、包含的语义特征更为丰富的语料(而不只是数量),在评价语义特性的任务中,效果也更好。<br>六、词向量的维度一般需要选择 50 维及以上,特别当衡量词向量的语言学特性时,词向量的维度越大,效果越好。</p>
+</blockquote>
+<p><strong>注:本文内容总结自来斯惟博士的毕业论文&lt;&lt;基于神经网络的词和文档语义向量表示方法研究&gt;&gt;</strong>.<br>在此表示感谢,另附上来博士的博客地址: <a href="http://licstar.net/archives/tag/%E8%AF%8D%E5%90%91%E9%87%8F" target="_blank" rel="external">http://licstar.net/archives/tag/%E8%AF%8D%E5%90%91%E9%87%8F</a></p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/embedding/" rel="tag"># embedding</a>
+          
+            <a href="/tags/neural-network/" rel="tag"># neural_network</a>
+          
+        </div>
+      
+
+      
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/05/11/tensorflow-study-1/" rel="next" title="Tensorflow学习笔记（一）">
+                <i class="fa fa-chevron-left"></i> Tensorflow学习笔记（一）
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/05/19/start/" rel="prev" title="Hexo usage">
+                Hexo usage <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.gif"
+               alt="Klpek" />
+          <p class="site-author-name" itemprop="name">Klpek</p>
+           
+              <p class="site-description motion-element" itemprop="description"></p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">3</span>
+                <span class="site-state-item-name">posts</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/categories/index.html">
+                <span class="site-state-item-count">3</span>
+                <span class="site-state-item-name">categories</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">5</span>
+                <span class="site-state-item-name">tags</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#Objective"><span class="nav-number">1.</span> <span class="nav-text">Objective</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#问题起源"><span class="nav-number">1.1.</span> <span class="nav-text">问题起源</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#形式化问题-1"><span class="nav-number">1.1.1.</span> <span class="nav-text">形式化问题 1</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#形式化问题-2"><span class="nav-number">1.1.2.</span> <span class="nav-text">形式化问题 2</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#问题形式化"><span class="nav-number">1.2.</span> <span class="nav-text">问题形式化</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Related-Knowledge"><span class="nav-number">2.</span> <span class="nav-text">Related Knowledge</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#符号表示"><span class="nav-number">2.1.</span> <span class="nav-text">符号表示</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#语言模型"><span class="nav-number">2.2.</span> <span class="nav-text">语言模型</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#n-元-n-gram-模型"><span class="nav-number">2.3.</span> <span class="nav-text">$n$元(n-gram)模型</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Method"><span class="nav-number">3.</span> <span class="nav-text">Method</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Method-1-神经网络语言模型-NNLM"><span class="nav-number">3.1.</span> <span class="nav-text">Method 1: 神经网络语言模型(NNLM)</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#网络输入输出"><span class="nav-number">3.1.1.</span> <span class="nav-text">网络输入输出</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#网络结构"><span class="nav-number">3.1.2.</span> <span class="nav-text">网络结构</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#示意图"><span class="nav-number">3.1.2.1.</span> <span class="nav-text">示意图</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#输入层"><span class="nav-number">3.1.2.2.</span> <span class="nav-text">输入层</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#隐藏层h"><span class="nav-number">3.1.2.3.</span> <span class="nav-text">隐藏层h</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#输出层"><span class="nav-number">3.1.2.4.</span> <span class="nav-text">输出层</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#网络目标"><span class="nav-number">3.1.2.5.</span> <span class="nav-text">网络目标</span></a></li></ol></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Method-2-循环神经网络语言模型-RNNLM"><span class="nav-number">3.2.</span> <span class="nav-text">Method 2: 循环神经网络语言模型(RNNLM)</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#网络输入输出-1"><span class="nav-number">3.2.1.</span> <span class="nav-text">网络输入输出</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#网络结构-1"><span class="nav-number">3.2.2.</span> <span class="nav-text">网络结构</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#示意图-1"><span class="nav-number">3.2.2.1.</span> <span class="nav-text">示意图</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#输入层-1"><span class="nav-number">3.2.2.2.</span> <span class="nav-text">输入层</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#隐藏层h-1"><span class="nav-number">3.2.2.3.</span> <span class="nav-text">隐藏层h</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#输出层-1"><span class="nav-number">3.2.2.4.</span> <span class="nav-text">输出层</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#网络目标-1"><span class="nav-number">3.2.2.5.</span> <span class="nav-text">网络目标</span></a></li></ol></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Method-3-CBOW-模型"><span class="nav-number">3.3.</span> <span class="nav-text">Method 3: CBOW 模型</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#网络输入输出-2"><span class="nav-number">3.3.1.</span> <span class="nav-text">网络输入输出</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#网络结构-2"><span class="nav-number">3.3.2.</span> <span class="nav-text">网络结构</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#示意图-2"><span class="nav-number">3.3.2.1.</span> <span class="nav-text">示意图</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#输入层-2"><span class="nav-number">3.3.2.2.</span> <span class="nav-text">输入层</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#隐藏层h-2"><span class="nav-number">3.3.2.3.</span> <span class="nav-text">隐藏层h</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#输出层-2"><span class="nav-number">3.3.2.4.</span> <span class="nav-text">输出层</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#网络目标-2"><span class="nav-number">3.3.2.5.</span> <span class="nav-text">网络目标</span></a></li></ol></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Method-4-Skip-gram-模型"><span class="nav-number">3.4.</span> <span class="nav-text">Method 4: Skip-gram 模型</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#网络输入输出-3"><span class="nav-number">3.4.1.</span> <span class="nav-text">网络输入输出</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#网络结构-3"><span class="nav-number">3.4.2.</span> <span class="nav-text">网络结构</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#示意图-3"><span class="nav-number">3.4.2.1.</span> <span class="nav-text">示意图</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#输入层-3"><span class="nav-number">3.4.2.2.</span> <span class="nav-text">输入层</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#隐藏层h-3"><span class="nav-number">3.4.2.3.</span> <span class="nav-text">隐藏层h</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#输出层-3"><span class="nav-number">3.4.2.4.</span> <span class="nav-text">输出层</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#网络目标-3"><span class="nav-number">3.4.2.5.</span> <span class="nav-text">网络目标</span></a></li></ol></li><li class="nav-item nav-level-5"><a class="nav-link" href="#采用手段"><span class="nav-number">3.4.3.</span> <span class="nav-text">采用手段</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#负采样技术-negative-sampling"><span class="nav-number">3.4.3.1.</span> <span class="nav-text">负采样技术(negative sampling)</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#二次采样技术-subsampling"><span class="nav-number">3.4.3.2.</span> <span class="nav-text">二次采样技术(subsampling)</span></a></li></ol></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#模型总结"><span class="nav-number">3.5.</span> <span class="nav-text">模型总结</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Powered By Klpek</span>
+</div>
+
+
+<div class="powered-by">
+  Powered by <a class="theme-link" href="#">Klpek</a>
+</div>
+
+<div class="theme-info">
+  Theme -
+  <a class="theme-link" href="#">
+    Ekon
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+  
+  <script type="text/javascript" src="/lib/canvas-nest/canvas-nest.min.js"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.0"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+
+
+  
+
+    <script type="text/javascript">
+      var disqus_shortname = 'klpek';
+      var disqus_identifier = '2017/05/19/word-embedding/';
+
+      var disqus_title = "词向量 word embedding";
+
+
+      function run_disqus_script(disqus_script) {
+        var dsq = document.createElement('script');
+        dsq.type = 'text/javascript';
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+      }
+
+      run_disqus_script('count.js');
+
+      
+        var disqus_config = function () {
+            this.page.url = disqus_url;
+            this.page.identifier = disqus_identifier;
+            this.page.title = disqus_title;
+        };
+        run_disqus_script('embed.js');
+      
+
+    </script>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length == 0) {
+      search_path = "search.xml";
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.popup').toggle();
+    }
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+      $.ajax({
+        url: path,
+        dataType: "xml",
+        async: true,
+        success: function( xmlResponse ) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = $( "entry", xmlResponse ).map(function() {
+            return {
+              title: $( "title", this ).text(),
+              content: $("content",this).text(),
+              url: $( "url" , this).text()
+            };
+          }).get();
+          var $input = document.getElementById(search_id);
+          var $resultContent = document.getElementById(content_id);
+          $input.addEventListener('input', function(){
+            var matchcounts = 0;
+            var str='<ul class=\"search-result-list\">';
+            var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+            $resultContent.innerHTML = "";
+            if (this.value.trim().length > 1) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var content_index = [];
+                var data_title = data.title.trim().toLowerCase();
+                var data_content = data.content.trim().replace(/<[^>]+>/g,"").toLowerCase();
+                var data_url = decodeURIComponent(data.url);
+                var index_title = -1;
+                var index_content = -1;
+                var first_occur = -1;
+                // only match artiles with not empty titles and contents
+                if(data_title != '') {
+                  keywords.forEach(function(keyword, i) {
+                    index_title = data_title.indexOf(keyword);
+                    index_content = data_content.indexOf(keyword);
+                    if( index_title >= 0 || index_content >= 0 ){
+                      isMatch = true;
+                      if (i == 0) {
+                        first_occur = index_content;
+                      }
+                    }
+
+                  });
+                }
+                // show search results
+                if (isMatch) {
+                  matchcounts += 1;
+                  str += "<li><a href='"+ data_url +"' class='search-result-title'>"+ data_title +"</a>";
+                  var content = data.content.trim().replace(/<[^>]+>/g,"");
+                  if (first_occur >= 0) {
+                    // cut out 100 characters
+                    var start = first_occur - 20;
+                    var end = first_occur + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if(start == 0){
+                      end = 50;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    var match_content = content.substring(start, end);
+                    // highlight all keywords
+                    keywords.forEach(function(keyword){
+                      var regS = new RegExp(keyword, "gi");
+                      match_content = match_content.replace(regS, "<b class=\"search-keyword\">"+keyword+"</b>");
+                    });
+
+                    str += "<p class=\"search-result\">" + match_content +"...</p>"
+                  }
+                  str += "</li>";
+                }
+              })};
+            str += "</ul>";
+            if (matchcounts == 0) { str = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>' }
+            if (keywords == "") { str = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>' }
+            $resultContent.innerHTML = str;
+          });
+          proceedsearch();
+        }
+      });}
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched == false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(function(e){
+      $('.popup').hide();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    });
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+  </script><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({"tex2jax":{"inlineMath":[["$","$"],["\\(","\\)"]],"skipTags":["script","noscript","style","textarea","pre","code"],"processEscapes":true},"TeX":{"equationNumbers":{"autoNumber":"AMS"}}});
+</script>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+      all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+  });
+</script>
+
+<script type="text/javascript" src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+<!-- End: Injected MathJax -->
+<!-- hexo-inject:end -->
+
+
+
+
+
+  
+
+  
+
+  
+  
+
+
+  
+
+</body>
+</html>
