@@ -82,7 +82,7 @@
 <link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="blog" />
+  <meta name="keywords" content="embedding,neural_network," />
 
 
 
@@ -98,12 +98,24 @@
 
 
 
-<meta property="og:type" content="website">
-<meta property="og:title" content="Klpek's Blog">
-<meta property="og:url" content="http://yoursite.com/index.html">
+<meta name="description" content="Objective问题起源文本是符号数据,两个词只要字面不同,就难以刻画它们之间的联系,即使是“麦克风”和“话筒”这样的同义词,从字面上也难以看出这两者意思相同(语义鸿沟现象)。（符号性这个角度类似于生物序列数据）我们希望计算机可以从大规模无标注的文本数据中自动学习得到文本表示,这种表示需要包含对应语言单元(词或文档)的语义信息,同时可以直接通过这种表示度量文本之间的语义相似度。
+形式化问题 1">
+<meta property="og:type" content="article">
+<meta property="og:title" content="词向量 word embedding">
+<meta property="og:url" content="http://yoursite.com/2017/05/19/word-embedding/index.html">
 <meta property="og:site_name" content="Klpek's Blog">
+<meta property="og:description" content="Objective问题起源文本是符号数据,两个词只要字面不同,就难以刻画它们之间的联系,即使是“麦克风”和“话筒”这样的同义词,从字面上也难以看出这两者意思相同(语义鸿沟现象)。（符号性这个角度类似于生物序列数据）我们希望计算机可以从大规模无标注的文本数据中自动学习得到文本表示,这种表示需要包含对应语言单元(词或文档)的语义信息,同时可以直接通过这种表示度量文本之间的语义相似度。
+形式化问题 1">
+<meta property="og:image" content="http://ops2n4lue.bkt.clouddn.com/NNLM.png">
+<meta property="og:image" content="http://ops2n4lue.bkt.clouddn.com/RNNLM.png">
+<meta property="og:image" content="http://ops2n4lue.bkt.clouddn.com/CBOW.png">
+<meta property="og:image" content="http://ops2n4lue.bkt.clouddn.com/Skip-gram.png">
+<meta property="og:updated_time" content="2017-05-19T08:53:25.605Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Klpek's Blog">
+<meta name="twitter:title" content="词向量 word embedding">
+<meta name="twitter:description" content="Objective问题起源文本是符号数据,两个词只要字面不同,就难以刻画它们之间的联系,即使是“麦克风”和“话筒”这样的同义词,从字面上也难以看出这两者意思相同(语义鸿沟现象)。（符号性这个角度类似于生物序列数据）我们希望计算机可以从大规模无标注的文本数据中自动学习得到文本表示,这种表示需要包含对应语言单元(词或文档)的语义信息,同时可以直接通过这种表示度量文本之间的语义相似度。
+形式化问题 1">
+<meta name="twitter:image" content="http://ops2n4lue.bkt.clouddn.com/NNLM.png">
 
 
 
@@ -131,13 +143,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/"/>
+  <link rel="canonical" href="http://yoursite.com/2017/05/19/word-embedding/"/>
 
 
 
 
 
-  <title> Klpek's Blog </title><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+  <title> 词向量 word embedding | Klpek's Blog </title><!-- hexo-inject:begin --><!-- hexo-inject:end -->
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="en">
@@ -162,9 +174,7 @@
     
   
 
-  <!-- hexo-inject:begin --><!-- hexo-inject:end --><div class="container sidebar-position-left 
-   page-home 
- ">
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><div class="container sidebar-position-left page-post-detail ">
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
@@ -291,9 +301,9 @@
         <div class="content-wrap">
           <div id="content" class="content">
             
-  <section id="posts" class="posts-expand">
+
+  <div id="posts" class="posts-expand">
     
-      
 
   
 
@@ -323,10 +333,7 @@
             
             
               
-                
-                <a class="post-title-link" href="/2017/05/19/word-embedding/" itemprop="url">
-                  词向量 word embedding
-                </a>
+                词向量 word embedding
               
             
           </h1>
@@ -420,9 +427,7 @@
       
 
       
-        
-          
-            <h3 id="Objective"><a href="#Objective" class="headerlink" title="Objective"></a>Objective</h3><h4 id="问题起源"><a href="#问题起源" class="headerlink" title="问题起源"></a>问题起源</h4><p>文本是符号数据,两个词只要字面不同,就难以刻画它们之间的联系,即使是“麦克风”和“话筒”这样的同义词,从字面上也难以看出这两者意思相同(语义鸿沟现象)。（符号性这个角度类似于生物序列数据）<br>我们希望计算机可以从大规模无标注的文本数据中自动学习得到文本表示,这种表示需要包含对应语言单元(词或文档)的语义信息,同时可以直接通过这种表示度量文本之间的语义相似度。</p>
+        <h3 id="Objective"><a href="#Objective" class="headerlink" title="Objective"></a>Objective</h3><h4 id="问题起源"><a href="#问题起源" class="headerlink" title="问题起源"></a>问题起源</h4><p>文本是符号数据,两个词只要字面不同,就难以刻画它们之间的联系,即使是“麦克风”和“话筒”这样的同义词,从字面上也难以看出这两者意思相同(语义鸿沟现象)。（符号性这个角度类似于生物序列数据）<br>我们希望计算机可以从大规模无标注的文本数据中自动学习得到文本表示,这种表示需要包含对应语言单元(词或文档)的语义信息,同时可以直接通过这种表示度量文本之间的语义相似度。</p>
 <h5 id="形式化问题-1"><a href="#形式化问题-1" class="headerlink" title="形式化问题 1"></a>形式化问题 1</h5><blockquote>
 <p><strong>输入：语句的集合/文章的集合</strong><br><strong>输出: 语言中词的一种表示</strong></p>
 </blockquote>
@@ -535,389 +540,74 @@ P (w) = \frac{f (w) − t}{f (w)} - \sqrt{\frac{t}{f(w)}}</script><h4 id="模型
 </blockquote>
 <p><strong>注:本文内容总结自来斯惟博士的毕业论文&lt;基于神经网络的词和文档语义向量表示方法研究&gt;</strong><br>在此表示感谢,另附上来博士的博客地址: <a href="http://licstar.net/archives/tag/%E8%AF%8D%E5%90%91%E9%87%8F" target="_blank" rel="external">http://licstar.net/archives/tag/%E8%AF%8D%E5%90%91%E9%87%8F</a></p>
 
-          
+      
+    </div>
+
+    <div>
+      
         
+
       
     </div>
 
     <div>
       
-    </div>
+        
 
-    <div>
       
     </div>
 
     <div>
+      
+        
+
       
     </div>
 
     <footer class="post-footer">
       
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/05/11/tensorflow-study-1/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Klpek">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Klpek's Blog">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2017/05/11/tensorflow-study-1/" itemprop="url">
-                  Tensorflow学习笔记（一）
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-05-11T15:17:38+08:00">
-                2017-05-11
-              </time>
-            
-
-            
-
-            
-          </span>
-
+        <div class="post-tags">
           
-
+            <a href="/tags/embedding/" rel="tag"># embedding</a>
           
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/2017/05/11/tensorflow-study-1/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2017/05/11/tensorflow-study-1/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
+            <a href="/tags/neural-network/" rel="tag"># neural_network</a>
           
-
-          
-          
-
-          
-
-          
-
-          
-
         </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
       
 
       
         
-          
-            <h2 id="TF的编程模型"><a href="#TF的编程模型" class="headerlink" title="TF的编程模型"></a>TF的编程模型</h2><p>来源：<a href="http://blog.csdn.net/tinyzhao/article/details/52755647" target="_blank" rel="external">http://blog.csdn.net/tinyzhao/article/details/52755647</a></p>
-<h3 id="计算图"><a href="#计算图" class="headerlink" title="计算图"></a>计算图</h3><p>在TensorFlow中，算法都被表示成计算图（computational graphs）。计算图也叫数据流图,图中的节点表示操作，图中的边代表在不同操作之间的数据流动。<br>在这样的数据流图中，有四个主要的元素概念：</p>
-<ul>
-<li>操作(operations)</li>
-<li>张量(tensors)</li>
-<li>变量(variables)</li>
-<li>会话(sessions)</li>
-</ul>
-<h3 id="操作-operations"><a href="#操作-operations" class="headerlink" title="操作(operations)"></a>操作(operations)</h3><p>数据流过节点的时候对数据进行的操作，操作包含很多种。</p>
-<div class="table-container">
-<table>
-<thead>
-<tr>
-<th style="text-align:left">操作类型</th>
-<th style="text-align:center">例子</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:left">元素运算</td>
-<td style="text-align:center">Add,Mul</td>
-</tr>
-<tr>
-<td style="text-align:left">矩阵运算</td>
-<td style="text-align:center">MatMul,MatrixInverse</td>
-</tr>
-<tr>
-<td style="text-align:left">数值产生</td>
-<td style="text-align:center">Constant,Variable</td>
-</tr>
-<tr>
-<td style="text-align:left">神经网络单元</td>
-<td style="text-align:center">SoftMax,ReLU,Conv2D</td>
-</tr>
-<tr>
-<td style="text-align:left">I/O</td>
-<td style="text-align:center">Save,Restore</td>
-</tr>
-</tbody>
-</table>
-</div>
-<h3 id="张量-tensors"><a href="#张量-tensors" class="headerlink" title="张量(tensors)"></a>张量(tensors)</h3><p>图中的每个边代表数据从一个操作流到另一个操作。这些数据被表示为张量。一个张量可以看做是多维的数组或者高维的矩阵。<br>张量本身并没有保存任何值，张量仅仅提供了访问数值的一个接口，可以看做是数值的一种引用。在TensorFlow实际使用中我们也可以发现，在run之前的张量并没有分配空间，此时的张量仅仅表示了一种数值的抽象，用来连接不同的节点，表示数据在不同操作之间的流动。<br>TensorFlow中还提供了SparseTensor数据结构，用来表示稀疏张量。</p>
-<h3 id="变量-variables"><a href="#变量-variables" class="headerlink" title="变量(variables)"></a>变量(variables)</h3><p>可以改变数值和数据类型的节点。在实际处理时，一般把需要训练的值指定为变量。在使用变量的时候，需要指定变量的初始值，变量的大小和数据类型就是根据初始值来推断的。<br>在构建计算图的时候，指定一个变量实际上需要增加三个节点：</p>
-<ul>
-<li>实际的变量节点</li>
-<li>一个产生初始值的操作，通常是一个常量节点</li>
-<li>一个初始化操作，把初始值赋予到变量</li>
-</ul>
-<p><img src="http://ops2n4lue.bkt.clouddn.com/assign.png" alt="a"><br>如图所示，v代表的是实际的变量，i是产生初始值的节点，上面的assign节点将初始值赋予变量，assign操作以后，产生已经初始化的变量值v’。</p>
-<h2 id="tensorflow的基本运作方式"><a href="#tensorflow的基本运作方式" class="headerlink" title="tensorflow的基本运作方式"></a>tensorflow的基本运作方式</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line"><span class="comment">#coding=utf-8</span></div><div class="line"><span class="keyword">import</span> tensorflow <span class="keyword">as</span> tf</div><div class="line"><span class="comment">#定义占位符</span></div><div class="line">a = tf.placeholder(tf.int32,shape=())</div><div class="line">b = tf.placeholder(tf.int32,shape=())</div><div class="line"><span class="comment">#构建运算图</span></div><div class="line">y = tf.multiply(a, b) <span class="comment">#构造一个op节点</span></div><div class="line"><span class="comment">#创建会话</span></div><div class="line">sess = tf.Session()</div><div class="line"><span class="comment">#运行会话，输入数据，并计算节点，同时打印结果</span></div><div class="line">print(sess.run(y, feed_dict=&#123;a: <span class="number">3</span>, b: <span class="number">3</span>&#125;))</div><div class="line"><span class="comment"># 任务完成, 关闭会话.</span></div><div class="line">sess.close()</div></pre></td></tr></table></figure>
-<h2 id="TF的运行流程"><a href="#TF的运行流程" class="headerlink" title="TF的运行流程"></a>TF的运行流程</h2><p>来源：<a href="http://www.cnblogs.com/wuzhitj/p/6297734.html" target="_blank" rel="external">http://www.cnblogs.com/wuzhitj/p/6297734.html</a></p>
-<h3 id="概念描述"><a href="#概念描述" class="headerlink" title="概念描述"></a>概念描述</h3><h4 id="Tensor"><a href="#Tensor" class="headerlink" title="Tensor"></a>Tensor</h4><p>在训练开始前，所有的数据都是抽象的概念<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> tensorflow <span class="keyword">as</span> tf <span class="comment"># 在下面所有代码中，都去掉了这一行，默认已经导入</span></div><div class="line">a = tf.zeros(shape=[<span class="number">1</span>,<span class="number">2</span>])</div><div class="line">print(a)</div><div class="line"><span class="comment">#Tensor("zeros:0", shape=(1, 2), dtype=float32)</span></div></pre></td></tr></table></figure></p>
-<p>只有在训练过程开始后，才能获得a的实际值<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">sess = tf.InteractiveSession()</div><div class="line">print(sess.run(a))</div><div class="line"><span class="comment">#[[ 0.  0.]]</span></div></pre></td></tr></table></figure></p>
-<h4 id="Variable"><a href="#Variable" class="headerlink" title="Variable"></a>Variable</h4><p>故名思议，是变量的意思,与Tensor不同，Variable必须初始化以后才有具体的值<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">tensor = tf.zeros(shape=[<span class="number">1</span>,<span class="number">2</span>])</div><div class="line">variable = tf.Variable(tensor)</div><div class="line">sess = tf.InteractiveSession()</div><div class="line"><span class="comment"># print(sess.run(variable))  # 会报错</span></div><div class="line">sess.run(tf.initialize_all_variables()) <span class="comment"># 对variable进行初始化</span></div><div class="line">print(sess.run(variable))</div><div class="line"><span class="comment">#[[ 0.  0.]]</span></div></pre></td></tr></table></figure></p>
-<h4 id="placeholder"><a href="#placeholder" class="headerlink" title="placeholder"></a>placeholder</h4><p>又叫占位符，同样是一个抽象的概念。用于表示输入输出数据的格式。告诉系统：这里有一个值/向量/矩阵，现在我没法给你具体数值，不过我正式运行的时候会补上的！例如上式中的x和y。因为没有具体数值，所以只要指定尺寸即可。<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">x = tf.placeholder(tf.float32,[<span class="number">1</span>, <span class="number">5</span>],name=<span class="string">'input'</span>)</div><div class="line">y = tf.placeholder(tf.float32,[<span class="keyword">None</span>, <span class="number">5</span>],name=<span class="string">'input'</span>)</div></pre></td></tr></table></figure></p>
-<p>上面有两种形式，第一种x，表示输入是一个[1,5]的横向量。<br>而第二种形式，表示输入是一个[?,5]的矩阵。那么什么情况下会这么用呢?就是需要输入一批[1,5]的数据的时候。比如我有一批共10个数据，那我可以表示成[10,5]的矩阵。如果是一批5个，那就是[5,5]的矩阵。tensorflow会自动进行批处理</p>
-<h4 id="Session"><a href="#Session" class="headerlink" title="Session"></a>Session</h4><p>session，也就是会话。session是抽象模型的实现者。只有实现了模型以后，才能够得到具体的值。</p>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
       
 
       
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/05/10/start/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Klpek">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Klpek's Blog">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
             
+              <a href="/2017/05/11/tensorflow-study-1/" rel="next" title="Tensorflow学习笔记（一）">
+                <i class="fa fa-chevron-left"></i> Tensorflow学习笔记（一）
+              </a>
             
-              
-                
-                <a class="post-title-link" href="/2017/05/10/start/" itemprop="url">
-                  Hexo usage
-                </a>
-              
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
             
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-05-10T14:46:23+08:00">
-                2017-05-10
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">In</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/blog/" itemprop="url" rel="index">
-                    <span itemprop="name">blog</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/2017/05/10/start/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2017/05/10/start/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
+          </div>
         </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
       
 
       
-        
-          
-            <h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo new <span class="string">"My New Post"</span></div></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/writing.html" target="_blank" rel="external">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo server</div></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/server.html" target="_blank" rel="external">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo generate</div></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/generating.html" target="_blank" rel="external">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo deploy</div></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/deployment.html" target="_blank" rel="external">Deployment</a></p>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
       
     </footer>
   </article>
 
 
-    
-  </section>
 
-  
+    <div class="post-spread">
+      
+    </div>
+  </div>
 
 
           </div>
@@ -925,6 +615,17 @@ P (w) = \frac{f (w) − t}{f (w)} - \sqrt{\frac{t}{f(w)}}</script><h4 id="模型
 
 
           
+  <div class="comments" id="comments">
+    
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    
+  </div>
+
 
         </div>
         
@@ -944,8 +645,17 @@ P (w) = \frac{f (w) − t}{f (w)} - \sqrt{\frac{t}{f(w)}}</script><h4 id="模型
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            Overview
+          </li>
+        </ul>
+      
 
-      <section class="site-overview sidebar-panel sidebar-panel-active">
+      <section class="site-overview sidebar-panel">
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
           <img class="site-author-image" itemprop="image"
                src="/images/avatar.gif"
@@ -1007,6 +717,22 @@ P (w) = \frac{f (w) − t}{f (w)} - \sqrt{\frac{t}{f(w)}}</script><h4 id="模型
 
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#Objective"><span class="nav-number">1.</span> <span class="nav-text">Objective</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#问题起源"><span class="nav-number">1.1.</span> <span class="nav-text">问题起源</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#形式化问题-1"><span class="nav-number">1.1.1.</span> <span class="nav-text">形式化问题 1</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#形式化问题-2"><span class="nav-number">1.1.2.</span> <span class="nav-text">形式化问题 2</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#问题形式化"><span class="nav-number">1.2.</span> <span class="nav-text">问题形式化</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Related-Knowledge"><span class="nav-number">2.</span> <span class="nav-text">Related Knowledge</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#符号表示"><span class="nav-number">2.1.</span> <span class="nav-text">符号表示</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#语言模型"><span class="nav-number">2.2.</span> <span class="nav-text">语言模型</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#n-元-n-gram-模型"><span class="nav-number">2.3.</span> <span class="nav-text">$n$元(n-gram)模型</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Method"><span class="nav-number">3.</span> <span class="nav-text">Method</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Method-1-神经网络语言模型-NNLM"><span class="nav-number">3.1.</span> <span class="nav-text">Method 1: 神经网络语言模型(NNLM)</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#网络输入输出"><span class="nav-number">3.1.1.</span> <span class="nav-text">网络输入输出</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#网络结构"><span class="nav-number">3.1.2.</span> <span class="nav-text">网络结构</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#示意图"><span class="nav-number">3.1.2.1.</span> <span class="nav-text">示意图</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#输入层"><span class="nav-number">3.1.2.2.</span> <span class="nav-text">输入层</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#隐藏层h"><span class="nav-number">3.1.2.3.</span> <span class="nav-text">隐藏层h</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#输出层"><span class="nav-number">3.1.2.4.</span> <span class="nav-text">输出层</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#网络目标"><span class="nav-number">3.1.2.5.</span> <span class="nav-text">网络目标</span></a></li></ol></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Method-2-循环神经网络语言模型-RNNLM"><span class="nav-number">3.2.</span> <span class="nav-text">Method 2: 循环神经网络语言模型(RNNLM)</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#网络输入输出-1"><span class="nav-number">3.2.1.</span> <span class="nav-text">网络输入输出</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#网络结构-1"><span class="nav-number">3.2.2.</span> <span class="nav-text">网络结构</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#示意图-1"><span class="nav-number">3.2.2.1.</span> <span class="nav-text">示意图</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#输入层-1"><span class="nav-number">3.2.2.2.</span> <span class="nav-text">输入层</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#隐藏层h-1"><span class="nav-number">3.2.2.3.</span> <span class="nav-text">隐藏层h</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#输出层-1"><span class="nav-number">3.2.2.4.</span> <span class="nav-text">输出层</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#网络目标-1"><span class="nav-number">3.2.2.5.</span> <span class="nav-text">网络目标</span></a></li></ol></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Method-3-CBOW-模型"><span class="nav-number">3.3.</span> <span class="nav-text">Method 3: CBOW 模型</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#网络输入输出-2"><span class="nav-number">3.3.1.</span> <span class="nav-text">网络输入输出</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#网络结构-2"><span class="nav-number">3.3.2.</span> <span class="nav-text">网络结构</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#示意图-2"><span class="nav-number">3.3.2.1.</span> <span class="nav-text">示意图</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#输入层-2"><span class="nav-number">3.3.2.2.</span> <span class="nav-text">输入层</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#隐藏层h-2"><span class="nav-number">3.3.2.3.</span> <span class="nav-text">隐藏层h</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#输出层-2"><span class="nav-number">3.3.2.4.</span> <span class="nav-text">输出层</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#网络目标-2"><span class="nav-number">3.3.2.5.</span> <span class="nav-text">网络目标</span></a></li></ol></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Method-4-Skip-gram-模型"><span class="nav-number">3.4.</span> <span class="nav-text">Method 4: Skip-gram 模型</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#网络输入输出-3"><span class="nav-number">3.4.1.</span> <span class="nav-text">网络输入输出</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#网络结构-3"><span class="nav-number">3.4.2.</span> <span class="nav-text">网络结构</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#示意图-3"><span class="nav-number">3.4.2.1.</span> <span class="nav-text">示意图</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#输入层-3"><span class="nav-number">3.4.2.2.</span> <span class="nav-text">输入层</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#隐藏层h-3"><span class="nav-number">3.4.2.3.</span> <span class="nav-text">隐藏层h</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#输出层-3"><span class="nav-number">3.4.2.4.</span> <span class="nav-text">输出层</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#网络目标-3"><span class="nav-number">3.4.2.5.</span> <span class="nav-text">网络目标</span></a></li></ol></li><li class="nav-item nav-level-5"><a class="nav-link" href="#采用手段"><span class="nav-number">3.4.3.</span> <span class="nav-text">采用手段</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#负采样技术-negative-sampling"><span class="nav-number">3.4.3.1.</span> <span class="nav-text">负采样技术(negative sampling)</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#二次采样技术-subsampling"><span class="nav-number">3.4.3.2.</span> <span class="nav-text">二次采样技术(subsampling)</span></a></li></ol></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#模型总结"><span class="nav-number">3.5.</span> <span class="nav-text">模型总结</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       
@@ -1124,6 +850,10 @@ P (w) = \frac{f (w) − t}{f (w)} - \sqrt{\frac{t}{f(w)}}</script><h4 id="模型
 
 
   
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
 
   
 
@@ -1140,9 +870,9 @@ P (w) = \frac{f (w) − t}{f (w)} - \sqrt{\frac{t}{f(w)}}</script><h4 id="模型
 
     <script type="text/javascript">
       var disqus_shortname = 'klpek';
-      var disqus_identifier = 'index.html';
+      var disqus_identifier = '2017/05/19/word-embedding/';
 
-      var disqus_title = "";
+      var disqus_title = "词向量 word embedding";
 
 
       function run_disqus_script(disqus_script) {
@@ -1155,6 +885,13 @@ P (w) = \frac{f (w) − t}{f (w)} - \sqrt{\frac{t}{f(w)}}</script><h4 id="模型
 
       run_disqus_script('count.js');
 
+      
+        var disqus_config = function () {
+            this.page.url = disqus_url;
+            this.page.identifier = disqus_identifier;
+            this.page.title = disqus_title;
+        };
+        run_disqus_script('embed.js');
       
 
     </script>
@@ -1298,37 +1035,7 @@ P (w) = \frac{f (w) − t}{f (w)} - \sqrt{\frac{t}{f(w)}}</script><h4 id="模型
     $('.popup').click(function(e){
       e.stopPropagation();
     });
-  </script>
-
-
-
-
-
-  
-
-  
-
-  
-  
-    <script type="text/x-mathjax-config">
-      MathJax.Hub.Config({
-        tex2jax: {
-          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
-          processEscapes: true,
-          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
-        }
-      });
-    </script>
-
-    <script type="text/x-mathjax-config">
-      MathJax.Hub.Queue(function() {
-        var all = MathJax.Hub.getAllJax(), i;
-        for (i=0; i < all.length; i += 1) {
-          all[i].SourceElement().parentNode.className += ' has-jax';
-        }
-      });
-    </script>
-    <script type="text/javascript" src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
+  </script><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
 <script type="text/x-mathjax-config">
   MathJax.Hub.Config({"tex2jax":{"inlineMath":[["$","$"],["\\(","\\)"]],"skipTags":["script","noscript","style","textarea","pre","code"],"processEscapes":true},"TeX":{"equationNumbers":{"autoNumber":"AMS"}}});
 </script>
@@ -1346,6 +1053,16 @@ P (w) = \frac{f (w) − t}{f (w)} - \sqrt{\frac{t}{f(w)}}</script><h4 id="模型
 </script>
 <!-- End: Injected MathJax -->
 <!-- hexo-inject:end -->
+
+
+
+
+
+  
+
+  
+
+  
   
 
 

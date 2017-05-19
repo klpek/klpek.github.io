@@ -2,6 +2,13 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>http://yoursite.com/2017/05/19/word-embedding/</loc>
+    
+    <lastmod>2017-05-19T08:53:25.605Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>http://yoursite.com/2017/05/11/tensorflow-study-1/</loc>
     
     <lastmod>2017-05-11T07:52:45.854Z</lastmod>
