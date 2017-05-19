@@ -444,35 +444,35 @@
 <h4 id="语言模型"><a href="#语言模型" class="headerlink" title="语言模型"></a>语言模型</h4><p>语言模型可以对一段文本的概率进行估计.<br>形式化的讲,统计语言模型的作用是为一个长度为 $m$ 的字符串确定一个概率分布 $P (w_1 , w_2 , …, w_m )$</p>
 <script type="math/tex; mode=display">
 P(w_1 , w_2 , ..., w_m ) = P (w_1 ) P (w_2 |w_1 )
-\dots P (w_i | w_1 , w_2 , ..., w_{i−1} )\dots P (w_m | w_1 , w_2 , ..., w_{m−1} )</script><h4 id="n-元-n-gram-模型"><a href="#n-元-n-gram-模型" class="headerlink" title="$n$元(n-gram)模型"></a>$n$元(n-gram)模型</h4><p>如果文本的长度较长,公式右部$ P (w<em>i | w_1 , w_2 , \dots , w</em>{i−1} ) $的估算会非常困难。<br>因此,研究者们提出使用一个简化模型:$n$ 元模型.对上述条件概率做了以下近似:</p>
+\dots P (w_i | w_1 , w_2 , ..., w_{i−1} )\dots P (w_m | w_1 , w_2 , ..., w_{m−1} )</script><h4 id="n-元-n-gram-模型"><a href="#n-元-n-gram-模型" class="headerlink" title="$n$元(n-gram)模型"></a>$n$元(n-gram)模型</h4><p>如果文本的长度较长,公式右部$ P (w_i | w_1 , w_2 , \dots , w_{i−1} ) $的估算会非常困难。<br>因此,研究者们提出使用一个简化模型:$n$ 元模型.对上述条件概率做了以下近似:</p>
 <script type="math/tex; mode=display">
 P (w_i | w_1 , w_2 , ..., w_i−1 ) ≈ P (w_i | w_{i−(n−1)} , . . . , w_i−1 )</script><p>在 n 元模型中,传统的方法一般采用频率计数的比例来估算 $n$ 元条件概率:</p>
 <script type="math/tex; mode=display">
-P (w_i | w_{i−(n−1)} , . . . , w_{i−1} ) = \frac{count(w_{i−(n−1)} , . . . , w_{i−1} , w_i ) }{count(w_{i−(n−1)} , . . . , w_{i−1} )}</script><p>其中,$count(w<em>{i−(n−1)} , . . . , w</em>{i−1} )$ 表示文本序列 $w<em>{i−(n−1)} , . . . , w</em>{i−1}$ 在语料中出现的次数。</p>
-<h3 id="Method"><a href="#Method" class="headerlink" title="Method"></a>Method</h3><h4 id="Method-1-神经网络语言模型-NNLM"><a href="#Method-1-神经网络语言模型-NNLM" class="headerlink" title="Method 1: 神经网络语言模型(NNLM)"></a>Method 1: 神经网络语言模型(NNLM)</h4><p>RNNLM 利用前n个词的上文信息,预测下一个词.即,直接对$ P (w<em>i | w_1 , w_2 , …, w</em>{i−1} ) $进行建模.<br>RNNLM是利用神经网络对<strong>条件概率</strong>建模.</p>
+P (w_i | w_{i−(n−1)} , . . . , w_{i−1} ) = \frac{count(w_{i−(n−1)} , . . . , w_{i−1} , w_i ) }{count(w_{i−(n−1)} , . . . , w_{i−1} )}</script><p>其中,$count(w_{i−(n−1)} , . . . , w_{i−1} )$ 表示文本序列 $w_{i−(n−1)} , . . . , w_{i−1}$ 在语料中出现的次数。</p>
+<h3 id="Method"><a href="#Method" class="headerlink" title="Method"></a>Method</h3><h4 id="Method-1-神经网络语言模型-NNLM"><a href="#Method-1-神经网络语言模型-NNLM" class="headerlink" title="Method 1: 神经网络语言模型(NNLM)"></a>Method 1: 神经网络语言模型(NNLM)</h4><p>RNNLM 利用前n个词的上文信息,预测下一个词.即,直接对$ P (w_i | w_1 , w_2 , …, w_{i−1} ) $进行建模.<br>RNNLM是利用神经网络对<strong>条件概率</strong>建模.</p>
 <h5 id="网络输入输出"><a href="#网络输入输出" class="headerlink" title="网络输入输出"></a>网络输入输出</h5><blockquote>
-<p><strong>目标: 最大化 $P (w<em>{i-(n-1)/2}| w</em>{i−(n−1)} , . . . , w_{i−1} )$</strong><br><strong>输入: 整个词序列 $w<em>{i−(n−1)} , . . . , w</em>{i−1}$</strong><br><strong>输出: 目标词的分布</strong>  </p>
+<p><strong>目标: 最大化 $P (w_{i-(n-1)/2}| w_{i−(n−1)} , . . . , w_{i−1} )$</strong><br><strong>输入: 整个词序列 $w_{i−(n−1)} , . . . , w_{i−1}$</strong><br><strong>输出: 目标词的分布</strong>  </p>
 </blockquote>
 <h5 id="网络结构"><a href="#网络结构" class="headerlink" title="网络结构"></a>网络结构</h5><h6 id="示意图"><a href="#示意图" class="headerlink" title="示意图"></a>示意图</h6><p><img src="http://ops2n4lue.bkt.clouddn.com/NNLM.png" alt=""></p>
-<h6 id="输入层"><a href="#输入层" class="headerlink" title="输入层"></a>输入层</h6><p>词$w<em>{i−(n−1)} , . . . , w</em>{i−1}$的词向量的顺序拼接</p>
+<h6 id="输入层"><a href="#输入层" class="headerlink" title="输入层"></a>输入层</h6><p>词$w_{i−(n−1)} , . . . , w_{i−1}$的词向量的顺序拼接</p>
 <script type="math/tex; mode=display">x = [e(w_{i−(n−1)} ); . . . ; e(w_{i−2} ); e(w_{i−1} )]</script><h6 id="隐藏层h"><a href="#隐藏层h" class="headerlink" title="隐藏层h"></a>隐藏层h</h6><script type="math/tex; mode=display">h= tanh(b^{(1)} + Hx)</script><script type="math/tex; mode=display">y = b ^{(2)} + W x + U h</script><p>其中,其中,$φ$ 为非线性激活函数。<br>根据公式,每一个隐藏层包含了当前词的信息以及上一个隐藏层的信息。通过这种迭代推进的方式,每个隐藏层实际上包含了此前所有上文的信息.</p>
 <h6 id="输出层"><a href="#输出层" class="headerlink" title="输出层"></a>输出层</h6><script type="math/tex; mode=display">
-P (w_i | w_{i−(n−1)} , . . . , w_{i−1} ) = \frac {exp (y(w_i))}{\sum_{k=1}^{|V|}exp(y(v_k))}</script><h6 id="网络目标"><a href="#网络目标" class="headerlink" title="网络目标"></a>网络目标</h6><p>最大化 $\sum\limits <em>{w </em>{i−(n−1):i} ∈D}log P (w<em>i | w</em>{i−(n−1)} ,\dots, w_{i−1} )$<br>即最大化语言模型.</p>
-<h4 id="Method-2-循环神经网络语言模型-RNNLM"><a href="#Method-2-循环神经网络语言模型-RNNLM" class="headerlink" title="Method 2: 循环神经网络语言模型(RNNLM)"></a>Method 2: 循环神经网络语言模型(RNNLM)</h4><p>RNNLM 利用所有的上文信息,预测下一个词.即,直接对$ P (w<em>i | w_1 , w_2 , …, w</em>{i−1} ) $进行建模.<br>RNNLM是利用神经网络对<strong>条件概率</strong>建模.</p>
+P (w_i | w_{i−(n−1)} , . . . , w_{i−1} ) = \frac {exp (y(w_i))}{\sum_{k=1}^{|V|}exp(y(v_k))}</script><h6 id="网络目标"><a href="#网络目标" class="headerlink" title="网络目标"></a>网络目标</h6><p>最大化 $\sum\limits _{w _{i−(n−1):i} ∈D}log P (w_i | w_{i−(n−1)} ,\dots, w_{i−1} )$<br>即最大化语言模型.</p>
+<h4 id="Method-2-循环神经网络语言模型-RNNLM"><a href="#Method-2-循环神经网络语言模型-RNNLM" class="headerlink" title="Method 2: 循环神经网络语言模型(RNNLM)"></a>Method 2: 循环神经网络语言模型(RNNLM)</h4><p>RNNLM 利用所有的上文信息,预测下一个词.即,直接对$ P (w_i | w_1 , w_2 , …, w_{i−1} ) $进行建模.<br>RNNLM是利用神经网络对<strong>条件概率</strong>建模.</p>
 <h5 id="网络输入输出-1"><a href="#网络输入输出-1" class="headerlink" title="网络输入输出"></a>网络输入输出</h5><blockquote>
-<p><strong>目标: 最大化 $P (w<em>i | w</em>{i−(n−1)} , . . . , w_1 )$</strong><br><strong>输入: 整个词序列 $w<em>{i−(n−1)} , . . . , w</em>{i−1}$</strong><br><strong>输出: 目标词的分布</strong></p>
+<p><strong>目标: 最大化 $P (w_i | w_{i−(n−1)} , . . . , w_1 )$</strong><br><strong>输入: 整个词序列 $w_{i−(n−1)} , . . . , w_{i−1}$</strong><br><strong>输出: 目标词的分布</strong></p>
 </blockquote>
 <h5 id="网络结构-1"><a href="#网络结构-1" class="headerlink" title="网络结构"></a>网络结构</h5><h6 id="示意图-1"><a href="#示意图-1" class="headerlink" title="示意图"></a>示意图</h6><p><img src="http://ops2n4lue.bkt.clouddn.com/RNNLM.png" alt=""></p>
-<h6 id="输入层-1"><a href="#输入层-1" class="headerlink" title="输入层"></a>输入层</h6><p>词$w<em>{i−(n−1)} , . . . , w</em>{i−1}$的词向量的顺序拼接</p>
+<h6 id="输入层-1"><a href="#输入层-1" class="headerlink" title="输入层"></a>输入层</h6><p>词$w_{i−(n−1)} , . . . , w_{i−1}$的词向量的顺序拼接</p>
 <script type="math/tex; mode=display">x = [e(w_{i−(n−1)} ); . . . ; e(w_{i−2} ); e(w_{i−1} )]</script><h6 id="隐藏层h-1"><a href="#隐藏层h-1" class="headerlink" title="隐藏层h"></a>隐藏层h</h6><script type="math/tex; mode=display">h(i) = φ(e(w_i ) + w_h(i − 1))</script><script type="math/tex; mode=display">y(i) = b + uh(i)</script><p>其中,其中,$φ$ 为非线性激活函数。<br>根据公式,每一个隐藏层包含了当前词的信息以及上一个隐藏层的信息。通过这种迭代推进的方式,每个隐藏层实际上包含了此前所有上文的信息.</p>
 <h6 id="输出层-1"><a href="#输出层-1" class="headerlink" title="输出层"></a>输出层</h6><script type="math/tex; mode=display">
-P (w_i | w_{i−(n−1)} , . . . , w_1 ) = \frac {exp (y(w_i))}{\sum_{k=1}^{|V|}exp(y(v_k))}</script><h6 id="网络目标-1"><a href="#网络目标-1" class="headerlink" title="网络目标"></a>网络目标</h6><p>最大化语言模型$\sum\limits <em>{w </em>{i−(n−1):i} ∈D}log P (w<em>i | w</em>{i−(n−1)} ,\dots, w_1 )$</p>
+P (w_i | w_{i−(n−1)} , . . . , w_1 ) = \frac {exp (y(w_i))}{\sum_{k=1}^{|V|}exp(y(v_k))}</script><h6 id="网络目标-1"><a href="#网络目标-1" class="headerlink" title="网络目标"></a>网络目标</h6><p>最大化语言模型$\sum\limits _{w _{i−(n−1):i} ∈D}log P (w_i | w_{i−(n−1)} ,\dots, w_1 )$</p>
 <h4 id="Method-3-CBOW-模型"><a href="#Method-3-CBOW-模型" class="headerlink" title="Method 3: CBOW 模型"></a>Method 3: CBOW 模型</h4><p>该模型一方面使用一段文本的中间词作为目标词;另一方面,又以 NNLM 作为蓝本,并在其基础上做了两个简化。<br>一、CBOW 没有隐藏层,去掉隐藏层之后,模型从神经网络结构直接转化为 log 线性结构,与 Logistic 回归一致。log 线性结构比三层神经网络结构少了一个矩阵运算,大幅度地提升了模型的训练速度。<br>二、CBOW 去除了上下文各词的词序信息,使用上下文各词词向量的平均值,代替神经网络语言模型使用的上文各词词向量的拼接。</p>
 <h5 id="网络输入输出-2"><a href="#网络输入输出-2" class="headerlink" title="网络输入输出"></a>网络输入输出</h5><blockquote>
-<p><strong>目标: 最大化 $P (w<em>{i-(n-1)/2} | w</em>{i−(n−1)} , . . . , w_{i−1} )$</strong><br><strong>输入: 整个词序列 $w<em>{i−(n−1)} , . . . , w</em>{i−1}$</strong><br><strong>输出: 目标词的分布</strong>  </p>
+<p><strong>目标: 最大化 $P (w_{i-(n-1)/2} | w_{i−(n−1)} , . . . , w_{i−1} )$</strong><br><strong>输入: 整个词序列 $w_{i−(n−1)} , . . . , w_{i−1}$</strong><br><strong>输出: 目标词的分布</strong>  </p>
 </blockquote>
 <h5 id="网络结构-2"><a href="#网络结构-2" class="headerlink" title="网络结构"></a>网络结构</h5><h6 id="示意图-2"><a href="#示意图-2" class="headerlink" title="示意图"></a>示意图</h6><p><img src="http://ops2n4lue.bkt.clouddn.com/CBOW.png" alt=""></p>
-<h6 id="输入层-2"><a href="#输入层-2" class="headerlink" title="输入层"></a>输入层</h6><p>词$w<em>{i−(n−1)} , . . . , w</em>{i−1}$的词向量的组合</p>
+<h6 id="输入层-2"><a href="#输入层-2" class="headerlink" title="输入层"></a>输入层</h6><p>词$w_{i−(n−1)} , . . . , w_{i−1}$的词向量的组合</p>
 <script type="math/tex; mode=display">x = \frac{1}{n-1}\sum\limits _{w_j \in c}e(w_j)</script><h6 id="隐藏层h-2"><a href="#隐藏层h-2" class="headerlink" title="隐藏层h"></a>隐藏层h</h6><p>没有</p>
 <h6 id="输出层-2"><a href="#输出层-2" class="headerlink" title="输出层"></a>输出层</h6><p>c表示上下文</p>
 <script type="math/tex; mode=display">
@@ -482,14 +482,14 @@ P (w |c) = \frac {exp (e'(w)^Tx)}{\sum_{w' \in V}exp(e'(w')^Tx)}</script><h6 id=
 <p>在 Skip-gram 的论文 中将模型描述成通过目标词预测上下文。由于模型需要遍历整个语料,任意一个窗口中的两个词 w_a , w_b 都需要计算 P (w_a |w_b ) + P (w_b |w_a ),因此这两种描述方式是等价的。</p>
 </blockquote>
 <h5 id="网络输入输出-3"><a href="#网络输入输出-3" class="headerlink" title="网络输入输出"></a>网络输入输出</h5><blockquote>
-<p><strong>目标: 最大化 $P (w<em>i | w</em>{i−(n−1)} , . . . , w_{i−1} )$</strong><br><strong>输入: 整个词序列 $w<em>{i−(n−1)} , . . . , w</em>{i−1}$</strong><br><strong>输出: 目标词的分布</strong>  </p>
+<p><strong>目标: 最大化 $P (w_i | w_{i−(n−1)} , . . . , w_{i−1} )$</strong><br><strong>输入: 整个词序列 $w_{i−(n−1)} , . . . , w_{i−1}$</strong><br><strong>输出: 目标词的分布</strong>  </p>
 </blockquote>
 <h5 id="网络结构-3"><a href="#网络结构-3" class="headerlink" title="网络结构"></a>网络结构</h5><h6 id="示意图-3"><a href="#示意图-3" class="headerlink" title="示意图"></a>示意图</h6><p><img src="http://ops2n4lue.bkt.clouddn.com/Skip-gram.png" alt=""></p>
-<h6 id="输入层-3"><a href="#输入层-3" class="headerlink" title="输入层"></a>输入层</h6><p>词$w<em>{i−(n−1)} , . . . , w</em>{i−1}$的词向量的组合</p>
+<h6 id="输入层-3"><a href="#输入层-3" class="headerlink" title="输入层"></a>输入层</h6><p>词$w_{i−(n−1)} , . . . , w_{i−1}$的词向量的组合</p>
 <script type="math/tex; mode=display">x = \frac{1}{n-1}\sum\limits _{w_j \in c}e(w_j)</script><h6 id="隐藏层h-3"><a href="#隐藏层h-3" class="headerlink" title="隐藏层h"></a>隐藏层h</h6><p>没有</p>
 <h6 id="输出层-3"><a href="#输出层-3" class="headerlink" title="输出层"></a>输出层</h6><p>c表示上下文</p>
 <script type="math/tex; mode=display">
-P (w |c) = \frac {exp (e'(w)^Tx)}{\sum_{w' \in V}exp(e'(w')^Tx)}</script><h6 id="网络目标-3"><a href="#网络目标-3" class="headerlink" title="网络目标"></a>网络目标</h6><p>最大化 $\sum\limits <em>{(w,c) \in D}\sum\limits </em>{w_j \in c}log P (w|w_j )$</p>
+P (w |c) = \frac {exp (e'(w)^Tx)}{\sum_{w' \in V}exp(e'(w')^Tx)}</script><h6 id="网络目标-3"><a href="#网络目标-3" class="headerlink" title="网络目标"></a>网络目标</h6><p>最大化 $\sum\limits _{(w,c) \in D}\sum\limits _{w_j \in c}log P (w|w_j )$</p>
 <h5 id="采用手段"><a href="#采用手段" class="headerlink" title="采用手段"></a>采用手段</h5><h6 id="负采样技术-negative-sampling"><a href="#负采样技术-negative-sampling" class="headerlink" title="负采样技术(negative sampling)"></a>负采样技术(negative sampling)</h6><p>构造负样本,构造出了一个优化目标,最大化正样本的似然,同时最小化负样本的似然。其中训练时,一个正样本可以对应多个负样本.</p>
 <h6 id="二次采样技术-subsampling"><a href="#二次采样技术-subsampling" class="headerlink" title="二次采样技术(subsampling)"></a>二次采样技术(subsampling)</h6><p>在大规模语料中,高频词通常就是停用词.一方面,这些高频词只能带来非常少量的语义信息.另一方面,训练高频词本身占据了大量的时间,但在迭代过程中,这些高频词的词向量变化并不大。<br>如果词 w 在语料中的出现频率 $f (w) $大于阈值 t,则有 $P (w)$ 的概率在训练时跳过这个词。</p>
 <script type="math/tex; mode=display">
