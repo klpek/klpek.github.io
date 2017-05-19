@@ -442,7 +442,7 @@
 <h4 id="语言模型"><a href="#语言模型" class="headerlink" title="语言模型"></a>语言模型</h4><p>语言模型可以对一段文本的概率进行估计.<br>形式化的讲,统计语言模型的作用是为一个长度为 $m$ 的字符串确定一个概率分布 $P (w_1 , w_2 , …, w_m )$</p>
 <script type="math/tex; mode=display">
 P(w_1 , w_2 , ..., w_m ) = P (w_1 ) P (w_2 |w_1 )
-\dots P (w_i | w_1 , w_2 , ..., w_{i−1} )\dots P (w_m | w_1 , w_2 , ..., w_{m−1} )</script><h4 id="n-元-n-gram-模型"><a href="#n-元-n-gram-模型" class="headerlink" title="$n$元(n-gram)模型"></a>$n$元(n-gram)模型</h4><p>如果文本的长度较长,公式右部$ P (w<em>i | w_1 , w_2 , \dots , w</em>{i−1} ) $的估算会非常困难。<br>因此,研究者们提出使用一个简化模型:$n$ 元模型.对上述条件概率做了以下近似:</p>
+\dots P (w_i | w_1 , w_2 , ..., w_{i−1} )\dots P (w_m | w_1 , w_2 , ..., w_{m−1} )</script><h4 id="n-元-n-gram-模型"><a href="#n-元-n-gram-模型" class="headerlink" title="$n$元(n-gram)模型"></a>$n$元(n-gram)模型</h4><p>如果文本的长度较长,公式右部 $P (w<em>i | w_1 , w_2 , \dots , w</em>{i−1} )$ 的估算会非常困难。<br>因此,研究者们提出使用一个简化模型:$n$ 元模型.对上述条件概率做了以下近似:</p>
 <script type="math/tex; mode=display">
 P (w_i | w_1 , w_2 , ..., w_i−1 ) ≈ P (w_i | w_{i−(n−1)} , . . . , w_i−1 )</script><p>在 n 元模型中,传统的方法一般采用频率计数的比例来估算 $n$ 元条件概率:</p>
 <script type="math/tex; mode=display">
