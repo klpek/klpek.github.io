@@ -110,7 +110,7 @@
 <meta property="og:image" content="http://ops2n4lue.bkt.clouddn.com/RNNLM.png">
 <meta property="og:image" content="http://ops2n4lue.bkt.clouddn.com/CBOW.png">
 <meta property="og:image" content="http://ops2n4lue.bkt.clouddn.com/Skip-gram.png">
-<meta property="og:updated_time" content="2017-05-19T08:53:25.605Z">
+<meta property="og:updated_time" content="2017-05-19T08:57:22.357Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="词向量 word embedding">
 <meta name="twitter:description" content="Objective问题起源文本是符号数据,两个词只要字面不同,就难以刻画它们之间的联系,即使是“麦克风”和“话筒”这样的同义词,从字面上也难以看出这两者意思相同(语义鸿沟现象)。（符号性这个角度类似于生物序列数据）我们希望计算机可以从大规模无标注的文本数据中自动学习得到文本表示,这种表示需要包含对应语言单元(词或文档)的语义信息,同时可以直接通过这种表示度量文本之间的语义相似度。
@@ -454,7 +454,7 @@ P (w_i | w_1 , w_2 , ..., w_i−1 ) ≈ P (w_i | w_{i−(n−1)} , . . . , w_i�
 P (w_i | w_{i−(n−1)} , . . . , w_{i−1} ) = \frac{count(w_{i−(n−1)} , . . . , w_{i−1} , w_i ) }{count(w_{i−(n−1)} , . . . , w_{i−1} )}</script><p>其中,$count(w<em>{i−(n−1)} , . . . , w</em>{i−1} )$ 表示文本序列 $w<em>{i−(n−1)} , . . . , w</em>{i−1}$ 在语料中出现的次数。</p>
 <h3 id="Method"><a href="#Method" class="headerlink" title="Method"></a>Method</h3><h4 id="Method-1-神经网络语言模型-NNLM"><a href="#Method-1-神经网络语言模型-NNLM" class="headerlink" title="Method 1: 神经网络语言模型(NNLM)"></a>Method 1: 神经网络语言模型(NNLM)</h4><p>RNNLM 利用前n个词的上文信息,预测下一个词.即,直接对$ P (w<em>i | w_1 , w_2 , …, w</em>{i−1} ) $进行建模.<br>RNNLM是利用神经网络对<strong>条件概率</strong>建模.</p>
 <h5 id="网络输入输出"><a href="#网络输入输出" class="headerlink" title="网络输入输出"></a>网络输入输出</h5><blockquote>
-<p><strong>目标: 最大化$P (w<em>{i-(n-1)/2}| w</em>{i−(n−1)} , . . . , w_{i−1} )$</strong><br><strong>输入: 整个词序列$w<em>{i−(n−1)} , . . . , w</em>{i−1}$</strong><br><strong>输出: 目标词的分布</strong></p>
+<p><strong>目标: 最大化 $P (w<em>{i-(n-1)/2}| w</em>{i−(n−1)} , . . . , w_{i−1} )$</strong><br><strong>输入: 整个词序列 $w<em>{i−(n−1)} , . . . , w</em>{i−1}$</strong><br><strong>输出: 目标词的分布</strong></p>
 </blockquote>
 <h5 id="网络结构"><a href="#网络结构" class="headerlink" title="网络结构"></a>网络结构</h5><h6 id="示意图"><a href="#示意图" class="headerlink" title="示意图"></a>示意图</h6><p><img src="http://ops2n4lue.bkt.clouddn.com/NNLM.png" alt=""></p>
 <h6 id="输入层"><a href="#输入层" class="headerlink" title="输入层"></a>输入层</h6><p>词$w<em>{i−(n−1)} , . . . , w</em>{i−1}$的词向量的顺序拼接</p>
@@ -463,7 +463,7 @@ P (w_i | w_{i−(n−1)} , . . . , w_{i−1} ) = \frac{count(w_{i−(n−1)} , .
 P (w_i | w_{i−(n−1)} , . . . , w_{i−1} ) = \frac {exp (y(w_i))}{\sum_{k=1}^{|V|}exp(y(v_k))}</script><h6 id="网络目标"><a href="#网络目标" class="headerlink" title="网络目标"></a>网络目标</h6><p>最大化 $\sum\limits <em>{w </em>{i−(n−1):i} ∈D}log P (w<em>i | w</em>{i−(n−1)} ,\dots, w_{i−1} )$<br>即最大化语言模型.</p>
 <h4 id="Method-2-循环神经网络语言模型-RNNLM"><a href="#Method-2-循环神经网络语言模型-RNNLM" class="headerlink" title="Method 2: 循环神经网络语言模型(RNNLM)"></a>Method 2: 循环神经网络语言模型(RNNLM)</h4><p>RNNLM 利用所有的上文信息,预测下一个词.即,直接对$ P (w<em>i | w_1 , w_2 , …, w</em>{i−1} ) $进行建模.<br>RNNLM是利用神经网络对<strong>条件概率</strong>建模.</p>
 <h5 id="网络输入输出-1"><a href="#网络输入输出-1" class="headerlink" title="网络输入输出"></a>网络输入输出</h5><blockquote>
-<p><strong>目标: 最大化$P (w<em>i | w</em>{i−(n−1)} , . . . , w_1 )$</strong><br><strong>输入: 整个词序列$w<em>{i−(n−1)} , . . . , w</em>{i−1}$</strong><br><strong>输出: 目标词的分布</strong></p>
+<p><strong>目标: 最大化 $P (w<em>i | w</em>{i−(n−1)} , . . . , w_1 )$</strong><br><strong>输入: 整个词序列 $w<em>{i−(n−1)} , . . . , w</em>{i−1}$</strong><br><strong>输出: 目标词的分布</strong></p>
 </blockquote>
 <h5 id="网络结构-1"><a href="#网络结构-1" class="headerlink" title="网络结构"></a>网络结构</h5><h6 id="示意图-1"><a href="#示意图-1" class="headerlink" title="示意图"></a>示意图</h6><p><img src="http://ops2n4lue.bkt.clouddn.com/RNNLM.png" alt=""></p>
 <h6 id="输入层-1"><a href="#输入层-1" class="headerlink" title="输入层"></a>输入层</h6><p>词$w<em>{i−(n−1)} , . . . , w</em>{i−1}$的词向量的顺序拼接</p>
@@ -472,7 +472,7 @@ P (w_i | w_{i−(n−1)} , . . . , w_{i−1} ) = \frac {exp (y(w_i))}{\sum_{k=1}
 P (w_i | w_{i−(n−1)} , . . . , w_1 ) = \frac {exp (y(w_i))}{\sum_{k=1}^{|V|}exp(y(v_k))}</script><h6 id="网络目标-1"><a href="#网络目标-1" class="headerlink" title="网络目标"></a>网络目标</h6><p>最大化语言模型$\sum\limits <em>{w </em>{i−(n−1):i} ∈D}log P (w<em>i | w</em>{i−(n−1)} ,\dots, w_1 )$</p>
 <h4 id="Method-3-CBOW-模型"><a href="#Method-3-CBOW-模型" class="headerlink" title="Method 3: CBOW 模型"></a>Method 3: CBOW 模型</h4><p>该模型一方面使用一段文本的中间词作为目标词;另一方面,又以 NNLM 作为蓝本,并在其基础上做了两个简化。<br>一、CBOW 没有隐藏层,去掉隐藏层之后,模型从神经网络结构直接转化为 log 线性结构,与 Logistic 回归一致。log 线性结构比三层神经网络结构少了一个矩阵运算,大幅度地提升了模型的训练速度。<br>二、CBOW 去除了上下文各词的词序信息,使用上下文各词词向量的平均值,代替神经网络语言模型使用的上文各词词向量的拼接。</p>
 <h5 id="网络输入输出-2"><a href="#网络输入输出-2" class="headerlink" title="网络输入输出"></a>网络输入输出</h5><blockquote>
-<p><strong>目标: 最大化$P (w<em>{i-(n-1)/2} | w</em>{i−(n−1)} , . . . , w_{i−1} )$</strong><br><strong>输入: 整个词序列$w<em>{i−(n−1)} , . . . , w</em>{i−1}$</strong><br><strong>输出: 目标词的分布</strong></p>
+<p><strong>目标: 最大化 $P (w<em>{i-(n-1)/2} | w</em>{i−(n−1)} , . . . , w_{i−1} )$</strong><br><strong>输入: 整个词序列 $w<em>{i−(n−1)} , . . . , w</em>{i−1}$</strong><br><strong>输出: 目标词的分布</strong></p>
 </blockquote>
 <h5 id="网络结构-2"><a href="#网络结构-2" class="headerlink" title="网络结构"></a>网络结构</h5><h6 id="示意图-2"><a href="#示意图-2" class="headerlink" title="示意图"></a>示意图</h6><p><img src="http://ops2n4lue.bkt.clouddn.com/CBOW.png" alt=""></p>
 <h6 id="输入层-2"><a href="#输入层-2" class="headerlink" title="输入层"></a>输入层</h6><p>词$w<em>{i−(n−1)} , . . . , w</em>{i−1}$的词向量的组合</p>
@@ -485,7 +485,7 @@ P (w |c) = \frac {exp (e'(w)^Tx)}{\sum_{w' \in V}exp(e'(w')^Tx)}</script><h6 id=
 <p>在 Skip-gram 的论文 中将模型描述成通过目标词预测上下文。由于模型需要遍历整个语料,任意一个窗口中的两个词 w_a , w_b 都需要计算 P (w_a |w_b ) + P (w_b |w_a ),因此这两种描述方式是等价的。</p>
 </blockquote>
 <h5 id="网络输入输出-3"><a href="#网络输入输出-3" class="headerlink" title="网络输入输出"></a>网络输入输出</h5><blockquote>
-<p><strong>目标: 最大化$P (w<em>i | w</em>{i−(n−1)} , . . . , w_{i−1} )$</strong><br><strong>输入: 整个词序列$w<em>{i−(n−1)} , . . . , w</em>{i−1}$</strong><br><strong>输出: 目标词的分布</strong></p>
+<p><strong>目标: 最大化 $P (w<em>i | w</em>{i−(n−1)} , . . . , w_{i−1} )$</strong><br><strong>输入: 整个词序列 $w<em>{i−(n−1)} , . . . , w</em>{i−1}$</strong><br><strong>输出: 目标词的分布</strong></p>
 </blockquote>
 <h5 id="网络结构-3"><a href="#网络结构-3" class="headerlink" title="网络结构"></a>网络结构</h5><h6 id="示意图-3"><a href="#示意图-3" class="headerlink" title="示意图"></a>示意图</h6><p><img src="http://ops2n4lue.bkt.clouddn.com/Skip-gram.png" alt=""></p>
 <h6 id="输入层-3"><a href="#输入层-3" class="headerlink" title="输入层"></a>输入层</h6><p>词$w<em>{i−(n−1)} , . . . , w</em>{i−1}$的词向量的组合</p>
