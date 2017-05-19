@@ -100,24 +100,27 @@
 
 <meta name="description" content="Objective
 问题起源
-文本是符号数据,两个词只要字面不同,就难以刻画它们之间的联系,即使是“麦克风”和“话筒”这样的同义词,从字面上也难以看出这两者意思相同(语义鸿沟现象)。（符号性这个角度类似于生物序列数据） 我们希望计算机可以从大规模无标注的文本数据中自动学习得到文本表示,这种表示需要包含对应语言单元(词或文档)的语义信息,同时可以直接通过这种表示度量文本之间的语义相似度。 #####">
+文本是符号数据,两个词只要字面不同,就难以刻画它们之间的联系,即使是“麦克风”和“话筒”这样的同义词,从字面上也难以看出这两者意思相同(语义鸿沟现象)。（符号性这个角度类似于生物序列数据） 我们希望计算机可以从大规模无标注的文本数据中自动学习得到文本表示,这种表示需要包含对应语言单元(词或文档)的语义信息,同时可以直接通过这种表示度量文本之间的语义相似度。
+形式化问题">
 <meta property="og:type" content="article">
 <meta property="og:title" content="词向量 word embedding">
 <meta property="og:url" content="http://yoursite.com/2017/05/19/word-embedding/index.html">
 <meta property="og:site_name" content="Klpek's Blog">
 <meta property="og:description" content="Objective
 问题起源
-文本是符号数据,两个词只要字面不同,就难以刻画它们之间的联系,即使是“麦克风”和“话筒”这样的同义词,从字面上也难以看出这两者意思相同(语义鸿沟现象)。（符号性这个角度类似于生物序列数据） 我们希望计算机可以从大规模无标注的文本数据中自动学习得到文本表示,这种表示需要包含对应语言单元(词或文档)的语义信息,同时可以直接通过这种表示度量文本之间的语义相似度。 #####">
+文本是符号数据,两个词只要字面不同,就难以刻画它们之间的联系,即使是“麦克风”和“话筒”这样的同义词,从字面上也难以看出这两者意思相同(语义鸿沟现象)。（符号性这个角度类似于生物序列数据） 我们希望计算机可以从大规模无标注的文本数据中自动学习得到文本表示,这种表示需要包含对应语言单元(词或文档)的语义信息,同时可以直接通过这种表示度量文本之间的语义相似度。
+形式化问题">
 <meta property="og:image" content="http://ops2n4lue.bkt.clouddn.com/NNLM.png">
 <meta property="og:image" content="http://ops2n4lue.bkt.clouddn.com/RNNLM.png">
 <meta property="og:image" content="http://ops2n4lue.bkt.clouddn.com/CBOW.png">
 <meta property="og:image" content="http://ops2n4lue.bkt.clouddn.com/Skip-gram.png">
-<meta property="og:updated_time" content="2017-05-19T09:16:34.670Z">
+<meta property="og:updated_time" content="2017-05-19T09:32:25.922Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="词向量 word embedding">
 <meta name="twitter:description" content="Objective
 问题起源
-文本是符号数据,两个词只要字面不同,就难以刻画它们之间的联系,即使是“麦克风”和“话筒”这样的同义词,从字面上也难以看出这两者意思相同(语义鸿沟现象)。（符号性这个角度类似于生物序列数据） 我们希望计算机可以从大规模无标注的文本数据中自动学习得到文本表示,这种表示需要包含对应语言单元(词或文档)的语义信息,同时可以直接通过这种表示度量文本之间的语义相似度。 #####">
+文本是符号数据,两个词只要字面不同,就难以刻画它们之间的联系,即使是“麦克风”和“话筒”这样的同义词,从字面上也难以看出这两者意思相同(语义鸿沟现象)。（符号性这个角度类似于生物序列数据） 我们希望计算机可以从大规模无标注的文本数据中自动学习得到文本表示,这种表示需要包含对应语言单元(词或文档)的语义信息,同时可以直接通过这种表示度量文本之间的语义相似度。
+形式化问题">
 <meta name="twitter:image" content="http://ops2n4lue.bkt.clouddn.com/NNLM.png">
 
 
@@ -432,54 +435,149 @@
       
         <h3 id="objective">Objective</h3>
 <h4 id="问题起源">问题起源</h4>
-<p>文本是符号数据,两个词只要字面不同,就难以刻画它们之间的联系,即使是“麦克风”和“话筒”这样的同义词,从字面上也难以看出这两者意思相同(语义鸿沟现象)。（符号性这个角度类似于生物序列数据） 我们希望计算机可以从大规模无标注的文本数据中自动学习得到文本表示,这种表示需要包含对应语言单元(词或文档)的语义信息,同时可以直接通过这种表示度量文本之间的语义相似度。 ##### 形式化问题 1 &gt;<strong>输入：语句的集合/文章的集合</strong> &gt;<strong>输出: 语言中词的一种表示</strong></p>
+<p>文本是符号数据,两个词只要字面不同,就难以刻画它们之间的联系,即使是“麦克风”和“话筒”这样的同义词,从字面上也难以看出这两者意思相同(语义鸿沟现象)。（符号性这个角度类似于生物序列数据） 我们希望计算机可以从大规模无标注的文本数据中自动学习得到文本表示,这种表示需要包含对应语言单元(词或文档)的语义信息,同时可以直接通过这种表示度量文本之间的语义相似度。</p>
+<h5 id="形式化问题-1">形式化问题 1</h5>
+<blockquote>
+<p><strong>输入：语句的集合/文章的集合</strong><br>
+<strong>输出: 语言中词的一种表示</strong></p>
+</blockquote>
 <p>1954年，Harris 提出分布假说(distributional hypothesis),即“上下文相似的词,其语义也相似“。（只针对词） 在分布假说中,需要关注的对象有两个:词和上下文,其中最关键的是上下文的表示。</p>
 <h5 id="形式化问题-2">形式化问题 2</h5>
 <blockquote>
-<p><strong>输入：词的上下文</strong> <strong>输出: 词的一种表示</strong></p>
+<p><strong>输入：词的上下文</strong><br>
+<strong>输出: 词的一种表示</strong></p>
 </blockquote>
 <p>上下文只能使用传统的词袋子表示(后面解释),如果需要表示复杂的上下文,会遇到维数灾难问题。</p>
 <p>神经网络模型可以使用组合方式(?)对上下文进行建模,只需线性复杂度即可对复杂的 n 元短语进行建模。神经网络模型生成的词表示通常被称为词向量(word embedding)。 &gt; 词向量：一个低维的实数向量表示。通过这种表示,可以直接对词之间的相似度进行刻画。</p>
 <h4 id="问题形式化">问题形式化</h4>
 <blockquote>
-<p><strong>输入: 词的上下文</strong> <strong>输出: 词的低维实数向量表示</strong> <strong>方法: 神经网络</strong></p>
+<p><strong>输入: 词的上下文</strong><br>
+<strong>输出: 词的低维实数向量表示</strong><br>
+<strong>方法: 神经网络</strong></p>
 </blockquote>
 <h3 id="related-knowledge">Related Knowledge</h3>
 <h4 id="符号表示">符号表示</h4>
-<p><span class="math inline">\(w\)</span> 表示一个词语. $w_1 , w_2 , …, w_m $表示一条由m个词语组成的语句. #### 语言模型 语言模型可以对一段文本的概率进行估计. 形式化的讲,统计语言模型的作用是为一个长度为 <span class="math inline">\(m\)</span> 的字符串确定一个概率分布 <span class="math inline">\(P (w_1 , w_2 , ..., w_m )\)</span> <span class="math display">\[
+<p><span class="math inline">\(w\)</span> 表示一个词语. $w_1 , w_2 , …, w_m $表示一条由m个词语组成的语句.</p>
+<h4 id="语言模型">语言模型</h4>
+<p>语言模型可以对一段文本的概率进行估计. 形式化的讲,统计语言模型的作用是为一个长度为 <span class="math inline">\(m\)</span> 的字符串确定一个概率分布 <span class="math inline">\(P (w_1 , w_2 , ..., w_m )\)</span> <span class="math display">\[
 P(w_1 , w_2 , ..., w_m ) = P (w_1 ) P (w_2 |w_1 )
 \dots P (w_i | w_1 , w_2 , ..., w_{i−1} )\dots P (w_m | w_1 , w_2 , ..., w_{m−1} )
-\]</span> #### <span class="math inline">\(n\)</span>元(n-gram)模型 如果文本的长度较长,公式右部$ P (w_i | w_1 , w_2 , , w_{i−1} ) <span class="math inline">\(的估算会非常困难。 因此,研究者们提出使用一个简化模型:\)</span>n$ 元模型.对上述条件概率做了以下近似: <span class="math display">\[
+\]</span></p>
+<h4 id="n元n-gram模型"><span class="math inline">\(n\)</span>元(n-gram)模型</h4>
+<p>如果文本的长度较长,公式右部$ P (w_i | w_1 , w_2 , , w_{i−1} ) <span class="math inline">\(的估算会非常困难。 因此,研究者们提出使用一个简化模型:\)</span>n$ 元模型.对上述条件概率做了以下近似: <span class="math display">\[
 P (w_i | w_1 , w_2 , ..., w_i−1 ) ≈ P (w_i | w_{i−(n−1)} , . . . , w_i−1 )
 \]</span> 在 n 元模型中,传统的方法一般采用频率计数的比例来估算 <span class="math inline">\(n\)</span> 元条件概率: <span class="math display">\[
 P (w_i | w_{i−(n−1)} , . . . , w_{i−1} ) = \frac{count(w_{i−(n−1)} , . . . , w_{i−1} , w_i ) }{count(w_{i−(n−1)} , . . . , w_{i−1} )}
-\]</span> 其中,<span class="math inline">\(count(w_{i−(n−1)} , . . . , w_{i−1} )\)</span> 表示文本序列 <span class="math inline">\(w_{i−(n−1)} , . . . , w_{i−1}\)</span> 在语料中出现的次数。 ### Method #### Method 1: 神经网络语言模型(NNLM) RNNLM 利用前n个词的上文信息,预测下一个词.即,直接对$ P (w_i | w_1 , w_2 , …, w_{i−1} ) $进行建模. RNNLM是利用神经网络对<strong>条件概率</strong>建模. ##### 网络输入输出 &gt;<strong>目标: 最大化 <span class="math inline">\(P (w_{i-(n-1)/2}| w_{i−(n−1)} , . . . , w_{i−1} )\)</span></strong> &gt;<strong>输入: 整个词序列 <span class="math inline">\(w_{i−(n−1)} , . . . , w_{i−1}\)</span></strong> &gt;<strong>输出: 目标词的分布</strong></p>
-<h5 id="网络结构">网络结构</h5>
-<h6 id="示意图">示意图</h6>
-<p><img src="http://ops2n4lue.bkt.clouddn.com/NNLM.png"> ###### 输入层 词<span class="math inline">\(w_{i−(n−1)} , . . . , w_{i−1}\)</span>的词向量的顺序拼接 <span class="math display">\[x = [e(w_{i−(n−1)} ); . . . ; e(w_{i−2} ); e(w_{i−1} )]\]</span> ###### 隐藏层h <span class="math display">\[h= tanh(b^{(1)} + Hx)\]</span> <span class="math display">\[y = b ^{(2)} + W x + U h\]</span> 其中,其中,<span class="math inline">\(φ\)</span> 为非线性激活函数。 根据公式,每一个隐藏层包含了当前词的信息以及上一个隐藏层的信息。通过这种迭代推进的方式,每个隐藏层实际上包含了此前所有上文的信息. ###### 输出层 <span class="math display">\[
-P (w_i | w_{i−(n−1)} , . . . , w_{i−1} ) = \frac {exp (y(w_i))}{\sum_{k=1}^{|V|}exp(y(v_k))}\]</span> ###### 网络目标 最大化 <span class="math inline">\(\sum\limits _{w _{i−(n−1):i} ∈D}log P (w_i | w_{i−(n−1)} ,\dots, w_{i−1} )\)</span> 即最大化语言模型. #### Method 2: 循环神经网络语言模型(RNNLM) RNNLM 利用所有的上文信息,预测下一个词.即,直接对$ P (w_i | w_1 , w_2 , …, w_{i−1} ) $进行建模. RNNLM是利用神经网络对<strong>条件概率</strong>建模. ##### 网络输入输出 &gt;<strong>目标: 最大化 <span class="math inline">\(P (w_i | w_{i−(n−1)} , . . . , w_1 )\)</span></strong> &gt;<strong>输入: 整个词序列 <span class="math inline">\(w_{i−(n−1)} , . . . , w_{i−1}\)</span></strong> &gt;<strong>输出: 目标词的分布</strong></p>
-<h5 id="网络结构-1">网络结构</h5>
-<h6 id="示意图-1">示意图</h6>
-<p><img src="http://ops2n4lue.bkt.clouddn.com/RNNLM.png"> ###### 输入层 词<span class="math inline">\(w_{i−(n−1)} , . . . , w_{i−1}\)</span>的词向量的顺序拼接 <span class="math display">\[x = [e(w_{i−(n−1)} ); . . . ; e(w_{i−2} ); e(w_{i−1} )]\]</span> ###### 隐藏层h <span class="math display">\[h(i) = φ(e(w_i ) + w_h(i − 1))\]</span> <span class="math display">\[y(i) = b + uh(i)\]</span> 其中,其中,<span class="math inline">\(φ\)</span> 为非线性激活函数。 根据公式,每一个隐藏层包含了当前词的信息以及上一个隐藏层的信息。通过这种迭代推进的方式,每个隐藏层实际上包含了此前所有上文的信息. ###### 输出层 <span class="math display">\[
-P (w_i | w_{i−(n−1)} , . . . , w_1 ) = \frac {exp (y(w_i))}{\sum_{k=1}^{|V|}exp(y(v_k))}\]</span> ###### 网络目标 最大化语言模型<span class="math inline">\(\sum\limits _{w _{i−(n−1):i} ∈D}log P (w_i | w_{i−(n−1)} ,\dots, w_1 )\)</span> #### Method 3: CBOW 模型 该模型一方面使用一段文本的中间词作为目标词;另一方面,又以 NNLM 作为蓝本,并在其基础上做了两个简化。 一、CBOW 没有隐藏层,去掉隐藏层之后,模型从神经网络结构直接转化为 log 线性结构,与 Logistic 回归一致。log 线性结构比三层神经网络结构少了一个矩阵运算,大幅度地提升了模型的训练速度。 二、CBOW 去除了上下文各词的词序信息,使用上下文各词词向量的平均值,代替神经网络语言模型使用的上文各词词向量的拼接。 ##### 网络输入输出 &gt;<strong>目标: 最大化 <span class="math inline">\(P (w_{i-(n-1)/2} | w_{i−(n−1)} , . . . , w_{i−1} )\)</span></strong> &gt;<strong>输入: 整个词序列 <span class="math inline">\(w_{i−(n−1)} , . . . , w_{i−1}\)</span></strong> &gt;<strong>输出: 目标词的分布</strong></p>
-<h5 id="网络结构-2">网络结构</h5>
-<h6 id="示意图-2">示意图</h6>
-<p><img src="http://ops2n4lue.bkt.clouddn.com/CBOW.png"> ###### 输入层 词<span class="math inline">\(w_{i−(n−1)} , . . . , w_{i−1}\)</span>的词向量的组合 <span class="math display">\[x = \frac{1}{n-1}\sum\limits _{w_j \in c}e(w_j)\]</span> ###### 隐藏层h 没有 ###### 输出层 c表示上下文 <span class="math display">\[
-P (w |c) = \frac {exp (e&#39;(w)^Tx)}{\sum_{w&#39; \in V}exp(e&#39;(w&#39;)^Tx)}
-\]</span> ###### 网络目标 最大化 <span class="math inline">\(\sum\limits_{(w,c)\in D}logP(w|c)\)</span> #### Method 4: Skip-gram 模型 与 CBOW 模型一样, Skip-gram 模型中也没有隐藏层。和 CBOW 模型不同的是,Skip-gram 模型每次从目标词 w 的上下文 c 中选择一个词,将其词向量作为模型的输入 x,也就是上下文的表示。 Skip-gram模型同样通过上下文预测目标词,对于整个语料的优化目标为最大化: <span class="math display">\[\sum_{(w,c) \in D}\sum_{w_j \in c}log P (w|w_j )\]</span> &gt; 在 Skip-gram 的论文 中将模型描述成通过目标词预测上下文。由于模型需要遍历整个语料,任意一个窗口中的两个词 w_a , w_b 都需要计算 P (w_a |w_b ) + P (w_b |w_a ),因此这两种描述方式是等价的。</p>
+\]</span> 其中,<span class="math inline">\(count(w_{i−(n−1)} , . . . , w_{i−1} )\)</span> 表示文本序列 <span class="math inline">\(w_{i−(n−1)} , . . . , w_{i−1}\)</span> 在语料中出现的次数。</p>
+<h3 id="method">Method</h3>
+<h4 id="method-1-神经网络语言模型nnlm">Method 1: 神经网络语言模型(NNLM)</h4>
+<p>RNNLM 利用前n个词的上文信息,预测下一个词.即,直接对$ P (w_i | w_1 , w_2 , …, w_{i−1} ) $进行建模. RNNLM是利用神经网络对<strong>条件概率</strong>建模.</p>
 <h5 id="网络输入输出">网络输入输出</h5>
 <blockquote>
-<p><strong>目标: 最大化 <span class="math inline">\(P (w_i | w_{i−(n−1)} , . . . , w_{i−1} )\)</span></strong> <strong>输入: 整个词序列 <span class="math inline">\(w_{i−(n−1)} , . . . , w_{i−1}\)</span></strong> <strong>输出: 目标词的分布</strong></p>
+<p><strong>目标: 最大化 <span class="math inline">\(P (w_{i-(n-1)/2}| w_{i−(n−1)} , . . . , w_{i−1} )\)</span></strong><br>
+<strong>输入: 整个词序列 <span class="math inline">\(w_{i−(n−1)} , . . . , w_{i−1}\)</span></strong><br>
+<strong>输出: 目标词的分布</strong></p>
+</blockquote>
+<h5 id="网络结构">网络结构</h5>
+<h6 id="示意图">示意图</h6>
+<div class="figure">
+<img src="http://ops2n4lue.bkt.clouddn.com/NNLM.png">
+
+</div>
+<h6 id="输入层">输入层</h6>
+<p>词<span class="math inline">\(w_{i−(n−1)} , . . . , w_{i−1}\)</span>的词向量的顺序拼接 <span class="math display">\[x = [e(w_{i−(n−1)} ); . . . ; e(w_{i−2} ); e(w_{i−1} )]\]</span></p>
+<h6 id="隐藏层h">隐藏层h</h6>
+<p><span class="math display">\[h= tanh(b^{(1)} + Hx)\]</span> <span class="math display">\[y = b ^{(2)} + W x + U h\]</span> 其中,其中,<span class="math inline">\(φ\)</span> 为非线性激活函数。 根据公式,每一个隐藏层包含了当前词的信息以及上一个隐藏层的信息。通过这种迭代推进的方式,每个隐藏层实际上包含了此前所有上文的信息.</p>
+<h6 id="输出层">输出层</h6>
+<p><span class="math display">\[
+P (w_i | w_{i−(n−1)} , . . . , w_{i−1} ) = \frac {exp (y(w_i))}{\sum_{k=1}^{|V|}exp(y(v_k))}\]</span></p>
+<h6 id="网络目标">网络目标</h6>
+<p>最大化 <span class="math inline">\(\sum\limits _{w _{i−(n−1):i} ∈D}log P (w_i | w_{i−(n−1)} ,\dots, w_{i−1} )\)</span> 即最大化语言模型.</p>
+<h4 id="method-2-循环神经网络语言模型rnnlm">Method 2: 循环神经网络语言模型(RNNLM)</h4>
+<p>RNNLM 利用所有的上文信息,预测下一个词.即,直接对$ P (w_i | w_1 , w_2 , …, w_{i−1} ) $进行建模. RNNLM是利用神经网络对<strong>条件概率</strong>建模.</p>
+<h5 id="网络输入输出-1">网络输入输出</h5>
+<blockquote>
+<p><strong>目标: 最大化 <span class="math inline">\(P (w_i | w_{i−(n−1)} , . . . , w_1 )\)</span></strong><br>
+<strong>输入: 整个词序列 <span class="math inline">\(w_{i−(n−1)} , . . . , w_{i−1}\)</span></strong><br>
+<strong>输出: 目标词的分布</strong></p>
+</blockquote>
+<h5 id="网络结构-1">网络结构</h5>
+<h6 id="示意图-1">示意图</h6>
+<div class="figure">
+<img src="http://ops2n4lue.bkt.clouddn.com/RNNLM.png">
+
+</div>
+<h6 id="输入层-1">输入层</h6>
+<p>词<span class="math inline">\(w_{i−(n−1)} , . . . , w_{i−1}\)</span>的词向量的顺序拼接 <span class="math display">\[x = [e(w_{i−(n−1)} ); . . . ; e(w_{i−2} ); e(w_{i−1} )]\]</span></p>
+<h6 id="隐藏层h-1">隐藏层h</h6>
+<p><span class="math display">\[h(i) = φ(e(w_i ) + w_h(i − 1))\]</span> <span class="math display">\[y(i) = b + uh(i)\]</span> 其中,其中,<span class="math inline">\(φ\)</span> 为非线性激活函数。 根据公式,每一个隐藏层包含了当前词的信息以及上一个隐藏层的信息。通过这种迭代推进的方式,每个隐藏层实际上包含了此前所有上文的信息.</p>
+<h6 id="输出层-1">输出层</h6>
+<p><span class="math display">\[
+P (w_i | w_{i−(n−1)} , . . . , w_1 ) = \frac {exp (y(w_i))}{\sum_{k=1}^{|V|}exp(y(v_k))}\]</span></p>
+<h6 id="网络目标-1">网络目标</h6>
+<p>最大化语言模型<span class="math inline">\(\sum\limits _{w _{i−(n−1):i} ∈D}log P (w_i | w_{i−(n−1)} ,\dots, w_1 )\)</span></p>
+<h4 id="method-3-cbow-模型">Method 3: CBOW 模型</h4>
+<p>该模型一方面使用一段文本的中间词作为目标词;另一方面,又以 NNLM 作为蓝本,并在其基础上做了两个简化。 一、CBOW 没有隐藏层,去掉隐藏层之后,模型从神经网络结构直接转化为 log 线性结构,与 Logistic 回归一致。log 线性结构比三层神经网络结构少了一个矩阵运算,大幅度地提升了模型的训练速度。 二、CBOW 去除了上下文各词的词序信息,使用上下文各词词向量的平均值,代替神经网络语言模型使用的上文各词词向量的拼接。</p>
+<h5 id="网络输入输出-2">网络输入输出</h5>
+<blockquote>
+<p><strong>目标: 最大化 <span class="math inline">\(P (w_{i-(n-1)/2} | w_{i−(n−1)} , . . . , w_{i−1} )\)</span></strong><br>
+<strong>输入: 整个词序列 <span class="math inline">\(w_{i−(n−1)} , . . . , w_{i−1}\)</span></strong><br>
+<strong>输出: 目标词的分布</strong></p>
+</blockquote>
+<h5 id="网络结构-2">网络结构</h5>
+<h6 id="示意图-2">示意图</h6>
+<p><img src="http://ops2n4lue.bkt.clouddn.com/CBOW.png"> ###### 输入层</p>
+<p>词<span class="math inline">\(w_{i−(n−1)} , . . . , w_{i−1}\)</span>的词向量的组合 <span class="math display">\[x = \frac{1}{n-1}\sum\limits _{w_j \in c}e(w_j)\]</span></p>
+<h6 id="隐藏层h-2">隐藏层h</h6>
+<p>没有</p>
+<h6 id="输出层-2">输出层</h6>
+<p>c表示上下文 <span class="math display">\[
+P (w |c) = \frac {exp (e&#39;(w)^Tx)}{\sum_{w&#39; \in V}exp(e&#39;(w&#39;)^Tx)}
+\]</span></p>
+<h6 id="网络目标-2">网络目标</h6>
+<p>最大化 <span class="math inline">\(\sum\limits_{(w,c)\in D}logP(w|c)\)</span></p>
+<h4 id="method-4-skip-gram-模型">Method 4: Skip-gram 模型</h4>
+<p>与 CBOW 模型一样, Skip-gram 模型中也没有隐藏层。和 CBOW 模型不同的是,Skip-gram 模型每次从目标词 w 的上下文 c 中选择一个词,将其词向量作为模型的输入 x,也就是上下文的表示。 Skip-gram模型同样通过上下文预测目标词,对于整个语料的优化目标为最大化: <span class="math display">\[\sum_{(w,c) \in D}\sum_{w_j \in c}log P (w|w_j )\]</span> &gt; 在 Skip-gram 的论文 中将模型描述成通过目标词预测上下文。由于模型需要遍历整个语料,任意一个窗口中的两个词 w_a , w_b 都需要计算 P (w_a |w_b ) + P (w_b |w_a ),因此这两种描述方式是等价的。</p>
+<h5 id="网络输入输出-3">网络输入输出</h5>
+<blockquote>
+<p><strong>目标: 最大化 <span class="math inline">\(P (w_i | w_{i−(n−1)} , . . . , w_{i−1} )\)</span></strong><br>
+<strong>输入: 整个词序列 <span class="math inline">\(w_{i−(n−1)} , . . . , w_{i−1}\)</span></strong><br>
+<strong>输出: 目标词的分布</strong></p>
 </blockquote>
 <h5 id="网络结构-3">网络结构</h5>
 <h6 id="示意图-3">示意图</h6>
-<p><img src="http://ops2n4lue.bkt.clouddn.com/Skip-gram.png"> ###### 输入层 词<span class="math inline">\(w_{i−(n−1)} , . . . , w_{i−1}\)</span>的词向量的组合 <span class="math display">\[x = \frac{1}{n-1}\sum\limits _{w_j \in c}e(w_j)\]</span> ###### 隐藏层h 没有 ###### 输出层 c表示上下文 <span class="math display">\[
+<div class="figure">
+<img src="http://ops2n4lue.bkt.clouddn.com/Skip-gram.png">
+
+</div>
+<h6 id="输入层-2">输入层</h6>
+<p>词<span class="math inline">\(w_{i−(n−1)} , . . . , w_{i−1}\)</span>的词向量的组合 <span class="math display">\[x = \frac{1}{n-1}\sum\limits _{w_j \in c}e(w_j)\]</span></p>
+<h6 id="隐藏层h-3">隐藏层h</h6>
+<p>没有</p>
+<h6 id="输出层-3">输出层</h6>
+<p>c表示上下文 <span class="math display">\[
 P (w |c) = \frac {exp (e&#39;(w)^Tx)}{\sum_{w&#39; \in V}exp(e&#39;(w&#39;)^Tx)}
-\]</span> ###### 网络目标 最大化 <span class="math inline">\(\sum\limits _{(w,c) \in D}\sum\limits _{w_j \in c}log P (w|w_j )\)</span> ##### 采用手段 ###### 负采样技术(negative sampling) 构造负样本,构造出了一个优化目标,最大化正样本的似然,同时最小化负样本的似然。其中训练时,一个正样本可以对应多个负样本. ###### 二次采样技术(subsampling) 在大规模语料中,高频词通常就是停用词.一方面,这些高频词只能带来非常少量的语义信息.另一方面,训练高频词本身占据了大量的时间,但在迭代过程中,这些高频词的词向量变化并不大。 如果词 w 在语料中的出现频率 $f (w) $大于阈值 t,则有 <span class="math inline">\(P (w)\)</span> 的概率在训练时跳过这个词。 <span class="math display">\[
+\]</span></p>
+<h6 id="网络目标-3">网络目标</h6>
+<p>最大化 <span class="math inline">\(\sum\limits _{(w,c) \in D}\sum\limits _{w_j \in c}log P (w|w_j )\)</span></p>
+<h5 id="采用手段">采用手段</h5>
+<h6 id="负采样技术negative-sampling">负采样技术(negative sampling)</h6>
+<p>构造负样本,构造出了一个优化目标,最大化正样本的似然,同时最小化负样本的似然。其中训练时,一个正样本可以对应多个负样本.</p>
+<h6 id="二次采样技术subsampling">二次采样技术(subsampling)</h6>
+<p>在大规模语料中,高频词通常就是停用词.一方面,这些高频词只能带来非常少量的语义信息.另一方面,训练高频词本身占据了大量的时间,但在迭代过程中,这些高频词的词向量变化并不大。 如果词 w 在语料中的出现频率 $f (w) $大于阈值 t,则有 <span class="math inline">\(P (w)\)</span> 的概率在训练时跳过这个词。 <span class="math display">\[
 P (w) = \frac{f (w) − t}{f (w)} - \sqrt{\frac{t}{f(w)}}
-\]</span> #### 模型总结</p>
+\]</span></p>
+<h4 id="模型总结">模型总结</h4>
 <p>| 模型名称 | 上下文 |隐含层|词序| |:—:—|—:—|—:—|—:—| | NNLM | n-gram(前n个词) | 非线性变换|有词序| | RNNLM | 前面所有词 | 非线性变换|有词序| | CBOW | n-gram(前后n个词) | 无,线性组合|无词序| | NNLM | n-gram(前或者后面1个词) | 无|无词序|</p>
-<p>研究者进行一些对比试验,因需要引入其他知识,此处暂不列出.他们得出以下结论. &gt;一、简单模型在小语料上整体表现更好,而复杂的模型需要更大的语料作支撑。 二、对于实际的自然语言处理任务,各模型的差异不大。 三、同领域的语料,语料越大效果越好。 四、领域内的语料对相似领域任务的效果提升非常明显,但在领域不契合时甚至会有负面作用。 五、包含的语义特征更为丰富的语料(而不只是数量),在评价语义特性的任务中,效果也更好。 六、词向量的维度一般需要选择 50 维及以上,特别当衡量词向量的语言学特性时,词向量的维度越大,效果越好。</p>
+<p>研究者进行一些对比试验,因需要引入其他知识,此处暂不列出.他们得出以下结论.</p>
+<blockquote>
+<p>一、简单模型在小语料上整体表现更好,而复杂的模型需要更大的语料作支撑。<br>
+二、对于实际的自然语言处理任务,各模型的差异不大。<br>
+三、同领域的语料,语料越大效果越好。<br>
+四、领域内的语料对相似领域任务的效果提升非常明显,但在领域不契合时甚至会有负面作用。<br>
+五、包含的语义特征更为丰富的语料(而不只是数量),在评价语义特性的任务中,效果也更好。<br>
+六、词向量的维度一般需要选择 50 维及以上,特别当衡量词向量的语言学特性时,词向量的维度越大,效果越好。</p>
+</blockquote>
 <p><strong>注:本文内容总结自来斯惟博士的毕业论文<基于神经网络的词和文档语义向量表示方法研究></基于神经网络的词和文档语义向量表示方法研究></strong> 在此表示感谢,另附上来博士的博客地址: http://licstar.net/archives/tag/%E8%AF%8D%E5%90%91%E9%87%8F</p>
 
       
@@ -673,7 +771,7 @@ P (w) = \frac{f (w) − t}{f (w)} - \sqrt{\frac{t}{f(w)}}
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#objective"><span class="nav-number">1.</span> <span class="nav-text">Objective</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#问题起源"><span class="nav-number">1.1.</span> <span class="nav-text">问题起源</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#形式化问题-2"><span class="nav-number">1.1.1.</span> <span class="nav-text">形式化问题 2</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#问题形式化"><span class="nav-number">1.2.</span> <span class="nav-text">问题形式化</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#related-knowledge"><span class="nav-number">2.</span> <span class="nav-text">Related Knowledge</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#符号表示"><span class="nav-number">2.1.</span> <span class="nav-text">符号表示</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#网络结构"><span class="nav-number">2.1.1.</span> <span class="nav-text">网络结构</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#示意图"><span class="nav-number">2.1.1.1.</span> <span class="nav-text">示意图</span></a></li></ol></li><li class="nav-item nav-level-5"><a class="nav-link" href="#网络结构-1"><span class="nav-number">2.1.2.</span> <span class="nav-text">网络结构</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#示意图-1"><span class="nav-number">2.1.2.1.</span> <span class="nav-text">示意图</span></a></li></ol></li><li class="nav-item nav-level-5"><a class="nav-link" href="#网络结构-2"><span class="nav-number">2.1.3.</span> <span class="nav-text">网络结构</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#示意图-2"><span class="nav-number">2.1.3.1.</span> <span class="nav-text">示意图</span></a></li></ol></li><li class="nav-item nav-level-5"><a class="nav-link" href="#网络输入输出"><span class="nav-number">2.1.4.</span> <span class="nav-text">网络输入输出</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#网络结构-3"><span class="nav-number">2.1.5.</span> <span class="nav-text">网络结构</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#示意图-3"><span class="nav-number">2.1.5.1.</span> <span class="nav-text">示意图</span></a></li></ol></li></ol></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#objective"><span class="nav-number">1.</span> <span class="nav-text">Objective</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#问题起源"><span class="nav-number">1.1.</span> <span class="nav-text">问题起源</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#形式化问题-1"><span class="nav-number">1.1.1.</span> <span class="nav-text">形式化问题 1</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#形式化问题-2"><span class="nav-number">1.1.2.</span> <span class="nav-text">形式化问题 2</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#问题形式化"><span class="nav-number">1.2.</span> <span class="nav-text">问题形式化</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#related-knowledge"><span class="nav-number">2.</span> <span class="nav-text">Related Knowledge</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#符号表示"><span class="nav-number">2.1.</span> <span class="nav-text">符号表示</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#语言模型"><span class="nav-number">2.2.</span> <span class="nav-text">语言模型</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#n元n-gram模型"><span class="nav-number">2.3.</span> <span class="nav-text">\(n\)元(n-gram)模型</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#method"><span class="nav-number">3.</span> <span class="nav-text">Method</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#method-1-神经网络语言模型nnlm"><span class="nav-number">3.1.</span> <span class="nav-text">Method 1: 神经网络语言模型(NNLM)</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#网络输入输出"><span class="nav-number">3.1.1.</span> <span class="nav-text">网络输入输出</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#网络结构"><span class="nav-number">3.1.2.</span> <span class="nav-text">网络结构</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#示意图"><span class="nav-number">3.1.2.1.</span> <span class="nav-text">示意图</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#输入层"><span class="nav-number">3.1.2.2.</span> <span class="nav-text">输入层</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#隐藏层h"><span class="nav-number">3.1.2.3.</span> <span class="nav-text">隐藏层h</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#输出层"><span class="nav-number">3.1.2.4.</span> <span class="nav-text">输出层</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#网络目标"><span class="nav-number">3.1.2.5.</span> <span class="nav-text">网络目标</span></a></li></ol></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#method-2-循环神经网络语言模型rnnlm"><span class="nav-number">3.2.</span> <span class="nav-text">Method 2: 循环神经网络语言模型(RNNLM)</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#网络输入输出-1"><span class="nav-number">3.2.1.</span> <span class="nav-text">网络输入输出</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#网络结构-1"><span class="nav-number">3.2.2.</span> <span class="nav-text">网络结构</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#示意图-1"><span class="nav-number">3.2.2.1.</span> <span class="nav-text">示意图</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#输入层-1"><span class="nav-number">3.2.2.2.</span> <span class="nav-text">输入层</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#隐藏层h-1"><span class="nav-number">3.2.2.3.</span> <span class="nav-text">隐藏层h</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#输出层-1"><span class="nav-number">3.2.2.4.</span> <span class="nav-text">输出层</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#网络目标-1"><span class="nav-number">3.2.2.5.</span> <span class="nav-text">网络目标</span></a></li></ol></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#method-3-cbow-模型"><span class="nav-number">3.3.</span> <span class="nav-text">Method 3: CBOW 模型</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#网络输入输出-2"><span class="nav-number">3.3.1.</span> <span class="nav-text">网络输入输出</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#网络结构-2"><span class="nav-number">3.3.2.</span> <span class="nav-text">网络结构</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#示意图-2"><span class="nav-number">3.3.2.1.</span> <span class="nav-text">示意图</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#隐藏层h-2"><span class="nav-number">3.3.2.2.</span> <span class="nav-text">隐藏层h</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#输出层-2"><span class="nav-number">3.3.2.3.</span> <span class="nav-text">输出层</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#网络目标-2"><span class="nav-number">3.3.2.4.</span> <span class="nav-text">网络目标</span></a></li></ol></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#method-4-skip-gram-模型"><span class="nav-number">3.4.</span> <span class="nav-text">Method 4: Skip-gram 模型</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#网络输入输出-3"><span class="nav-number">3.4.1.</span> <span class="nav-text">网络输入输出</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#网络结构-3"><span class="nav-number">3.4.2.</span> <span class="nav-text">网络结构</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#示意图-3"><span class="nav-number">3.4.2.1.</span> <span class="nav-text">示意图</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#输入层-2"><span class="nav-number">3.4.2.2.</span> <span class="nav-text">输入层</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#隐藏层h-3"><span class="nav-number">3.4.2.3.</span> <span class="nav-text">隐藏层h</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#输出层-3"><span class="nav-number">3.4.2.4.</span> <span class="nav-text">输出层</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#网络目标-3"><span class="nav-number">3.4.2.5.</span> <span class="nav-text">网络目标</span></a></li></ol></li><li class="nav-item nav-level-5"><a class="nav-link" href="#采用手段"><span class="nav-number">3.4.3.</span> <span class="nav-text">采用手段</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#负采样技术negative-sampling"><span class="nav-number">3.4.3.1.</span> <span class="nav-text">负采样技术(negative sampling)</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#二次采样技术subsampling"><span class="nav-number">3.4.3.2.</span> <span class="nav-text">二次采样技术(subsampling)</span></a></li></ol></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#模型总结"><span class="nav-number">3.5.</span> <span class="nav-text">模型总结</span></a></li></ol></li></ol></div>
             
 
           </div>
