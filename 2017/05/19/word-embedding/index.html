@@ -30,8 +30,8 @@
 
 <script>
   (function(){
-    if (''){
-      if (prompt('Please input reading password','') !== ''){
+    if ('password'){
+      if (prompt('Please input reading password','') !== 'password'){
         alert('error password.');
         history.back();
         }
@@ -108,7 +108,7 @@
 <meta property="og:image" content="http://ops2n4lue.bkt.clouddn.com/RNNLM.png">
 <meta property="og:image" content="http://ops2n4lue.bkt.clouddn.com/CBOW.png">
 <meta property="og:image" content="http://ops2n4lue.bkt.clouddn.com/Skip-gram.png">
-<meta property="og:updated_time" content="2017-05-19T09:54:11.422Z">
+<meta property="og:updated_time" content="2017-05-22T04:28:40.892Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="词向量 word embedding">
 <meta name="twitter:description" content="Objective问题起源文本是符号数据,两个词只要字面不同,就难以刻画它们之间的联系,即使是“麦克风”和“话筒”这样的同义词,从字面上也难以看出这两者意思相同(语义鸿沟现象)。（符号性这个角度类似于生物序列数据）我们希望计算机可以从大规模无标注的文本数据中自动学习得到文本表示,这种表示需要包含对应语言单元(词或文档)的语义信息,同时可以直接通过这种表示度量文本之间的语义相似度。">
@@ -535,7 +535,7 @@ P (w) = \frac{f (w) − t}{f (w)} - \sqrt{\frac{t}{f(w)}}</script><h4 id="模型
 <blockquote>
 <p>一、简单模型在小语料上整体表现更好,而复杂的模型需要更大的语料作支撑。<br>二、对于实际的自然语言处理任务,各模型的差异不大。<br>三、同领域的语料,语料越大效果越好。<br>四、领域内的语料对相似领域任务的效果提升非常明显,但在领域不契合时甚至会有负面作用。<br>五、包含的语义特征更为丰富的语料(而不只是数量),在评价语义特性的任务中,效果也更好。<br>六、词向量的维度一般需要选择 50 维及以上,特别当衡量词向量的语言学特性时,词向量的维度越大,效果越好。</p>
 </blockquote>
-<p><strong>注:本文内容总结自来斯惟博士的毕业论文&lt;&lt;基于神经网络的词和文档语义向量表示方法研究&gt;&gt;</strong>.<br>在此表示感谢,另附上来博士的博客地址: <a href="http://licstar.net/archives/tag/%E8%AF%8D%E5%90%91%E9%87%8F" target="_blank" rel="external">http://licstar.net/archives/tag/%E8%AF%8D%E5%90%91%E9%87%8F</a></p>
+<p><strong>注:本文部分内容总结自来斯惟博士的毕业论文&lt;&lt;基于神经网络的词和文档语义向量表示方法研究&gt;&gt;</strong>.<br>在此表示感谢,另附上来博士的博客地址: <a href="http://licstar.net/archives/tag/%E8%AF%8D%E5%90%91%E9%87%8F" target="_blank" rel="external">http://licstar.net/archives/tag/%E8%AF%8D%E5%90%91%E9%87%8F</a></p>
 
       
     </div>
