@@ -388,36 +388,14 @@
 
       
         
-          
-            <h3 id="Objective"><a href="#Objective" class="headerlink" title="Objective"></a>Objective</h3><p>Construct a distributed representation of biological sequences.</p>
-<h3 id="Related-Work"><a href="#Related-Work" class="headerlink" title="Related Work"></a>Related Work</h3><h4 id="Word2vec"><a href="#Word2vec" class="headerlink" title="Word2vec"></a>Word2vec</h4><p> CBOW<br> Skip-gram</p>
-<h4 id="Doc2vec"><a href="#Doc2vec" class="headerlink" title="Doc2vec"></a>Doc2vec</h4><h5 id="Doc2vec-CBOW"><a href="#Doc2vec-CBOW" class="headerlink" title="Doc2vec-CBOW"></a>Doc2vec-CBOW</h5><p><img src="http://ops2n4lue.bkt.clouddn.com/doc2vec-cbow.png" alt=""></p>
-<h5 id="Doc2vec-DM"><a href="#Doc2vec-DM" class="headerlink" title="Doc2vec-DM"></a>Doc2vec-DM</h5><p><img src="http://ops2n4lue.bkt.clouddn.com/doc2vec-dm.png" alt=""></p>
-<h6 id="Effect"><a href="#Effect" class="headerlink" title="Effect"></a>Effect</h6><p><img src="http://ops2n4lue.bkt.clouddn.com/doc2vec_dm_result.png" alt=""></p>
-<p>In fact, unstable.</p>
-<h3 id="BioVec-ProtVec-GeneVec-（Plos-one）"><a href="#BioVec-ProtVec-GeneVec-（Plos-one）" class="headerlink" title="BioVec: ProtVec+GeneVec （Plos one）"></a>BioVec: ProtVec+GeneVec （Plos one）</h3><h4 id="Objective-1"><a href="#Objective-1" class="headerlink" title="Objective"></a>Objective</h4><p>Our goal is to construct a distributed representation of biological sequences.</p>
-<h4 id="Method"><a href="#Method" class="headerlink" title="Method"></a>Method</h4><p>Here, a biological sequence is treated like a sentence in a text corpus while the kmers derived from the sequence are treated like words, and are given as input to the embedding algorithm.</p>
-<h5 id="Data-Preprocess"><a href="#Data-Preprocess" class="headerlink" title="Data Preprocess"></a>Data Preprocess</h5><p><img src="http://ops2n4lue.bkt.clouddn.com/Prot2vec.JPG" alt=""></p>
-<h5 id="NN-Model"><a href="#NN-Model" class="headerlink" title="NN Model"></a>NN Model</h5><p><strong>Skip-gram Model</strong><br><img src="http://ops2n4lue.bkt.clouddn.com/Skip-gram.png" alt=""></p>
-<h5 id="Evaluation"><a href="#Evaluation" class="headerlink" title="Evaluation"></a>Evaluation</h5><h6 id="Protein-Family-Classification"><a href="#Protein-Family-Classification" class="headerlink" title="Protein Family Classification"></a>Protein Family Classification</h6><p>To evaluate this method, we apply it in classification of <strong>324,018 protein</strong> sequences obtained from Swiss-Prot belonging to <strong>7,027 protein families</strong>,<strong><br>Database</strong>：Swiss-Prot<br><strong>Method</strong>: SVM<br><strong>Results</strong>：<br>an average family classification accuracy of 93% ± 0.06% is obtained, outperforming existing family classification methods.</p>
-<h6 id="Disordered-Proteins-Classification"><a href="#Disordered-Proteins-Classification" class="headerlink" title="Disordered Proteins Classification"></a>Disordered Proteins Classification</h6><p> In addition, we use ProtVec representation to predict disordered proteins from structured proteins.<br><strong>Database</strong>:<br>The DisProt database as well as FG-Nups (a database featuring the<br>disordered regions of nucleoporins rich with phenylalanine-glycine repeats).<br><strong>Method</strong>:<br>Using support vector machine classifiers,<br><strong>Results</strong>:<br>FG-Nup sequences are distinguished from structured protein sequences found in Protein Data Bank (PDB) with a 99.8% accuracy, and unstructured DisProt sequences are differentiated from structured DisProt sequences with 100.0% accuracy.</p>
-<h5 id="Conclusion"><a href="#Conclusion" class="headerlink" title="Conclusion"></a>Conclusion</h5><ul>
-<li>By only providing sequence data for various proteins into this model, accurate information about protein structure can be determined.</li>
-<li>Importantly, this model needs to be trained only once and can then be applied to extract a comprehensive set of information regarding proteins of interest.</li>
-<li>Moreover, this representation can be considered as pre-training for various applications of deep learning in bioinformatics.</li>
-</ul>
-<h3 id="Seq2vec-DTMBio"><a href="#Seq2vec-DTMBio" class="headerlink" title="Seq2vec (DTMBio)"></a>Seq2vec (<em>DTMBio</em>)</h3><h4 id="Objective-2"><a href="#Objective-2" class="headerlink" title="Objective"></a>Objective</h4><p>Constructing a distributed representation of biological sequences.</p>
-<h4 id="Method-1"><a href="#Method-1" class="headerlink" title="Method"></a>Method</h4><p>Our algorithm is based on the <strong><em>doc2vec</em></strong> approach, which is an extension of the original <strong><em>word2vec</em></strong> algorithm.</p>
-<h5 id="Data-Preprocess-1"><a href="#Data-Preprocess-1" class="headerlink" title="Data Preprocess"></a>Data Preprocess</h5><p>Two approach.</p>
-<h6 id="Non-overlapping-Process"><a href="#Non-overlapping-Process" class="headerlink" title="Non-overlapping Process"></a>Non-overlapping Process</h6><blockquote>
-<p>QWERTYQWERTY<br>-&gt;<br>Seq 1: QWE RTY QWE RTY<br>Seq 2: WER TYQ WER<br>Seq 3: ERT YQW ERT.</p>
-</blockquote>
-<h6 id="Overlapping-Process"><a href="#Overlapping-Process" class="headerlink" title="Overlapping Process:"></a>Overlapping Process:</h6><blockquote>
-<p>QWERTYQWERTY<br>-&gt;<br>QWE WER ERT RTY TYQ YQW QWE WER ERT RTY.</p>
-</blockquote>
-<h4 id="Evaluation-1"><a href="#Evaluation-1" class="headerlink" title="Evaluation"></a>Evaluation</h4><p>Protein Classification.<br>First, we use the protein vectors learned using seq2vec and ProtVecs as features and compare them for the task of protein classification using SVMs.<br><img src="http://ops2n4lue.bkt.clouddn.com/seq2vec-result1.JPG" alt=""><br>Next, since distributed representations embed similar sequences in proximity to each other, we use k-nearest neighbors (kNN) to retrieve the k nearest sequences in the vector space and see how successful are we in predicting the family of a test sequence based on a majority vote.<br><img src="http://ops2n4lue.bkt.clouddn.com/seq2vec-result2.JPG" alt=""></p>
-
-          
+          <h3 id="Objective"><a href="#Objective" class="headerlink" title="Objective"></a>Objective</h3><p>Construct a distributed representation of biological sequences.<br>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2017/05/22/biovec/#more" rel="contents">
+              Read more &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
         
       
     </div>
