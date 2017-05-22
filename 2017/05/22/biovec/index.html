@@ -82,7 +82,7 @@
 <link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="blog" />
+  <meta name="keywords" content="embedding,biological,sequences," />
 
 
 
@@ -98,12 +98,42 @@
 
 
 
-<meta property="og:type" content="website">
-<meta property="og:title" content="Klpek's Blog">
-<meta property="og:url" content="http://yoursite.com/index.html">
+<meta name="description" content="ObjectiveConstruct a distributed representation of biological sequences.
+Related WorkWord2vec CBOW Skip-gram
+Doc2vecDoc2vec-CBOW
+Doc2vec-DM
+Effect
+In fact, unstable.
+BioVec: ProtVec+GeneVec （Plos one）">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Embeddings in Biological Sequences">
+<meta property="og:url" content="http://yoursite.com/2017/05/22/biovec/index.html">
 <meta property="og:site_name" content="Klpek's Blog">
+<meta property="og:description" content="ObjectiveConstruct a distributed representation of biological sequences.
+Related WorkWord2vec CBOW Skip-gram
+Doc2vecDoc2vec-CBOW
+Doc2vec-DM
+Effect
+In fact, unstable.
+BioVec: ProtVec+GeneVec （Plos one）">
+<meta property="og:image" content="http://ops2n4lue.bkt.clouddn.com/doc2vec-cbow.png">
+<meta property="og:image" content="http://ops2n4lue.bkt.clouddn.com/doc2vec-dm.png">
+<meta property="og:image" content="http://ops2n4lue.bkt.clouddn.com/doc2vec_dm_result.png">
+<meta property="og:image" content="http://ops2n4lue.bkt.clouddn.com/Prot2vec.JPG">
+<meta property="og:image" content="http://ops2n4lue.bkt.clouddn.com/Skip-gram.png">
+<meta property="og:image" content="http://ops2n4lue.bkt.clouddn.com/seq2vec-result1.JPG">
+<meta property="og:image" content="http://ops2n4lue.bkt.clouddn.com/seq2vec-result2.JPG">
+<meta property="og:updated_time" content="2017-05-22T07:17:04.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Klpek's Blog">
+<meta name="twitter:title" content="Embeddings in Biological Sequences">
+<meta name="twitter:description" content="ObjectiveConstruct a distributed representation of biological sequences.
+Related WorkWord2vec CBOW Skip-gram
+Doc2vecDoc2vec-CBOW
+Doc2vec-DM
+Effect
+In fact, unstable.
+BioVec: ProtVec+GeneVec （Plos one）">
+<meta name="twitter:image" content="http://ops2n4lue.bkt.clouddn.com/doc2vec-cbow.png">
 
 
 
@@ -131,13 +161,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/"/>
+  <link rel="canonical" href="http://yoursite.com/2017/05/22/biovec/"/>
 
 
 
 
 
-  <title> Klpek's Blog </title><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+  <title> Embeddings in Biological Sequences | Klpek's Blog </title><!-- hexo-inject:begin --><!-- hexo-inject:end -->
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="en">
@@ -162,9 +192,7 @@
     
   
 
-  <!-- hexo-inject:begin --><!-- hexo-inject:end --><div class="container sidebar-position-left 
-   page-home 
- ">
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><div class="container sidebar-position-left page-post-detail ">
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
@@ -291,9 +319,9 @@
         <div class="content-wrap">
           <div id="content" class="content">
             
-  <section id="posts" class="posts-expand">
+
+  <div id="posts" class="posts-expand">
     
-      
 
   
 
@@ -323,10 +351,7 @@
             
             
               
-                
-                <a class="post-title-link" href="/2017/05/22/biovec/" itemprop="url">
-                  Embeddings in Biological Sequences
-                </a>
+                Embeddings in Biological Sequences
               
             
           </h1>
@@ -387,9 +412,7 @@
       
 
       
-        
-          
-            <h3 id="Objective"><a href="#Objective" class="headerlink" title="Objective"></a>Objective</h3><p>Construct a distributed representation of biological sequences.</p>
+        <h3 id="Objective"><a href="#Objective" class="headerlink" title="Objective"></a>Objective</h3><p>Construct a distributed representation of biological sequences.</p>
 <h3 id="Related-Work"><a href="#Related-Work" class="headerlink" title="Related Work"></a>Related Work</h3><h4 id="Word2vec"><a href="#Word2vec" class="headerlink" title="Word2vec"></a>Word2vec</h4><p> CBOW<br> Skip-gram</p>
 <h4 id="Doc2vec"><a href="#Doc2vec" class="headerlink" title="Doc2vec"></a>Doc2vec</h4><h5 id="Doc2vec-CBOW"><a href="#Doc2vec-CBOW" class="headerlink" title="Doc2vec-CBOW"></a>Doc2vec-CBOW</h5><p><img src="http://ops2n4lue.bkt.clouddn.com/doc2vec-cbow.png" alt=""></p>
 <h5 id="Doc2vec-DM"><a href="#Doc2vec-DM" class="headerlink" title="Doc2vec-DM"></a>Doc2vec-DM</h5><p><img src="http://ops2n4lue.bkt.clouddn.com/doc2vec-dm.png" alt=""></p>
@@ -417,509 +440,76 @@
 </blockquote>
 <h4 id="Evaluation-1"><a href="#Evaluation-1" class="headerlink" title="Evaluation"></a>Evaluation</h4><p>Protein Classification.<br>First, we use the protein vectors learned using seq2vec and ProtVecs as features and compare them for the task of protein classification using SVMs.<br><img src="http://ops2n4lue.bkt.clouddn.com/seq2vec-result1.JPG" alt=""><br>Next, since distributed representations embed similar sequences in proximity to each other, we use k-nearest neighbors (kNN) to retrieve the k nearest sequences in the vector space and see how successful are we in predicting the family of a test sequence based on a majority vote.<br><img src="http://ops2n4lue.bkt.clouddn.com/seq2vec-result2.JPG" alt=""></p>
 
-          
+      
+    </div>
+
+    <div>
+      
         
+
       
     </div>
 
     <div>
       
-    </div>
+        
 
-    <div>
       
     </div>
 
     <div>
+      
+        
+
       
     </div>
 
     <footer class="post-footer">
       
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/05/19/start/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Klpek">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Klpek's Blog">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2017/05/19/start/" itemprop="url">
-                  Hexo usage
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-05-19T17:53:48+08:00">
-                2017-05-19
-              </time>
-            
-
-            
-
-            
-          </span>
-
+        <div class="post-tags">
           
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">In</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/blog/" itemprop="url" rel="index">
-                    <span itemprop="name">blog</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
+            <a href="/tags/embedding/" rel="tag"># embedding</a>
           
-
+            <a href="/tags/biological/" rel="tag"># biological</a>
           
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/2017/05/19/start/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2017/05/19/start/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
+            <a href="/tags/sequences/" rel="tag"># sequences</a>
           
-
-          
-          
-
-          
-
-          
-
-          
-
         </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
       
 
       
         
-          <h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo new <span class="string">"My New Post"</span></div></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/writing.html">Writing</a><br>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2017/05/19/start/#more" rel="contents">
-              Read more &raquo;
-            </a>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/05/19/start/" rel="next" title="Hexo usage">
+                <i class="fa fa-chevron-left"></i> Hexo usage
+              </a>
+            
           </div>
-          <!--/noindex-->
-        
-      
-    </div>
 
-    <div>
-      
-    </div>
+          <span class="post-nav-divider"></span>
 
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/05/19/word-embedding/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Klpek">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Klpek's Blog">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
+          <div class="post-nav-prev post-nav-item">
             
-            
-              
-                
-                <a class="post-title-link" href="/2017/05/19/word-embedding/" itemprop="url">
-                  词向量 word embedding
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-05-19T16:48:32+08:00">
-                2017-05-19
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">In</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/NLP/" itemprop="url" rel="index">
-                    <span itemprop="name">NLP</span>
-                  </a>
-                </span>
-
-                
-                
-                  , 
-                
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/NLP/summary/" itemprop="url" rel="index">
-                    <span itemprop="name">summary</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/2017/05/19/word-embedding/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2017/05/19/word-embedding/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
+          </div>
         </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
       
 
       
-        
-          <h3 id="Objective"><a href="#Objective" class="headerlink" title="Objective"></a>Objective</h3><h4 id="问题起源"><a href="#问题起源" class="headerlink" title="问题起源"></a>问题起源</h4><p>文本是符号数据,两个词只要字面不同,就难以刻画它们之间的联系,即使是“麦克风”和“话筒”这样的同义词,从字面上也难以看出这两者意思相同(语义鸿沟现象)。（符号性这个角度类似于生物序列数据）<br>我们希望计算机可以从大规模无标注的文本数据中自动学习得到文本表示,这种表示需要包含对应语言单元(词或文档)的语义信息,同时可以直接通过这种表示度量文本之间的语义相似度。<br>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2017/05/19/word-embedding/#more" rel="contents">
-              Read more &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
       
     </footer>
   </article>
 
 
-    
-      
 
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/05/11/tensorflow-study-1/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Klpek">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Klpek's Blog">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2017/05/11/tensorflow-study-1/" itemprop="url">
-                  Tensorflow学习笔记（一）
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-05-11T15:17:38+08:00">
-                2017-05-11
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/2017/05/11/tensorflow-study-1/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2017/05/11/tensorflow-study-1/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <h2 id="TF的编程模型"><a href="#TF的编程模型" class="headerlink" title="TF的编程模型"></a>TF的编程模型</h2><p>来源：<a href="http://blog.csdn.net/tinyzhao/article/details/52755647">http://blog.csdn.net/tinyzhao/article/details/52755647</a></p>
-<h3 id="计算图"><a href="#计算图" class="headerlink" title="计算图"></a>计算图</h3><p>在TensorFlow中，算法都被表示成计算图（computational graphs）。计算图也叫数据流图,图中的节点表示操作，图中的边代表在不同操作之间的数据流动。<br>在这样的数据流图中，有四个主要的元素概念：</p>
-<ul>
-<li>操作(operations)</li>
-<li>张量(tensors)</li>
-<li>变量(variables)</li>
-<li>会话(sessions)
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2017/05/11/tensorflow-study-1/#more" rel="contents">
-              Read more &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
+    <div class="post-spread">
       
     </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-  </section>
-
-  
+  </div>
 
 
           </div>
@@ -927,6 +517,17 @@
 
 
           
+  <div class="comments" id="comments">
+    
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    
+  </div>
+
 
         </div>
         
@@ -946,8 +547,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            Overview
+          </li>
+        </ul>
+      
 
-      <section class="site-overview sidebar-panel sidebar-panel-active">
+      <section class="site-overview sidebar-panel">
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
           <img class="site-author-image" itemprop="image"
                src="/images/avatar.gif"
@@ -1009,6 +619,22 @@
 
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#Objective"><span class="nav-number">1.</span> <span class="nav-text">Objective</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Related-Work"><span class="nav-number">2.</span> <span class="nav-text">Related Work</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Word2vec"><span class="nav-number">2.1.</span> <span class="nav-text">Word2vec</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Doc2vec"><span class="nav-number">2.2.</span> <span class="nav-text">Doc2vec</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#Doc2vec-CBOW"><span class="nav-number">2.2.1.</span> <span class="nav-text">Doc2vec-CBOW</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Doc2vec-DM"><span class="nav-number">2.2.2.</span> <span class="nav-text">Doc2vec-DM</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#Effect"><span class="nav-number">2.2.2.1.</span> <span class="nav-text">Effect</span></a></li></ol></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#BioVec-ProtVec-GeneVec-（Plos-one）"><span class="nav-number">3.</span> <span class="nav-text">BioVec: ProtVec+GeneVec （Plos one）</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Objective-1"><span class="nav-number">3.1.</span> <span class="nav-text">Objective</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Method"><span class="nav-number">3.2.</span> <span class="nav-text">Method</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#Data-Preprocess"><span class="nav-number">3.2.1.</span> <span class="nav-text">Data Preprocess</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#NN-Model"><span class="nav-number">3.2.2.</span> <span class="nav-text">NN Model</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Evaluation"><span class="nav-number">3.2.3.</span> <span class="nav-text">Evaluation</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#Protein-Family-Classification"><span class="nav-number">3.2.3.1.</span> <span class="nav-text">Protein Family Classification</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#Disordered-Proteins-Classification"><span class="nav-number">3.2.3.2.</span> <span class="nav-text">Disordered Proteins Classification</span></a></li></ol></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Conclusion"><span class="nav-number">3.2.4.</span> <span class="nav-text">Conclusion</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Seq2vec-DTMBio"><span class="nav-number">4.</span> <span class="nav-text">Seq2vec (DTMBio)</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Objective-2"><span class="nav-number">4.1.</span> <span class="nav-text">Objective</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Method-1"><span class="nav-number">4.2.</span> <span class="nav-text">Method</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#Data-Preprocess-1"><span class="nav-number">4.2.1.</span> <span class="nav-text">Data Preprocess</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#Non-overlapping-Process"><span class="nav-number">4.2.1.1.</span> <span class="nav-text">Non-overlapping Process</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#Overlapping-Process"><span class="nav-number">4.2.1.2.</span> <span class="nav-text">Overlapping Process:</span></a></li></ol></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Evaluation-1"><span class="nav-number">4.3.</span> <span class="nav-text">Evaluation</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       
@@ -1126,6 +752,10 @@
 
 
   
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
 
   
 
@@ -1142,9 +772,9 @@
 
     <script type="text/javascript">
       var disqus_shortname = 'klpek';
-      var disqus_identifier = 'index.html';
+      var disqus_identifier = '2017/05/22/biovec/';
 
-      var disqus_title = "";
+      var disqus_title = "Embeddings in Biological Sequences";
 
 
       function run_disqus_script(disqus_script) {
@@ -1157,6 +787,13 @@
 
       run_disqus_script('count.js');
 
+      
+        var disqus_config = function () {
+            this.page.url = disqus_url;
+            this.page.identifier = disqus_identifier;
+            this.page.title = disqus_title;
+        };
+        run_disqus_script('embed.js');
       
 
     </script>
@@ -1300,37 +937,7 @@
     $('.popup').click(function(e){
       e.stopPropagation();
     });
-  </script>
-
-
-
-
-
-  
-
-  
-
-  
-  
-    <script type="text/x-mathjax-config">
-      MathJax.Hub.Config({
-        tex2jax: {
-          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
-          processEscapes: true,
-          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
-        }
-      });
-    </script>
-
-    <script type="text/x-mathjax-config">
-      MathJax.Hub.Queue(function() {
-        var all = MathJax.Hub.getAllJax(), i;
-        for (i=0; i < all.length; i += 1) {
-          all[i].SourceElement().parentNode.className += ' has-jax';
-        }
-      });
-    </script>
-    <script type="text/javascript" src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
+  </script><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
 <script type="text/x-mathjax-config">
   MathJax.Hub.Config({"tex2jax":{"inlineMath":[["$","$"],["\\(","\\)"]],"skipTags":["script","noscript","style","textarea","pre","code"],"processEscapes":true},"TeX":{"equationNumbers":{"autoNumber":"AMS"}}});
 </script>
@@ -1348,6 +955,16 @@
 </script>
 <!-- End: Injected MathJax -->
 <!-- hexo-inject:end -->
+
+
+
+
+
+  
+
+  
+
+  
   
 
 
