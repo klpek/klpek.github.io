@@ -108,7 +108,7 @@
 <meta property="og:image" content="http://ops2n4lue.bkt.clouddn.com/RNNLM.png">
 <meta property="og:image" content="http://ops2n4lue.bkt.clouddn.com/CBOW.png">
 <meta property="og:image" content="http://ops2n4lue.bkt.clouddn.com/Skip-gram.png">
-<meta property="og:updated_time" content="2017-05-22T04:35:41.643Z">
+<meta property="og:updated_time" content="2017-05-23T03:16:28.752Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="词向量 word embedding">
 <meta name="twitter:description" content="Objective问题起源文本是符号数据,两个词只要字面不同,就难以刻画它们之间的联系,即使是“麦克风”和“话筒”这样的同义词,从字面上也难以看出这两者意思相同(语义鸿沟现象)。（符号性这个角度类似于生物序列数据）我们希望计算机可以从大规模无标注的文本数据中自动学习得到文本表示,这种表示需要包含对应语言单元(词或文档)的语义信息,同时可以直接通过这种表示度量文本之间的语义相似度。">
@@ -432,7 +432,6 @@
 <h5 id="形式化问题-2"><a href="#形式化问题-2" class="headerlink" title="形式化问题 2"></a>形式化问题 2</h5><blockquote>
 <p><strong>输入：词的上下文</strong><br><strong>输出: 词的一种表示</strong>  </p>
 </blockquote>
-<p>上下文只能使用传统的词袋子表示(后面解释),如果需要表示复杂的上下文,会遇到维数灾难问题。</p>
 <p>神经网络模型可以使用组合方式(?)对上下文进行建模,只需线性复杂度即可对复杂的 n 元短语进行建模。神经网络模型生成的词表示通常被称为词向量(word embedding)。</p>
 <blockquote>
 <p>词向量：一个低维的实数向量表示。通过这种表示,可以直接对词之间的相似度进行刻画。</p>
