@@ -30,8 +30,8 @@
 
 <script>
   (function(){
-    if (''){
-      if (prompt('Please input reading password','') !== ''){
+    if ('654321'){
+      if (prompt('Please input reading password','') !== '654321'){
         alert('error password.');
         history.back();
         }
@@ -82,7 +82,7 @@
 <link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="tensorflow," />
+  <meta name="keywords" content="blog" />
 
 
 
@@ -98,30 +98,91 @@
 
 
 
-<meta name="description" content="TF的编程模型来源：http://blog.csdn.net/tinyzhao/article/details/52755647
-计算图在TensorFlow中，算法都被表示成计算图（computational graphs）。计算图也叫数据流图,图中的节点表示操作，图中的边代表在不同操作之间的数据流动。在这样的数据流图中，有四个主要的元素概念：
+<meta name="description" content="整理scope配对数据整理从scope数据库找到的连配对。汇总并统计数据。
 
-操作(operations)
-张量(tensor">
+
+
+
+database
+proteins
+alignments_family
+alignments_superfamily
+alignments_fold
+
+
+
+
+scope20_2.06
+7659
+16194
+66229
+133900
+
+
+scope40_2.06
+13760
+98558
+305553
+526136">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Tensorflow学习笔记（一）">
-<meta property="og:url" content="http://yoursite.com/2017/05/11/tensorflow-study-1/index.html">
+<meta property="og:title" content="work_temp">
+<meta property="og:url" content="http://yoursite.com/2017/06/05/work-temp/index.html">
 <meta property="og:site_name" content="Klpek's Note Library">
-<meta property="og:description" content="TF的编程模型来源：http://blog.csdn.net/tinyzhao/article/details/52755647
-计算图在TensorFlow中，算法都被表示成计算图（computational graphs）。计算图也叫数据流图,图中的节点表示操作，图中的边代表在不同操作之间的数据流动。在这样的数据流图中，有四个主要的元素概念：
+<meta property="og:description" content="整理scope配对数据整理从scope数据库找到的连配对。汇总并统计数据。
 
-操作(operations)
-张量(tensor">
-<meta property="og:image" content="http://ops2n4lue.bkt.clouddn.com/assign.png">
-<meta property="og:updated_time" content="2017-05-19T09:53:20.398Z">
+
+
+
+database
+proteins
+alignments_family
+alignments_superfamily
+alignments_fold
+
+
+
+
+scope20_2.06
+7659
+16194
+66229
+133900
+
+
+scope40_2.06
+13760
+98558
+305553
+526136">
+<meta property="og:updated_time" content="2017-06-05T05:51:45.274Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Tensorflow学习笔记（一）">
-<meta name="twitter:description" content="TF的编程模型来源：http://blog.csdn.net/tinyzhao/article/details/52755647
-计算图在TensorFlow中，算法都被表示成计算图（computational graphs）。计算图也叫数据流图,图中的节点表示操作，图中的边代表在不同操作之间的数据流动。在这样的数据流图中，有四个主要的元素概念：
+<meta name="twitter:title" content="work_temp">
+<meta name="twitter:description" content="整理scope配对数据整理从scope数据库找到的连配对。汇总并统计数据。
 
-操作(operations)
-张量(tensor">
-<meta name="twitter:image" content="http://ops2n4lue.bkt.clouddn.com/assign.png">
+
+
+
+database
+proteins
+alignments_family
+alignments_superfamily
+alignments_fold
+
+
+
+
+scope20_2.06
+7659
+16194
+66229
+133900
+
+
+scope40_2.06
+13760
+98558
+305553
+526136">
 
 
 
@@ -149,13 +210,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2017/05/11/tensorflow-study-1/"/>
+  <link rel="canonical" href="http://yoursite.com/2017/06/05/work-temp/"/>
 
 
 
 
 
-  <title> Tensorflow学习笔记（一） | Klpek's Note Library </title><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+  <title> work_temp | Klpek's Note Library </title><!-- hexo-inject:begin --><!-- hexo-inject:end -->
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="en">
@@ -318,7 +379,7 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/05/11/tensorflow-study-1/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/06/05/work-temp/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Klpek">
@@ -339,7 +400,7 @@
             
             
               
-                Tensorflow学习笔记（一）
+                work_temp
               
             
           </h1>
@@ -354,8 +415,8 @@
               
                 <span class="post-meta-item-text">Posted on</span>
               
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-05-11T15:17:38+08:00">
-                2017-05-11
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-06-05T13:50:09+08:00">
+                2017-06-05
               </time>
             
 
@@ -373,8 +434,8 @@
                 <span class="post-meta-item-icon">
                   <i class="fa fa-comment-o"></i>
                 </span>
-                <a href="/2017/05/11/tensorflow-study-1/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2017/05/11/tensorflow-study-1/" itemprop="commentCount"></span>
+                <a href="/2017/06/05/work-temp/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2017/06/05/work-temp/" itemprop="commentCount"></span>
                 </a>
               </span>
             
@@ -400,63 +461,68 @@
       
 
       
-        <h2 id="TF的编程模型"><a href="#TF的编程模型" class="headerlink" title="TF的编程模型"></a>TF的编程模型</h2><p>来源：<a href="http://blog.csdn.net/tinyzhao/article/details/52755647" target="_blank" rel="external">http://blog.csdn.net/tinyzhao/article/details/52755647</a></p>
-<h3 id="计算图"><a href="#计算图" class="headerlink" title="计算图"></a>计算图</h3><p>在TensorFlow中，算法都被表示成计算图（computational graphs）。计算图也叫数据流图,图中的节点表示操作，图中的边代表在不同操作之间的数据流动。<br>在这样的数据流图中，有四个主要的元素概念：</p>
-<ul>
-<li>操作(operations)</li>
-<li>张量(tensors)</li>
-<li>变量(variables)</li>
-<li>会话(sessions)<a id="more"></a>
-<h3 id="操作-operations"><a href="#操作-operations" class="headerlink" title="操作(operations)"></a>操作(operations)</h3>数据流过节点的时候对数据进行的操作，操作包含很多种。</li>
-</ul>
+        <h4 id="整理scope配对数据"><a href="#整理scope配对数据" class="headerlink" title="整理scope配对数据"></a>整理scope配对数据</h4><p>整理从scope数据库找到的连配对。<br>汇总并统计数据。</p>
 <div class="table-container">
 <table>
 <thead>
 <tr>
-<th style="text-align:left">操作类型</th>
-<th style="text-align:center">例子</th>
+<th>database</th>
+<th>proteins</th>
+<th style="text-align:left">alignments_family</th>
+<th style="text-align:left">alignments_superfamily</th>
+<th style="text-align:left">alignments_fold</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td style="text-align:left">元素运算</td>
-<td style="text-align:center">Add,Mul</td>
+<td>scope20_2.06</td>
+<td>7659</td>
+<td style="text-align:left">16194</td>
+<td style="text-align:left">66229</td>
+<td style="text-align:left">133900</td>
 </tr>
 <tr>
-<td style="text-align:left">矩阵运算</td>
-<td style="text-align:center">MatMul,MatrixInverse</td>
+<td>scope40_2.06</td>
+<td>13760</td>
+<td style="text-align:left">98558</td>
+<td style="text-align:left">305553</td>
+<td style="text-align:left">526136</td>
 </tr>
 <tr>
-<td style="text-align:left">数值产生</td>
-<td style="text-align:center">Constant,Variable</td>
+<td>scope70_2.06</td>
+<td>21132</td>
+<td style="text-align:left">314039</td>
+<td style="text-align:left">907374</td>
+<td style="text-align:left">1470385</td>
 </tr>
 <tr>
-<td style="text-align:left">神经网络单元</td>
-<td style="text-align:center">SoftMax,ReLU,Conv2D</td>
+<td>scope95_2.06</td>
+<td>28010</td>
+<td style="text-align:left">1099425</td>
+<td style="text-align:left">2963970</td>
+<td style="text-align:left">4170984</td>
 </tr>
 <tr>
-<td style="text-align:left">I/O</td>
-<td style="text-align:center">Save,Restore</td>
+<td>scope100_2.06</td>
+<td>69590</td>
+<td style="text-align:left">6060416</td>
+<td style="text-align:left">16688439</td>
+<td style="text-align:left">23215716</td>
+</tr>
+<tr>
+<td>scopeall_2.06</td>
+<td>216248</td>
+<td style="text-align:left">69574992</td>
+<td style="text-align:left">172157027</td>
+<td style="text-align:left">239906177</td>
 </tr>
 </tbody>
 </table>
 </div>
-<h3 id="张量-tensors"><a href="#张量-tensors" class="headerlink" title="张量(tensors)"></a>张量(tensors)</h3><p>图中的每个边代表数据从一个操作流到另一个操作。这些数据被表示为张量。一个张量可以看做是多维的数组或者高维的矩阵。<br>张量本身并没有保存任何值，张量仅仅提供了访问数值的一个接口，可以看做是数值的一种引用。在TensorFlow实际使用中我们也可以发现，在run之前的张量并没有分配空间，此时的张量仅仅表示了一种数值的抽象，用来连接不同的节点，表示数据在不同操作之间的流动。<br>TensorFlow中还提供了SparseTensor数据结构，用来表示稀疏张量。</p>
-<h3 id="变量-variables"><a href="#变量-variables" class="headerlink" title="变量(variables)"></a>变量(variables)</h3><p>可以改变数值和数据类型的节点。在实际处理时，一般把需要训练的值指定为变量。在使用变量的时候，需要指定变量的初始值，变量的大小和数据类型就是根据初始值来推断的。<br>在构建计算图的时候，指定一个变量实际上需要增加三个节点：</p>
-<ul>
-<li>实际的变量节点</li>
-<li>一个产生初始值的操作，通常是一个常量节点</li>
-<li>一个初始化操作，把初始值赋予到变量</li>
-</ul>
-<p><img src="http://ops2n4lue.bkt.clouddn.com/assign.png" alt="a"><br>如图所示，v代表的是实际的变量，i是产生初始值的节点，上面的assign节点将初始值赋予变量，assign操作以后，产生已经初始化的变量值v’。</p>
-<h2 id="tensorflow的基本运作方式"><a href="#tensorflow的基本运作方式" class="headerlink" title="tensorflow的基本运作方式"></a>tensorflow的基本运作方式</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line"><span class="comment">#coding=utf-8</span></div><div class="line"><span class="keyword">import</span> tensorflow <span class="keyword">as</span> tf</div><div class="line"><span class="comment">#定义占位符</span></div><div class="line">a = tf.placeholder(tf.int32,shape=())</div><div class="line">b = tf.placeholder(tf.int32,shape=())</div><div class="line"><span class="comment">#构建运算图</span></div><div class="line">y = tf.multiply(a, b) <span class="comment">#构造一个op节点</span></div><div class="line"><span class="comment">#创建会话</span></div><div class="line">sess = tf.Session()</div><div class="line"><span class="comment">#运行会话，输入数据，并计算节点，同时打印结果</span></div><div class="line">print(sess.run(y, feed_dict=&#123;a: <span class="number">3</span>, b: <span class="number">3</span>&#125;))</div><div class="line"><span class="comment"># 任务完成, 关闭会话.</span></div><div class="line">sess.close()</div></pre></td></tr></table></figure>
-<h2 id="TF的运行流程"><a href="#TF的运行流程" class="headerlink" title="TF的运行流程"></a>TF的运行流程</h2><p>来源：<a href="http://www.cnblogs.com/wuzhitj/p/6297734.html" target="_blank" rel="external">http://www.cnblogs.com/wuzhitj/p/6297734.html</a></p>
-<h3 id="概念描述"><a href="#概念描述" class="headerlink" title="概念描述"></a>概念描述</h3><h4 id="Tensor"><a href="#Tensor" class="headerlink" title="Tensor"></a>Tensor</h4><p>在训练开始前，所有的数据都是抽象的概念<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> tensorflow <span class="keyword">as</span> tf <span class="comment"># 在下面所有代码中，都去掉了这一行，默认已经导入</span></div><div class="line">a = tf.zeros(shape=[<span class="number">1</span>,<span class="number">2</span>])</div><div class="line">print(a)</div><div class="line"><span class="comment">#Tensor("zeros:0", shape=(1, 2), dtype=float32)</span></div></pre></td></tr></table></figure></p>
-<p>只有在训练过程开始后，才能获得a的实际值<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">sess = tf.InteractiveSession()</div><div class="line">print(sess.run(a))</div><div class="line"><span class="comment">#[[ 0.  0.]]</span></div></pre></td></tr></table></figure></p>
-<h4 id="Variable"><a href="#Variable" class="headerlink" title="Variable"></a>Variable</h4><p>故名思议，是变量的意思,与Tensor不同，Variable必须初始化以后才有具体的值<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">tensor = tf.zeros(shape=[<span class="number">1</span>,<span class="number">2</span>])</div><div class="line">variable = tf.Variable(tensor)</div><div class="line">sess = tf.InteractiveSession()</div><div class="line"><span class="comment"># print(sess.run(variable))  # 会报错</span></div><div class="line">sess.run(tf.initialize_all_variables()) <span class="comment"># 对variable进行初始化</span></div><div class="line">print(sess.run(variable))</div><div class="line"><span class="comment">#[[ 0.  0.]]</span></div></pre></td></tr></table></figure></p>
-<h4 id="placeholder"><a href="#placeholder" class="headerlink" title="placeholder"></a>placeholder</h4><p>又叫占位符，同样是一个抽象的概念。用于表示输入输出数据的格式。告诉系统：这里有一个值/向量/矩阵，现在我没法给你具体数值，不过我正式运行的时候会补上的！例如上式中的x和y。因为没有具体数值，所以只要指定尺寸即可。<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">x = tf.placeholder(tf.float32,[<span class="number">1</span>, <span class="number">5</span>],name=<span class="string">'input'</span>)</div><div class="line">y = tf.placeholder(tf.float32,[<span class="keyword">None</span>, <span class="number">5</span>],name=<span class="string">'input'</span>)</div></pre></td></tr></table></figure></p>
-<p>上面有两种形式，第一种x，表示输入是一个[1,5]的横向量。<br>而第二种形式，表示输入是一个[?,5]的矩阵。那么什么情况下会这么用呢?就是需要输入一批[1,5]的数据的时候。比如我有一批共10个数据，那我可以表示成[10,5]的矩阵。如果是一批5个，那就是[5,5]的矩阵。tensorflow会自动进行批处理</p>
-<h4 id="Session"><a href="#Session" class="headerlink" title="Session"></a>Session</h4><p>session，也就是会话。session是抽象模型的实现者。只有实现了模型以后，才能够得到具体的值。</p>
+<h4 id="Tensorflow-框架下NMT分析"><a href="#Tensorflow-框架下NMT分析" class="headerlink" title="Tensorflow 框架下NMT分析"></a>Tensorflow 框架下NMT分析</h4><h5 id="google-seq2seq"><a href="#google-seq2seq" class="headerlink" title="google - seq2seq"></a>google - seq2seq</h5><p>A general-purpose encoder-decoder framework<br>used for the paper:Massive Exploration of Neural Machine Translation Architectures</p>
+<h5 id="eske-seq2seq-baseline-branch"><a href="#eske-seq2seq-baseline-branch" class="headerlink" title="eske - seq2seq (baseline branch)"></a>eske - seq2seq (baseline branch)</h5><p>replicate “Neural Machine Translation by Jointly Learning to Align and Translate”</p>
+<h5 id="paarthneekhara-byteNet-tensorflow-need-to-read"><a href="#paarthneekhara-byteNet-tensorflow-need-to-read" class="headerlink" title="paarthneekhara - byteNet-tensorflow (need to read)"></a>paarthneekhara - byteNet-tensorflow (need to read)</h5><p>replicate  “Neural Machine Translation in Linear Time.”</p>
+<h5 id="ufal-neuralmonkey-N"><a href="#ufal-neuralmonkey-N" class="headerlink" title="ufal - neuralmonkey N"></a>ufal - neuralmonkey <del>N</del></h5><p>An open-source tool for sequence learning in NLP built on TensorFlow.</p>
 
       
     </div>
@@ -484,12 +550,6 @@
 
     <footer class="post-footer">
       
-        <div class="post-tags">
-          
-            <a href="/tags/tensorflow/" rel="tag"># tensorflow</a>
-          
-        </div>
-      
 
       
         
@@ -499,15 +559,15 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
+              <a href="/2017/06/05/all-kinds-of-lstms/" rel="next" title="All kinds of lstms">
+                <i class="fa fa-chevron-left"></i> All kinds of lstms
+              </a>
+            
           </div>
 
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2017/05/19/word-embedding/" rel="prev" title="词向量 word embedding">
-                词向量 word embedding <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -643,7 +703,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#TF的编程模型"><span class="nav-number">1.</span> <span class="nav-text">TF的编程模型</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#计算图"><span class="nav-number">1.1.</span> <span class="nav-text">计算图</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#操作-operations"><span class="nav-number">1.2.</span> <span class="nav-text">操作(operations)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#张量-tensors"><span class="nav-number">1.3.</span> <span class="nav-text">张量(tensors)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#变量-variables"><span class="nav-number">1.4.</span> <span class="nav-text">变量(variables)</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#tensorflow的基本运作方式"><span class="nav-number">2.</span> <span class="nav-text">tensorflow的基本运作方式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#TF的运行流程"><span class="nav-number">3.</span> <span class="nav-text">TF的运行流程</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#概念描述"><span class="nav-number">3.1.</span> <span class="nav-text">概念描述</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Tensor"><span class="nav-number">3.1.1.</span> <span class="nav-text">Tensor</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Variable"><span class="nav-number">3.1.2.</span> <span class="nav-text">Variable</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#placeholder"><span class="nav-number">3.1.3.</span> <span class="nav-text">placeholder</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Session"><span class="nav-number">3.1.4.</span> <span class="nav-text">Session</span></a></li></ol></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#整理scope配对数据"><span class="nav-number">1.</span> <span class="nav-text">整理scope配对数据</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Tensorflow-框架下NMT分析"><span class="nav-number">2.</span> <span class="nav-text">Tensorflow 框架下NMT分析</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#google-seq2seq"><span class="nav-number">2.1.</span> <span class="nav-text">google - seq2seq</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#eske-seq2seq-baseline-branch"><span class="nav-number">2.2.</span> <span class="nav-text">eske - seq2seq (baseline branch)</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#paarthneekhara-byteNet-tensorflow-need-to-read"><span class="nav-number">2.3.</span> <span class="nav-text">paarthneekhara - byteNet-tensorflow (need to read)</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#ufal-neuralmonkey-N"><span class="nav-number">2.4.</span> <span class="nav-text">ufal - neuralmonkey N</span></a></li></ol></li></ol></div>
             
 
           </div>
@@ -786,9 +846,9 @@
 
     <script type="text/javascript">
       var disqus_shortname = 'klpek';
-      var disqus_identifier = '2017/05/11/tensorflow-study-1/';
+      var disqus_identifier = '2017/06/05/work-temp/';
 
-      var disqus_title = "Tensorflow学习笔记（一）";
+      var disqus_title = "work_temp";
 
 
       function run_disqus_script(disqus_script) {
