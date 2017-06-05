@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
-    <title><![CDATA[all kinds of lstms]]></title>
+    <title><![CDATA[All kinds of lstms]]></title>
     <url>%2F2017%2F06%2F05%2Fall-kinds-of-lstms%2F</url>
     <content type="text"><![CDATA[LSTMhttp://colah.github.io/posts/2015-08-Understanding-LSTMs/ Tree-Structured LSTMsA generalization of the standard LSTM architecture to tree structure.Input $x_i$ regards $x_{i-1}$ as its child, then generalize one child to more. Child-Sum Tree-LSTMs UsageSince the Child-Sum Tree-LSTM unit conditions its components on the sum of child hidden states $h_k$ , it is well-suited for trees with high branching factor or whose children are unordered.For example, it is a good choice for dependency trees, where the number of dependents of a head can be highly variable.We refer to a Child-Sum Tree-LSTM applied to a dependency tree as a Dependency Tree-LSTM. N-ary Tree-LSTMs UsageIn Eq. 10, we define a parameterization of the kth child’s forget gate $f_{jk}$ that contains “off-diagonal” parameter matrices $U_{kl}^{(f)}$,$ k \not= l $. This parameterization allows for more flexible control of information propagation from child to parent.We can naturally apply Binary Tree-LSTM units to binarized constituency trees since left and right child nodes are distinguished.We refer to this application of Binary Tree-LSTMs as a Constituency Tree-LSTM.]]></content>
       <tags>
