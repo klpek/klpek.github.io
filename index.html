@@ -388,9 +388,14 @@
 
       
         
-          
-            
-          
+          <h3 id="LSTM"><a href="#LSTM" class="headerlink" title="LSTM"></a>LSTM</h3>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2017/06/05/RNNs/#more" rel="contents">
+              Read more &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
         
       
     </div>
@@ -916,143 +921,6 @@
             </a>
           </div>
           <!--/noindex-->
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/06/05/all-kinds-of-lstms/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Klpek">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Klpek's Note Library">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2017/06/05/all-kinds-of-lstms/" itemprop="url">
-                  All kinds of lstms
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-06-05T10:27:57+08:00">
-                2017-06-05
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/2017/06/05/all-kinds-of-lstms/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2017/06/05/all-kinds-of-lstms/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <a id="more"></a>
-<h3 id="LSTM"><a href="#LSTM" class="headerlink" title="LSTM"></a>LSTM</h3><p><img src="http://ops2n4lue.bkt.clouddn.com/LSTM.png?imageslim" alt=""><br><a href="http://colah.github.io/posts/2015-08-Understanding-LSTMs/" target="_blank" rel="external">http://colah.github.io/posts/2015-08-Understanding-LSTMs/</a></p>
-<h3 id="Tree-Structured-LSTMs"><a href="#Tree-Structured-LSTMs" class="headerlink" title="Tree-Structured LSTMs"></a>Tree-Structured LSTMs</h3><p>A generalization of the standard LSTM architecture to tree structure.<br>Input $x_i$ regards $x_{i-1}$ as its child, then generalize one child to more.</p>
-<h4 id="Child-Sum-Tree-LSTMs"><a href="#Child-Sum-Tree-LSTMs" class="headerlink" title="Child-Sum Tree-LSTMs"></a>Child-Sum Tree-LSTMs</h4><p><img src="http://ops2n4lue.bkt.clouddn.com/Child-Sum%20Tree-LSTM.png?imageslim" alt=""></p>
-<h5 id="Usage"><a href="#Usage" class="headerlink" title="Usage"></a>Usage</h5><p>Since the Child-Sum Tree-LSTM unit conditions its components on the sum of child hidden states $h_k$ , it is well-suited for trees with high branching factor or whose children are unordered.<br>For example, it is a good choice for dependency trees, where the number of dependents of a head can be highly variable.<br>We refer to a Child-Sum Tree-LSTM applied to a dependency tree as a Dependency Tree-LSTM.</p>
-<h4 id="N-ary-Tree-LSTMs"><a href="#N-ary-Tree-LSTMs" class="headerlink" title="N-ary Tree-LSTMs"></a>N-ary Tree-LSTMs</h4><p><img src="http://ops2n4lue.bkt.clouddn.com/N-ary%20Tree-LSTM.png?imageslim" alt=""></p>
-<h5 id="Usage-1"><a href="#Usage-1" class="headerlink" title="Usage"></a>Usage</h5><p>In Eq. 10, we define a parameterization of the kth child’s forget gate $f_{jk}$ that contains “off-diagonal” parameter matrices $U_{kl}^{(f)}$,$ k \not= l $. This parameterization allows for more flexible control of information propagation from child to parent.<br>We can naturally apply Binary Tree-LSTM units to binarized constituency trees since left and right child nodes are distinguished.<br>We refer to this application of Binary Tree-LSTMs as a Constituency Tree-LSTM.</p>
-
-          
         
       
     </div>
@@ -1732,7 +1600,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">10</span>
+                <span class="site-state-item-count">9</span>
                 <span class="site-state-item-name">posts</span>
               </a>
             </div>
@@ -1754,7 +1622,7 @@
             
             <div class="site-state-item site-state-tags">
               <a href="/tags/index.html">
-                <span class="site-state-item-count">8</span>
+                <span class="site-state-item-count">10</span>
                 <span class="site-state-item-name">tags</span>
               </a>
             </div>

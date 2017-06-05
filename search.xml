@@ -3,7 +3,12 @@
   <entry>
     <title><![CDATA[RNNs]]></title>
     <url>%2F2017%2F06%2F05%2FRNNs%2F</url>
-    <content type="text"></content>
+    <content type="text"><![CDATA[LSTM http://colah.github.io/posts/2015-08-Understanding-LSTMs/ Tree-Structured LSTMsA generalization of the standard LSTM architecture to tree structure.Input $x_i$ regards $x_{i-1}$ as its child, then generalize one child to more. Child-Sum Tree-LSTMs UsageSince the Child-Sum Tree-LSTM unit conditions its components on the sum of child hidden states $h_k$ , it is well-suited for trees with high branching factor or whose children are unordered.For example, it is a good choice for dependency trees, where the number of dependents of a head can be highly variable.We refer to a Child-Sum Tree-LSTM applied to a dependency tree as a Dependency Tree-LSTM. N-ary Tree-LSTMs UsageIn Eq. 10, we define a parameterization of the kth child’s forget gate $f_{jk}$ that contains “off-diagonal” parameter matrices $U_{kl}^{(f)}$,$ k \not= l $. This parameterization allows for more flexible control of information propagation from child to parent.We can naturally apply Binary Tree-LSTM units to binarized constituency trees since left and right child nodes are distinguished.We refer to this application of Binary Tree-LSTMs as a Constituency Tree-LSTM.]]></content>
+      <tags>
+        <tag>LSTM</tag>
+        <tag>RNN</tag>
+        <tag>architecture</tag>
+      </tags>
   </entry>
   <entry>
     <title><![CDATA[NMT]]></title>
@@ -24,14 +29,6 @@
     <title><![CDATA[work_temp]]></title>
     <url>%2F2017%2F06%2F05%2Fwork-temp%2F</url>
     <content type="text"><![CDATA[整理scope配对数据整理从scope数据库找到的连配对。汇总并统计数据。 database proteins alignments_family alignments_superfamily alignments_fold scope20_2.06 7659 16194 66229 133900 scope40_2.06 13760 98558 305553 526136 scope70_2.06 21132 314039 907374 1470385 scope95_2.06 28010 1099425 2963970 4170984 scope100_2.06 69590 6060416 16688439 23215716 scopeall_2.06 216248 69574992 172157027 239906177 Tensorflow 框架下NMT分析google - seq2seqA general-purpose encoder-decoder frameworkused for the paper:Massive Exploration of Neural Machine Translation Architectures eske - seq2seq (baseline branch)replicate “Neural Machine Translation by Jointly Learning to Align and Translate” paarthneekhara - byteNet-tensorflow (need to read)replicate “Neural Machine Translation in Linear Time.” ufal - neuralmonkey NAn open-source tool for sequence learning in NLP built on TensorFlow.]]></content>
-  </entry>
-  <entry>
-    <title><![CDATA[All kinds of lstms]]></title>
-    <url>%2F2017%2F06%2F05%2Fall-kinds-of-lstms%2F</url>
-    <content type="text"><![CDATA[LSTMhttp://colah.github.io/posts/2015-08-Understanding-LSTMs/ Tree-Structured LSTMsA generalization of the standard LSTM architecture to tree structure.Input $x_i$ regards $x_{i-1}$ as its child, then generalize one child to more. Child-Sum Tree-LSTMs UsageSince the Child-Sum Tree-LSTM unit conditions its components on the sum of child hidden states $h_k$ , it is well-suited for trees with high branching factor or whose children are unordered.For example, it is a good choice for dependency trees, where the number of dependents of a head can be highly variable.We refer to a Child-Sum Tree-LSTM applied to a dependency tree as a Dependency Tree-LSTM. N-ary Tree-LSTMs UsageIn Eq. 10, we define a parameterization of the kth child’s forget gate $f_{jk}$ that contains “off-diagonal” parameter matrices $U_{kl}^{(f)}$,$ k \not= l $. This parameterization allows for more flexible control of information propagation from child to parent.We can naturally apply Binary Tree-LSTM units to binarized constituency trees since left and right child nodes are distinguished.We refer to this application of Binary Tree-LSTMs as a Constituency Tree-LSTM.]]></content>
-      <tags>
-        <tag>LSTM</tag>
-      </tags>
   </entry>
   <entry>
     <title><![CDATA[Embeddings in Biological Sequences]]></title>
