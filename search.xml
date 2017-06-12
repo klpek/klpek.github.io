@@ -1,12 +1,60 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title><![CDATA[Research Plan]]></title>
+    <url>%2F2017%2F06%2F10%2Frs2%2F</url>
+    <content type="text"><![CDATA[ObjectiveTo propose a new sequence alignment method based on neural network. ProblemGiven an sequence pair set S. In set S, each sequence pair &lt; ${Seq}_A$, ${Seq}_B$&gt; has best alignment form $Align({Seq}_A,{Seq}_B)$. For example, pair &lt; ${Seq}_A$, ${Seq}_B$&gt;: LDRCVPKFWTLHKN LEKCWTMNMCQKN the best alignment form is: LDRCVPKFWTL——HKN LEKC——WTMNMCQKN For a new sequence pair not in S, how to predict its best alignment form. Further Formalize ProblemWe change this problem to another scenery. There are two queue QueueA and QueueB. SeqA is in QueueA, SeqB is in QueueB. There are three allowed action to be adopted at two queue: M, I,and D. which means,123456M: dequeue QueueA and QueueBI: only dequeue QueueAD: only dequeue QueueB each time adopts a stategy. when two queue is empty, we get a strategy sequence. then problem is change to this statement. Given an sequence pair set S. In set S, each sequence pair &lt; ${Seq}_A$, ${Seq}_B$&gt; has best dequeue strategy process $Align({Seq}_A,{Seq}_B)$. For SeqA and SeqB above, the best dequeue strategy process is: MMMMIIIIMMMMMDDDDMMM For a new sequence pair not in S, how to predict its best strategy process. MotivationThe strength of deep learning is feature extraction, metric space mapping and big data processing. Consider the problem complexity of sequence alignment, only simple deep learning method is not enough. Seq2seq model provides a simple end-to-end architecture to deal with a multi-step decision problem. Furthermore, Seq2seq model can be easily modified and expanded. By formalizing sequence alignment to strategy sequence, we adopt seq2seq neural network to model sequence alignment problem. MethodDataSetSCOPe2.6 | database | proteins | alignments_family | alignments_superfamily | alignments_fold | |:———-:————|:——:——|:————|:————-|:————-| | scope20_2.06 | 7659 | 16194 | 66229 | 133900 | | scope40_2.06 | 13760 | 98558 | 305553 | 526136 | | scope70_2.06 | 21132 | 314039 | 907374 | 1470385 | | scope95_2.06 | 28010 | 1099425 | 2963970 | 4170984 | | scope100_2.06 | 69590 | 6060416 | 16688439 | 23215716 | | scopeall_2.06 | 216248 | 69574992 | 172157027 | 239906177 | Model Textual EncoderGiven two input sequences $X_1=(a_1,a_2,…,a_{T_1}),X_2=(b_1,b_2,…,b_{T_2})$by Bi-LSTM and Multi_LSTM, get encodes of input sequencesIn another perspective, we can consider encoders as memory of input. $A^{X_1}=Encoder(a_1,a_2,…,a_{T_1})=\{h_1^{X_1},h_2^{X_1},…,h_{T1}^{X_1}\}$ $A^{X_2}=Encoder(b_1,b_2,…,b_{T_2})=\{h_1^{X_2},h_2^{X_2},…,h_{T2}^{X_2}\}$ Joint mutimodal representationFor first try, we consider to compute outer product from two input memory to get a joint representation.Compared with element-wise product, a multiplicative interaction between all elements of both vectors can describe more complex relationship. Bilinear pooling.Bilinear models (Tenenbaum and Freeman, 2000) take the outer product of two vectors $x ∈ R^{n_1}$ and $q ∈ R^{n_2}$ and learn a model $W$ (here linear), i.e.$z = W [x ⊗ q]$, where $⊗$ denotes the outer product$(xq^T)$ and $[]$ denotes linearizing the matrix in a vector.However, the high dimensional representation leads to an infeasible number of parameters to learn in $W$.We thus need a method that projects the outer product to a lower dimensional space and also avoids computing the outer product directly. Multimodal Compact Bilinear Pooling (MCB)This allows us to project the outer product to a lower dimensional space, which reduces the number of parameters in W. To avoid computing the outer product explicitly, Pham and Pagh (2013) showed that the count sketch of the outer product of two vectors can be expressed as convolution of both count sketches: $Ψ(x ⊗ q, h, s) = Ψ(x, h, s) ∗ Ψ(q, h, s)$, where ∗ is the convolution operator. Additionally, the convolution theorem states that convolution in the time domain is equivalent to element-wise product in the frequency domain. The convolution $x’∗ q’$ can be rewritten as ${FFT}^{−1}(FFT(x’) \centerdot FFT(q’))$, where $\centerdot$ refers to element-wise product. These ideas are formalized in Algorithm 1, which is based on the Tensor Sketch algorithm of Pham and Pagh (2013). We invoke the algorithm with $A^{X_1} = x$ and $A^{X_2} = q$. We note that this easily extends and remains efficient for more than two multi-modal inputs as the combination happens as element-wise product. A=MCB(A^{X_1},A^{X_2})=\{h_1,h_2,...,h_{T}\}AttentionAt every time-step, the attention mechanism computes a context vector $c^t$, given the current decoder state $s_t$ and memory set $A^m$.Firstly, we compute attention weights $α_t = softmax(v^Ttanh(W_1A + W_2s_t + b))$.Then, the context vector is obtained with the following weighted sum : $c_t =\sum\limits ^{|A|}_{i=1} α_{ti}h_i$ DecoderThe decoder produces an output sequence $Y = (y1, y2, …, y_{T_0} )$, is initialized by $s0 = tanh(W_{init}h^t_T + b_{init})$ where $h^t_T$ is the textual encoder’s last state.The next decoder states are obtained as follows:$s_t, o_t = Decoder(s_{t−1}, W_{in}[y_{t−1}: c_{t−1}])$During training, $y_{t−1}$ is the ground truth symbol in the sentence while $c_{t−1}$ is the previous attention vector computed by the attention model. The current attention vector $c_t$, concatenated with the output $o_t$, is used to compute a new vector $o’_t = W_{proj} [o_t; c_t] + b{proj} $.The probability distribution over the target vocabulary is computed by the equation :$p(y_t|y_{t−1}, s_{t−1}, c_{t−1}, A^{X_1}, A^{X_2}) = softmax(W_{out}o’_t + b_{out})$ Loss FunctionOptimizerResultsConclusion]]></content>
+      <tags>
+        <tag>plan</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[conference]]></title>
+    <url>%2F2017%2F06%2F05%2Fconference%2F</url>
+    <content type="text"><![CDATA[NIPShttp://www.tuicool.com/articles/uuAjQnv NIPS 2016生成模型highlightGANPlug &amp; Play Generative Networks - Ian Goodfellow VAEVariational Inference- David Blei最有影响的是重新参数化（reparameterization）的技巧，该技巧可以通过随机变量实现反向传播，同时也推动了变自编码器上最新进展。 SAGASAGA VS BFGS - Francis Bachhttps://arxiv.org/abs/1407.0202 othersExponential Family Embeddings一种多类型数据的全新强大的嵌入（embedding）技术，带来了用户使用嵌入技术评估数据的可能性。 Unsupervised Learning for Physical Interaction through Video Prediction利用机器人的推动动作的数据来规划可能的未来。传统的代理（agent）学习算法严重依赖于监督，而这种类型的方法或许是机器人和类似领域未来的新方法。 Improving Variational Inference with Inverse Autoregressive Flow结合了变分推断的最新进展和自动回归网络（autoregressive network）的一些想法，得出更好的编码模型。 强化学习highlightValue Iteration Network该论文的主要创新在于其模型包含了一个可微分的「规划模块（planning module），这让网络可以做出规划并更好地泛化到其它从未见过的领域。 Sequential Neural Models with Stochastic Layers将 状态空间模型（State Space Model）的想法和 RNN 结合起来，充分利用了两个领域的最好的东西。 Phased LSTMs将「time gate」添加到了 LSTM 中，这显著改善了针对长序列数据的优化和表现。 Bayesian Intermittent Demand Forecasting for Large Inventories讨论了针对大型库存的贝叶斯间断需求预测 Fast and Provably Good Seedings for k-MeansK-means 是许多数据科学应用的核心算法。不过，找到好的聚类中心（cluster centers）常常要依赖良好的初始化。Olivier Bachem 在论文《Fast and Provably Good Seedings for k-Means》中表明，他们可以获得良好的 centroid seeds，速度比当前最佳的算法（k-Means++）快几个数量级。更妙的是，他们还有代码，「pip install kmc2」= g2g。 othersAttend, Infer, Repeat: Fast Scene Understanding with Generative Models提出了一种极具启发性的理解图像中场景的方法。使用贝叶斯和变分推理（Bayesian and Variational Inference），该论文的作者构建了一个可以无需任何监督就能理解图像中的数字、地址和物体类型的模型。这引起了较大的关注，因为他们的模型可以在训练样本之外的分布上进行推理/推导。当然，该模型确实需要一些特别的需求，但它们也提供了新的有趣的研究探索路径。 DeepMath—Deep Sequence Models for Premise Selection提出的深度学习方法可以持续不断突破新的领域。一个来自 Google Research 的研究团队（包括 François Chollet and Geoffrey Irving）展示了世界上第一个使用深度学习进行自动理论证明（automated theorem proving）的案例。这项成果有助于加速系统的正确性证明，并可替代对该领域的专家所设计的特征的需求（其与自然语言有类似但也不同的结构）。它们可以自动选择与推理过程中的当前状态相关的操作运算，这个过程可以被扩展到其它领域，是一个非常激动人心的研究方向。 # Supervised Word Mover’s Distance词嵌入帮助改变了许多自然语言处理任务，去年《Word Movers Distance》提供一种使用它们的嵌入在不同文档进行摘要的方法。对监督任务（比如，文本分类）而言，这可以更进一步。《Supervised Word Mover’s Distance》提出了可以执行仿射变换（affine transformation）和重新调整权重（re-weightings）的方法来提供分类，实现了有效的当前最佳的表现。 应用:机器人与汽车Learning to Poke by Poking: Experiential Learning of Intuitive Physics。他们使用了几百个小时数据（让机器人通过戳的动作来移动物体获得的）搭建了一个系统，机器人可以四处移动物体即使它从未见过这些物体。系统使用了 CNNs 来观察世界，有两个理解相关物理世界的模型。前向模型（forward model），用来预测一个动作/戳的结果，以及一个能够获取当前状况并将之映射到行动中的逆模型（inverse model）。通过一系列令人信服的视频，很明显，机器人已经学会如何相当普遍地四处移动物体。 似然推理、Dessert 类比（Dessert analogies）]]></content>
+  </entry>
+  <entry>
+    <title><![CDATA[RAM]]></title>
+    <url>%2F2017%2F06%2F05%2FRAM%2F</url>
+    <content type="text"><![CDATA[http://jacoxu.com/ramreasoning-attention-memory%E4%B8%8Eqa%E7%9B%B8%E5%85%B3%E6%96%87%E7%AB%A0%E8%B5%84%E6%BA%90%E5%88%97%E8%A1%A8/]]></content>
+  </entry>
+  <entry>
+    <title><![CDATA[NLP]]></title>
+    <url>%2F2017%2F06%2F05%2FNLP%2F</url>
+    <content type="text"><![CDATA[http://www.iteye.com/news/31261]]></content>
+  </entry>
+  <entry>
+    <title><![CDATA[CV]]></title>
+    <url>%2F2017%2F06%2F05%2FCV%2F</url>
+    <content type="text"><![CDATA[http://blog.csdn.net/Hao_Zhang_Vision/article/details/53175979?locationNum=2&amp;fps=1http://blog.csdn.net/cuixiaoxue/article/details/70138784http://blog.csdn.net/sinat_26917383/article/details/54669846]]></content>
+  </entry>
+  <entry>
+    <title><![CDATA[attention]]></title>
+    <url>%2F2017%2F06%2F05%2Fattention%2F</url>
+    <content type="text"><![CDATA[http://blog.csdn.net/jdbc/article/details/52948351http://www.cnblogs.com/taojake-ML/p/6113459.html Show, Attend and Tell: Neural Image Caption Generation with Visual Attentionhttp://www.cnblogs.com/wangxiaocvpr/p/5537454.htmlhttp://blog.csdn.net/cuixiaoxue/article/details/70138784Teaching Machines to Read and Comprehendhttp://blog.csdn.net/u014300008/article/details/52763100http://chuansong.me/n/1362687251865]]></content>
+  </entry>
+  <entry>
+    <title><![CDATA[VAE]]></title>
+    <url>%2F2017%2F06%2F05%2FVAE%2F</url>
+    <content type="text"></content>
+  </entry>
+  <entry>
+    <title><![CDATA[GAN]]></title>
+    <url>%2F2017%2F06%2F05%2FGAN%2F</url>
+    <content type="text"></content>
+  </entry>
+  <entry>
+    <title><![CDATA[image-caption]]></title>
+    <url>%2F2017%2F06%2F05%2Fimage-caption%2F</url>
+    <content type="text"></content>
+  </entry>
+  <entry>
     <title><![CDATA[RNNs]]></title>
     <url>%2F2017%2F06%2F05%2FRNNs%2F</url>
     <content type="text"><![CDATA[LSTM http://colah.github.io/posts/2015-08-Understanding-LSTMs/ Tree-Structured LSTMsA generalization of the standard LSTM architecture to tree structure.Input $x_i$ regards $x_{i-1}$ as its child, then generalize one child to more. Child-Sum Tree-LSTMs UsageSince the Child-Sum Tree-LSTM unit conditions its components on the sum of child hidden states $h_k$ , it is well-suited for trees with high branching factor or whose children are unordered.For example, it is a good choice for dependency trees, where the number of dependents of a head can be highly variable.We refer to a Child-Sum Tree-LSTM applied to a dependency tree as a Dependency Tree-LSTM. N-ary Tree-LSTMs UsageIn Eq. 10, we define a parameterization of the kth child’s forget gate $f_{jk}$ that contains “off-diagonal” parameter matrices $U_{kl}^{(f)}$,$ k \not= l $. This parameterization allows for more flexible control of information propagation from child to parent.We can naturally apply Binary Tree-LSTM units to binarized constituency trees since left and right child nodes are distinguished.We refer to this application of Binary Tree-LSTMs as a Constituency Tree-LSTM.]]></content>
       <tags>
-        <tag>LSTM</tag>
         <tag>RNN</tag>
+        <tag>LSTM</tag>
         <tag>architecture</tag>
       </tags>
   </entry>
@@ -23,7 +71,10 @@
   <entry>
     <title><![CDATA[VQA]]></title>
     <url>%2F2017%2F06%2F05%2FVQA%2F</url>
-    <content type="text"></content>
+    <content type="text"><![CDATA[http://blog.csdn.net/lsh894609937/article/details/70210541http://blog.csdn.net/mxs30443/article/details/53540649http://blog.csdn.net/zdcs/article/details/54944643https://zhuanlan.zhihu.com/p/22530291?refer=dlclass]]></content>
+      <tags>
+        <tag>VQA</tag>
+      </tags>
   </entry>
   <entry>
     <title><![CDATA[work_temp]]></title>

@@ -2,6 +2,76 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>http://yoursite.com/2017/06/10/rs2/</loc>
+    
+    <lastmod>2017-06-12T05:50:58.075Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://yoursite.com/2017/06/05/conference/</loc>
+    
+    <lastmod>2017-06-05T12:26:12.458Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://yoursite.com/2017/06/05/RAM/</loc>
+    
+    <lastmod>2017-06-05T12:03:39.390Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://yoursite.com/2017/06/05/NLP/</loc>
+    
+    <lastmod>2017-06-05T11:56:52.647Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://yoursite.com/2017/06/05/CV/</loc>
+    
+    <lastmod>2017-06-05T11:56:11.239Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://yoursite.com/2017/06/05/attention/</loc>
+    
+    <lastmod>2017-06-05T11:55:20.144Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://yoursite.com/2017/06/05/VAE/</loc>
+    
+    <lastmod>2017-06-05T11:27:24.942Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://yoursite.com/2017/06/05/GAN/</loc>
+    
+    <lastmod>2017-06-05T11:27:18.446Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://yoursite.com/2017/06/05/image-caption/</loc>
+    
+    <lastmod>2017-06-05T11:27:05.710Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://yoursite.com/2017/06/05/VQA/</loc>
+    
+    <lastmod>2017-06-05T11:26:17.001Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>http://yoursite.com/2017/06/05/RNNs/</loc>
     
     <lastmod>2017-06-05T10:43:24.565Z</lastmod>
@@ -19,13 +89,6 @@
     <loc>http://yoursite.com/2017/06/05/QA/</loc>
     
     <lastmod>2017-06-05T10:39:00.400Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://yoursite.com/2017/06/05/VQA/</loc>
-    
-    <lastmod>2017-06-05T10:38:54.664Z</lastmod>
     
   </url>
   

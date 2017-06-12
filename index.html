@@ -302,6 +302,1244 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/06/10/rs2/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Klpek">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Klpek's Note Library">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2017/06/10/rs2/" itemprop="url">
+                  Research Plan
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-06-10T13:49:53+08:00">
+                2017-06-10
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2017/06/10/rs2/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2017/06/10/rs2/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h3 id="Objective"><a href="#Objective" class="headerlink" title="Objective"></a>Objective</h3><p>To propose a new sequence alignment method based on neural network.</p>
+<h4 id="Problem"><a href="#Problem" class="headerlink" title="Problem"></a>Problem</h4><p>Given an sequence pair set S.</p>
+<p>In set S, each sequence pair &lt; ${Seq}_A$, ${Seq}_B$&gt; has best alignment form $Align({Seq}_A,{Seq}_B)$.</p>
+<p>For example, pair &lt; ${Seq}_A$, ${Seq}_B$&gt;:</p>
+<blockquote>
+<p>LDRCVPKFWTLHKN</p>
+<p>LEKCWTMNMCQKN</p>
+</blockquote>
+<p>the best alignment form is:</p>
+<blockquote>
+<p>LDRCVPKFWTL——HKN</p>
+<p>LEKC——WTMNMCQKN</p>
+</blockquote>
+<p>For a new sequence pair not in S, how to predict its best alignment form.</p>
+<h4 id="Further-Formalize-Problem"><a href="#Further-Formalize-Problem" class="headerlink" title="Further Formalize Problem"></a>Further Formalize Problem</h4><p>We change this problem to another scenery.</p>
+<p>There are two queue QueueA and QueueB. SeqA is in QueueA, SeqB is in QueueB. There are three allowed action to be adopted at two queue: M, I,and D. which means,<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">M: dequeue QueueA and QueueB</div><div class="line"></div><div class="line">I: only dequeue QueueA</div><div class="line"></div><div class="line">D: only dequeue QueueB</div></pre></td></tr></table></figure></p>
+<p>each time adopts a stategy.</p>
+<p>when two queue is empty, we get a strategy sequence.</p>
+<p>then problem is change to this statement.</p>
+<p>Given an sequence pair set S.</p>
+<p>In set S, each sequence pair &lt; ${Seq}_A$, ${Seq}_B$&gt; has best dequeue strategy process $Align({Seq}_A,{Seq}_B)$.</p>
+<p>For SeqA and SeqB above, the best dequeue strategy process is:</p>
+<blockquote>
+<p>MMMMIIIIMMMMMDDDDMMM</p>
+</blockquote>
+<p>For a new sequence pair not in S, how to predict its best strategy process.</p>
+<h3 id="Motivation"><a href="#Motivation" class="headerlink" title="Motivation"></a>Motivation</h3><p>The strength of deep learning is feature extraction, metric space mapping and big data processing. Consider the  problem complexity of sequence alignment, only simple deep learning method is not enough.</p>
+<p>Seq2seq model provides a simple end-to-end architecture to deal with a multi-step decision problem. Furthermore, Seq2seq model can be easily modified and expanded. </p>
+<p>By formalizing sequence alignment to strategy sequence, we adopt seq2seq neural network to model sequence alignment problem.</p>
+<h3 id="Method"><a href="#Method" class="headerlink" title="Method"></a>Method</h3><h4 id="DataSet"><a href="#DataSet" class="headerlink" title="DataSet"></a>DataSet</h4><p>SCOPe2.6</p>
+<p>| database | proteins | alignments_family |  alignments_superfamily | alignments_fold |</p>
+<p>|:———-:————|:——:——|:————|:————-|:————-|</p>
+<p>| scope20_2.06 | 7659 | 16194 | 66229 | 133900 |</p>
+<p>| scope40_2.06 | 13760 | 98558 | 305553 | 526136 |</p>
+<p>| scope70_2.06 | 21132 | 314039 | 907374 | 1470385 |</p>
+<p>| scope95_2.06 | 28010 | 1099425 | 2963970 | 4170984 |</p>
+<p>| scope100_2.06 | 69590 | 6060416 | 16688439 | 23215716 |</p>
+<p>| scopeall_2.06 | 216248 | 69574992 | 172157027 | 239906177 |</p>
+<h4 id="Model"><a href="#Model" class="headerlink" title="Model"></a>Model</h4><p><img src="http://ops2n4lue.bkt.clouddn.com/model.png" alt=""></p>
+<h5 id="Textual-Encoder"><a href="#Textual-Encoder" class="headerlink" title="Textual Encoder"></a>Textual Encoder</h5><p>Given two input sequences</p>
+<p>$X_1=(a_1,a_2,…,a_{T_1}),X_2=(b_1,b_2,…,b_{T_2})$<br>by Bi-LSTM and Multi_LSTM, get encodes of input sequences<br><em>In another perspective, we can consider encoders as memory of input.</em></p>
+<p>$A^{X_1}=Encoder(a_1,a_2,…,a_{T_1})=\{h_1^{X_1},h_2^{X_1},…,h_{T1}^{X_1}\}$</p>
+<p>$A^{X_2}=Encoder(b_1,b_2,…,b_{T_2})=\{h_1^{X_2},h_2^{X_2},…,h_{T2}^{X_2}\}$</p>
+<h5 id="Joint-mutimodal-representation"><a href="#Joint-mutimodal-representation" class="headerlink" title="Joint mutimodal representation"></a>Joint mutimodal representation</h5><p>For first try, we consider to compute outer product from two input memory to get a joint representation.<br>Compared with element-wise product, a multiplicative interaction between all elements of both vectors can describe more complex relationship.</p>
+<h6 id="Bilinear-pooling"><a href="#Bilinear-pooling" class="headerlink" title="Bilinear pooling."></a>Bilinear pooling.</h6><p>Bilinear models (Tenenbaum and Freeman, 2000) take the outer product of two vectors $x ∈ R^{n_1}$ and $q ∈ R^{n_2}$ and learn a model $W$ (here linear), i.e.<br>$z = W [x ⊗ q]$, where $⊗$ denotes the outer product$(xq^T)$ and $[]$ denotes linearizing the matrix in a vector.<br>However, the high dimensional representation leads to an infeasible number of parameters to learn in $W$.<br>We thus need a method that projects the outer product to a lower dimensional space and also avoids computing the outer product directly.</p>
+<h6 id="Multimodal-Compact-Bilinear-Pooling-MCB"><a href="#Multimodal-Compact-Bilinear-Pooling-MCB" class="headerlink" title="Multimodal Compact Bilinear Pooling (MCB)"></a>Multimodal Compact Bilinear Pooling (MCB)</h6><p><img src="http://ops2n4lue.bkt.clouddn.com/MCB.png" alt=""><br>This allows us to project the outer product to a lower dimensional space, which reduces the number of parameters in W. To avoid computing the outer product explicitly, Pham and Pagh (2013) showed that the count sketch of the outer product of two vectors can be expressed as convolution of both count sketches: $Ψ(x ⊗ q, h, s) = Ψ(x, h, s) ∗ Ψ(q, h, s)$, where ∗ is the convolution operator. Additionally, the convolution theorem states that convolution in the time domain is equivalent to element-wise product in the frequency domain. The convolution $x’∗ q’$ can be rewritten as ${FFT}^{−1}(FFT(x’) \centerdot  FFT(q’))$, where $\centerdot$ refers to element-wise product. These ideas are formalized in Algorithm 1, which is based on the Tensor Sketch algorithm of Pham and Pagh (2013). We invoke the algorithm with $A^{X_1} = x$ and $A^{X_2} = q$. We note that this easily extends and remains efficient for more than two multi-modal inputs as the combination happens as element-wise product.</p>
+<script type="math/tex; mode=display">A=MCB(A^{X_1},A^{X_2})=\{h_1,h_2,...,h_{T}\}</script><h5 id="Attention"><a href="#Attention" class="headerlink" title="Attention"></a>Attention</h5><p>At every time-step, the attention mechanism computes a context vector $c^t$, given the current decoder state $s_t$ and memory set $A^m$.<br>Firstly, we compute attention weights $α_t = softmax(v^Ttanh(W_1A + W_2s_t + b))$.<br>Then, the context vector is obtained with the following weighted sum : $c_t =\sum\limits ^{|A|}_{i=1} α_{ti}h_i$</p>
+<h5 id="Decoder"><a href="#Decoder" class="headerlink" title="Decoder"></a>Decoder</h5><p>The decoder produces an output sequence $Y = (y1, y2, …, y_{T_0} )$, is initialized by $s0 = tanh(W_{init}h^t_T + b_{init})$ where $h^t_T$ is the textual encoder’s last state.<br>The next decoder states are obtained as follows:<br>$s_t, o_t = Decoder(s_{t−1}, W_{in}[y_{t−1}: c_{t−1}])$<br>During training, $y_{t−1}$ is the ground truth symbol in the sentence while $c_{t−1}$ is the previous attention vector computed by the attention model. The current attention vector $c_t$, concatenated with the output $o_t$, is used to compute a new vector $o’_t = W_{proj} [o_t; c_t] + b{proj} $.<br>The probability distribution over the target vocabulary is computed by the equation :<br>$p(y_t|y_{t−1}, s_{t−1}, c_{t−1}, A^{X_1}, A^{X_2}) = softmax(W_{out}o’_t + b_{out})$</p>
+<h5 id="Loss-Function"><a href="#Loss-Function" class="headerlink" title="Loss Function"></a>Loss Function</h5><h5 id="Optimizer"><a href="#Optimizer" class="headerlink" title="Optimizer"></a>Optimizer</h5><h4 id="Results"><a href="#Results" class="headerlink" title="Results"></a>Results</h4><h4 id="Conclusion"><a href="#Conclusion" class="headerlink" title="Conclusion"></a>Conclusion</h4>
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/06/05/conference/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Klpek">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Klpek's Note Library">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2017/06/05/conference/" itemprop="url">
+                  conference
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-06-05T20:07:07+08:00">
+                2017-06-05
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2017/06/05/conference/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2017/06/05/conference/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="NIPS"><a href="#NIPS" class="headerlink" title="NIPS"></a>NIPS</h2><p><a href="http://www.tuicool.com/articles/uuAjQnv" target="_blank" rel="external">http://www.tuicool.com/articles/uuAjQnv</a></p>
+<h3 id="NIPS-2016"><a href="#NIPS-2016" class="headerlink" title="NIPS 2016"></a>NIPS 2016</h3><h4 id="生成模型"><a href="#生成模型" class="headerlink" title="生成模型"></a>生成模型</h4><h5 id="highlight"><a href="#highlight" class="headerlink" title="highlight"></a>highlight</h5><h6 id="GAN"><a href="#GAN" class="headerlink" title="GAN"></a>GAN</h6><p>Plug &amp; Play Generative Networks - Ian Goodfellow</p>
+<h6 id="VAE"><a href="#VAE" class="headerlink" title="VAE"></a>VAE</h6><p>Variational Inference- David Blei<br>最有影响的是重新参数化（reparameterization）的技巧，该技巧可以通过随机变量实现反向传播，同时也推动了变自编码器上最新进展。</p>
+<h6 id="SAGA"><a href="#SAGA" class="headerlink" title="SAGA"></a>SAGA</h6><p>SAGA VS  BFGS - Francis Bach<br><a href="https://arxiv.org/abs/1407.0202" target="_blank" rel="external">https://arxiv.org/abs/1407.0202</a> </p>
+<h5 id="others"><a href="#others" class="headerlink" title="others"></a>others</h5><h6 id="Exponential-Family-Embeddings"><a href="#Exponential-Family-Embeddings" class="headerlink" title="Exponential Family Embeddings"></a>Exponential Family Embeddings</h6><p>一种多类型数据的全新强大的嵌入（embedding）技术，带来了用户使用嵌入技术评估数据的可能性。</p>
+<h6 id="Unsupervised-Learning-for-Physical-Interaction-through-Video-Prediction"><a href="#Unsupervised-Learning-for-Physical-Interaction-through-Video-Prediction" class="headerlink" title="Unsupervised Learning for Physical Interaction through Video Prediction"></a>Unsupervised Learning for Physical Interaction through Video Prediction</h6><p>利用机器人的推动动作的数据来规划可能的未来。传统的代理（agent）学习算法严重依赖于监督，而这种类型的方法或许是机器人和类似领域未来的新方法。</p>
+<h6 id="Improving-Variational-Inference-with-Inverse-Autoregressive-Flow"><a href="#Improving-Variational-Inference-with-Inverse-Autoregressive-Flow" class="headerlink" title="Improving Variational Inference with Inverse Autoregressive Flow"></a>Improving Variational Inference with Inverse Autoregressive Flow</h6><p>结合了变分推断的最新进展和自动回归网络（autoregressive network）的一些想法，得出更好的编码模型。</p>
+<h4 id="强化学习"><a href="#强化学习" class="headerlink" title="强化学习"></a>强化学习</h4><h5 id="highlight-1"><a href="#highlight-1" class="headerlink" title="highlight"></a>highlight</h5><h6 id="Value-Iteration-Network"><a href="#Value-Iteration-Network" class="headerlink" title="Value Iteration Network"></a>Value Iteration Network</h6><p>该论文的主要创新在于其模型包含了一个可微分的「规划模块（planning module），这让网络可以做出规划并更好地泛化到其它从未见过的领域。</p>
+<h6 id="Sequential-Neural-Models-with-Stochastic-Layers"><a href="#Sequential-Neural-Models-with-Stochastic-Layers" class="headerlink" title="Sequential Neural Models with Stochastic Layers"></a>Sequential Neural Models with Stochastic Layers</h6><p>将 状态空间模型（State Space Model）的想法和 RNN 结合起来，充分利用了两个领域的最好的东西。</p>
+<h6 id="Phased-LSTMs"><a href="#Phased-LSTMs" class="headerlink" title="Phased LSTMs"></a>Phased LSTMs</h6><p>将「time gate」添加到了 LSTM 中，这显著改善了针对长序列数据的优化和表现。</p>
+<h6 id="Bayesian-Intermittent-Demand-Forecasting-for-Large-Inventories"><a href="#Bayesian-Intermittent-Demand-Forecasting-for-Large-Inventories" class="headerlink" title="Bayesian Intermittent Demand Forecasting for Large Inventories"></a>Bayesian Intermittent Demand Forecasting for Large Inventories</h6><p>讨论了针对大型库存的贝叶斯间断需求预测</p>
+<h6 id="Fast-and-Provably-Good-Seedings-for-k-Means"><a href="#Fast-and-Provably-Good-Seedings-for-k-Means" class="headerlink" title="Fast and Provably Good Seedings for k-Means"></a>Fast and Provably Good Seedings for k-Means</h6><p>K-means 是许多数据科学应用的核心算法。不过，找到好的聚类中心（cluster centers）常常要依赖良好的初始化。Olivier Bachem 在论文《Fast and Provably Good Seedings for k-Means》中表明，他们可以获得良好的 centroid seeds，速度比当前最佳的算法（k-Means++）快几个数量级。更妙的是，他们还有代码，「pip install kmc2」= g2g。</p>
+<h5 id="others-1"><a href="#others-1" class="headerlink" title="others"></a>others</h5><h6 id="Attend-Infer-Repeat-Fast-Scene-Understanding-with-Generative-Models"><a href="#Attend-Infer-Repeat-Fast-Scene-Understanding-with-Generative-Models" class="headerlink" title="Attend, Infer, Repeat: Fast Scene Understanding with Generative Models"></a>Attend, Infer, Repeat: Fast Scene Understanding with Generative Models</h6><p>提出了一种极具启发性的理解图像中场景的方法。使用贝叶斯和变分推理（Bayesian and Variational Inference），该论文的作者构建了一个可以无需任何监督就能理解图像中的数字、地址和物体类型的模型。这引起了较大的关注，因为他们的模型可以在训练样本之外的分布上进行推理/推导。当然，该模型确实需要一些特别的需求，但它们也提供了新的有趣的研究探索路径。</p>
+<h6 id="DeepMath—Deep-Sequence-Models-for-Premise-Selection"><a href="#DeepMath—Deep-Sequence-Models-for-Premise-Selection" class="headerlink" title="DeepMath—Deep Sequence Models for Premise Selection"></a>DeepMath—Deep Sequence Models for Premise Selection</h6><p>提出的深度学习方法可以持续不断突破新的领域。一个来自 Google Research 的研究团队（包括 François Chollet and Geoffrey Irving）展示了世界上第一个使用深度学习进行自动理论证明（automated theorem proving）的案例。这项成果有助于加速系统的正确性证明，并可替代对该领域的专家所设计的特征的需求（其与自然语言有类似但也不同的结构）。它们可以自动选择与推理过程中的当前状态相关的操作运算，这个过程可以被扩展到其它领域，是一个非常激动人心的研究方向。</p>
+<h6 id="Supervised-Word-Mover’s-Distance"><a href="#Supervised-Word-Mover’s-Distance" class="headerlink" title="# Supervised Word Mover’s Distance"></a># Supervised Word Mover’s Distance</h6><p>词嵌入帮助改变了许多自然语言处理任务，去年《Word Movers Distance》提供一种使用它们的嵌入在不同文档进行摘要的方法。对监督任务（比如，文本分类）而言，这可以更进一步。《Supervised Word Mover’s Distance》提出了可以执行仿射变换（affine transformation）和重新调整权重（re-weightings）的方法来提供分类，实现了有效的当前最佳的表现。</p>
+<h4 id="应用-机器人与汽车"><a href="#应用-机器人与汽车" class="headerlink" title="应用:机器人与汽车"></a>应用:机器人与汽车</h4><h6 id="Learning-to-Poke-by-Poking-Experiential-Learning-of-Intuitive-Physics。"><a href="#Learning-to-Poke-by-Poking-Experiential-Learning-of-Intuitive-Physics。" class="headerlink" title="Learning to Poke by Poking: Experiential Learning of Intuitive Physics。"></a>Learning to Poke by Poking: Experiential Learning of Intuitive Physics。</h6><p>他们使用了几百个小时数据（让机器人通过戳的动作来移动物体获得的）搭建了一个系统，机器人可以四处移动物体即使它从未见过这些物体。系统使用了 CNNs 来观察世界，有两个理解相关物理世界的模型。前向模型（forward model），用来预测一个动作/戳的结果，以及一个能够获取当前状况并将之映射到行动中的逆模型（inverse model）。通过一系列令人信服的视频，很明显，机器人已经学会如何相当普遍地四处移动物体。</p>
+<h4 id="似然推理、Dessert-类比（Dessert-analogies）"><a href="#似然推理、Dessert-类比（Dessert-analogies）" class="headerlink" title="似然推理、Dessert 类比（Dessert analogies）"></a>似然推理、Dessert 类比（Dessert analogies）</h4>
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/06/05/RAM/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Klpek">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Klpek's Note Library">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2017/06/05/RAM/" itemprop="url">
+                  RAM
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-06-05T20:01:18+08:00">
+                2017-06-05
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2017/06/05/RAM/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2017/06/05/RAM/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p><a href="http://jacoxu.com/ramreasoning-attention-memory%E4%B8%8Eqa%E7%9B%B8%E5%85%B3%E6%96%87%E7%AB%A0%E8%B5%84%E6%BA%90%E5%88%97%E8%A1%A8/" target="_blank" rel="external">http://jacoxu.com/ramreasoning-attention-memory%E4%B8%8Eqa%E7%9B%B8%E5%85%B3%E6%96%87%E7%AB%A0%E8%B5%84%E6%BA%90%E5%88%97%E8%A1%A8/</a></p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/06/05/NLP/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Klpek">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Klpek's Note Library">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2017/06/05/NLP/" itemprop="url">
+                  NLP
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-06-05T19:55:38+08:00">
+                2017-06-05
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2017/06/05/NLP/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2017/06/05/NLP/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p><a href="http://www.iteye.com/news/31261" target="_blank" rel="external">http://www.iteye.com/news/31261</a></p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/06/05/CV/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Klpek">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Klpek's Note Library">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2017/06/05/CV/" itemprop="url">
+                  CV
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-06-05T19:55:34+08:00">
+                2017-06-05
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2017/06/05/CV/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2017/06/05/CV/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p><a href="http://blog.csdn.net/Hao_Zhang_Vision/article/details/53175979?locationNum=2&amp;fps=1" target="_blank" rel="external">http://blog.csdn.net/Hao_Zhang_Vision/article/details/53175979?locationNum=2&amp;fps=1</a><br><a href="http://blog.csdn.net/cuixiaoxue/article/details/70138784" target="_blank" rel="external">http://blog.csdn.net/cuixiaoxue/article/details/70138784</a><br><a href="http://blog.csdn.net/sinat_26917383/article/details/54669846" target="_blank" rel="external">http://blog.csdn.net/sinat_26917383/article/details/54669846</a></p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/06/05/attention/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Klpek">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Klpek's Note Library">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2017/06/05/attention/" itemprop="url">
+                  attention
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-06-05T19:39:42+08:00">
+                2017-06-05
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2017/06/05/attention/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2017/06/05/attention/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p><a href="http://blog.csdn.net/jdbc/article/details/52948351" target="_blank" rel="external">http://blog.csdn.net/jdbc/article/details/52948351</a><br><a href="http://www.cnblogs.com/taojake-ML/p/6113459.html" target="_blank" rel="external">http://www.cnblogs.com/taojake-ML/p/6113459.html</a><br> Show, Attend and Tell: Neural Image Caption Generation with Visual Attention<br><a href="http://www.cnblogs.com/wangxiaocvpr/p/5537454.html" target="_blank" rel="external">http://www.cnblogs.com/wangxiaocvpr/p/5537454.html</a><br><a href="http://blog.csdn.net/cuixiaoxue/article/details/70138784" target="_blank" rel="external">http://blog.csdn.net/cuixiaoxue/article/details/70138784</a><br>Teaching Machines to Read and Comprehend<br><a href="http://blog.csdn.net/u014300008/article/details/52763100" target="_blank" rel="external">http://blog.csdn.net/u014300008/article/details/52763100</a><br><a href="http://chuansong.me/n/1362687251865" target="_blank" rel="external">http://chuansong.me/n/1362687251865</a></p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/06/05/VAE/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Klpek">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Klpek's Note Library">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2017/06/05/VAE/" itemprop="url">
+                  VAE
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-06-05T19:27:24+08:00">
+                2017-06-05
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2017/06/05/VAE/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2017/06/05/VAE/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/06/05/GAN/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Klpek">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Klpek's Note Library">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2017/06/05/GAN/" itemprop="url">
+                  GAN
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-06-05T19:27:18+08:00">
+                2017-06-05
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2017/06/05/GAN/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2017/06/05/GAN/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/06/05/image-caption/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Klpek">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Klpek's Note Library">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2017/06/05/image-caption/" itemprop="url">
+                  image-caption
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-06-05T19:27:05+08:00">
+                2017-06-05
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2017/06/05/image-caption/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2017/06/05/image-caption/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/06/05/RNNs/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -428,1136 +1666,13 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/06/05/NMT/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Klpek">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Klpek's Note Library">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2017/06/05/NMT/" itemprop="url">
-                  NMT
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-06-05T18:39:14+08:00">
-                2017-06-05
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/2017/06/05/NMT/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2017/06/05/NMT/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/06/05/QA/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Klpek">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Klpek's Note Library">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2017/06/05/QA/" itemprop="url">
-                  QA
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-06-05T18:39:00+08:00">
-                2017-06-05
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/2017/06/05/QA/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2017/06/05/QA/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/06/05/VQA/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Klpek">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Klpek's Note Library">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2017/06/05/VQA/" itemprop="url">
-                  VQA
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-06-05T18:38:54+08:00">
-                2017-06-05
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/2017/06/05/VQA/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2017/06/05/VQA/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/06/05/work-temp/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Klpek">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Klpek's Note Library">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2017/06/05/work-temp/" itemprop="url">
-                  work_temp
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-06-05T13:50:09+08:00">
-                2017-06-05
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/2017/06/05/work-temp/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2017/06/05/work-temp/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <h4 id="整理scope配对数据"><a href="#整理scope配对数据" class="headerlink" title="整理scope配对数据"></a>整理scope配对数据</h4><p>整理从scope数据库找到的连配对。<br>汇总并统计数据。<br>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2017/06/05/work-temp/#more" rel="contents">
-              Read more &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/05/22/biovec/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Klpek">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Klpek's Note Library">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2017/05/22/biovec/" itemprop="url">
-                  Embeddings in Biological Sequences
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-05-22T15:15:18+08:00">
-                2017-05-22
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/2017/05/22/biovec/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2017/05/22/biovec/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <h3 id="Objective"><a href="#Objective" class="headerlink" title="Objective"></a>Objective</h3><p>Construct a distributed representation of biological sequences.<br>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2017/05/22/biovec/#more" rel="contents">
-              Read more &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/05/19/start/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Klpek">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Klpek's Note Library">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2017/05/19/start/" itemprop="url">
-                  Hexo usage
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-05-19T17:53:48+08:00">
-                2017-05-19
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">In</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/blog/" itemprop="url" rel="index">
-                    <span itemprop="name">blog</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/2017/05/19/start/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2017/05/19/start/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo new <span class="string">"My New Post"</span></div></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/writing.html">Writing</a><br>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2017/05/19/start/#more" rel="contents">
-              Read more &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/05/19/word-embedding/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Klpek">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Klpek's Note Library">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2017/05/19/word-embedding/" itemprop="url">
-                  词向量 word embedding
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-05-19T16:48:32+08:00">
-                2017-05-19
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">In</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/NLP/" itemprop="url" rel="index">
-                    <span itemprop="name">NLP</span>
-                  </a>
-                </span>
-
-                
-                
-                  , 
-                
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/NLP/summary/" itemprop="url" rel="index">
-                    <span itemprop="name">summary</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/2017/05/19/word-embedding/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2017/05/19/word-embedding/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <h3 id="Objective"><a href="#Objective" class="headerlink" title="Objective"></a>Objective</h3><h4 id="问题起源"><a href="#问题起源" class="headerlink" title="问题起源"></a>问题起源</h4><p>文本是符号数据,两个词只要字面不同,就难以刻画它们之间的联系,即使是“麦克风”和“话筒”这样的同义词,从字面上也难以看出这两者意思相同(语义鸿沟现象)。（符号性这个角度类似于生物序列数据）<br>我们希望计算机可以从大规模无标注的文本数据中自动学习得到文本表示,这种表示需要包含对应语言单元(词或文档)的语义信息,同时可以直接通过这种表示度量文本之间的语义相似度。<br>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2017/05/19/word-embedding/#more" rel="contents">
-              Read more &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/05/11/tensorflow-study-1/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Klpek">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Klpek's Note Library">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2017/05/11/tensorflow-study-1/" itemprop="url">
-                  Tensorflow学习笔记（一）
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-05-11T15:17:38+08:00">
-                2017-05-11
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/2017/05/11/tensorflow-study-1/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2017/05/11/tensorflow-study-1/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <h2 id="TF的编程模型"><a href="#TF的编程模型" class="headerlink" title="TF的编程模型"></a>TF的编程模型</h2><p>来源：<a href="http://blog.csdn.net/tinyzhao/article/details/52755647">http://blog.csdn.net/tinyzhao/article/details/52755647</a></p>
-<h3 id="计算图"><a href="#计算图" class="headerlink" title="计算图"></a>计算图</h3><p>在TensorFlow中，算法都被表示成计算图（computational graphs）。计算图也叫数据流图,图中的节点表示操作，图中的边代表在不同操作之间的数据流动。<br>在这样的数据流图中，有四个主要的元素概念：</p>
-<ul>
-<li>操作(operations)</li>
-<li>张量(tensors)</li>
-<li>变量(variables)</li>
-<li>会话(sessions)
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2017/05/11/tensorflow-study-1/#more" rel="contents">
-              Read more &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
+  <nav class="pagination">
+    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="extend next" rel="next" href="/page/2/"><i class="fa fa-angle-right"></i></a>
+  </nav>
+
 
 
           </div>
@@ -1600,7 +1715,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">9</span>
+                <span class="site-state-item-count">18</span>
                 <span class="site-state-item-name">posts</span>
               </a>
             </div>
@@ -1622,7 +1737,7 @@
             
             <div class="site-state-item site-state-tags">
               <a href="/tags/index.html">
-                <span class="site-state-item-count">10</span>
+                <span class="site-state-item-count">12</span>
                 <span class="site-state-item-name">tags</span>
               </a>
             </div>
