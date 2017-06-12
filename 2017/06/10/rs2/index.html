@@ -110,7 +110,7 @@ ProblemGiven an sequence pair set S.
 In set S, each sequence pair &amp;lt; ${Seq}_A$, ${Seq}_B$&amp;gt; has best alignment form $Al">
 <meta property="og:image" content="http://ops2n4lue.bkt.clouddn.com/model.png">
 <meta property="og:image" content="http://ops2n4lue.bkt.clouddn.com/MCB.png">
-<meta property="og:updated_time" content="2017-06-12T05:50:58.075Z">
+<meta property="og:updated_time" content="2017-06-12T05:54:49.923Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Research Plan">
 <meta name="twitter:description" content="ObjectiveTo propose a new sequence alignment method based on neural network.
@@ -425,14 +425,63 @@ In set S, each sequence pair &amp;lt; ${Seq}_A$, ${Seq}_B$&amp;gt; has best alig
 <p>Seq2seq model provides a simple end-to-end architecture to deal with a multi-step decision problem. Furthermore, Seq2seq model can be easily modified and expanded. </p>
 <p>By formalizing sequence alignment to strategy sequence, we adopt seq2seq neural network to model sequence alignment problem.</p>
 <h3 id="Method"><a href="#Method" class="headerlink" title="Method"></a>Method</h3><h4 id="DataSet"><a href="#DataSet" class="headerlink" title="DataSet"></a>DataSet</h4><p>SCOPe2.6</p>
-<p>| database | proteins | alignments_family |  alignments_superfamily | alignments_fold |</p>
-<p>|:———-:————|:——:——|:————|:————-|:————-|</p>
-<p>| scope20_2.06 | 7659 | 16194 | 66229 | 133900 |</p>
-<p>| scope40_2.06 | 13760 | 98558 | 305553 | 526136 |</p>
-<p>| scope70_2.06 | 21132 | 314039 | 907374 | 1470385 |</p>
-<p>| scope95_2.06 | 28010 | 1099425 | 2963970 | 4170984 |</p>
-<p>| scope100_2.06 | 69590 | 6060416 | 16688439 | 23215716 |</p>
-<p>| scopeall_2.06 | 216248 | 69574992 | 172157027 | 239906177 |</p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th>database</th>
+<th>proteins</th>
+<th style="text-align:left">alignments_family</th>
+<th style="text-align:left">alignments_superfamily</th>
+<th style="text-align:left">alignments_fold</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>scope20_2.06</td>
+<td>7659</td>
+<td style="text-align:left">16194</td>
+<td style="text-align:left">66229</td>
+<td style="text-align:left">133900</td>
+</tr>
+<tr>
+<td>scope40_2.06</td>
+<td>13760</td>
+<td style="text-align:left">98558</td>
+<td style="text-align:left">305553</td>
+<td style="text-align:left">526136</td>
+</tr>
+<tr>
+<td>scope70_2.06</td>
+<td>21132</td>
+<td style="text-align:left">314039</td>
+<td style="text-align:left">907374</td>
+<td style="text-align:left">1470385</td>
+</tr>
+<tr>
+<td>scope95_2.06</td>
+<td>28010</td>
+<td style="text-align:left">1099425</td>
+<td style="text-align:left">2963970</td>
+<td style="text-align:left">4170984</td>
+</tr>
+<tr>
+<td>scope100_2.06</td>
+<td>69590</td>
+<td style="text-align:left">6060416</td>
+<td style="text-align:left">16688439</td>
+<td style="text-align:left">23215716</td>
+</tr>
+<tr>
+<td>scopeall_2.06</td>
+<td>216248</td>
+<td style="text-align:left">69574992</td>
+<td style="text-align:left">172157027</td>
+<td style="text-align:left">239906177</td>
+</tr>
+</tbody>
+</table>
+</div>
 <h4 id="Model"><a href="#Model" class="headerlink" title="Model"></a>Model</h4><p><img src="http://ops2n4lue.bkt.clouddn.com/model.png" alt=""></p>
 <h5 id="Textual-Encoder"><a href="#Textual-Encoder" class="headerlink" title="Textual Encoder"></a>Textual Encoder</h5><p>Given two input sequences</p>
 <p>$X_1=(a_1,a_2,…,a_{T_1}),X_2=(b_1,b_2,…,b_{T_2})$<br>by Bi-LSTM and Multi_LSTM, get encodes of input sequences<br><em>In another perspective, we can consider encoders as memory of input.</em></p>
