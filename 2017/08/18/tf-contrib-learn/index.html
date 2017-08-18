@@ -82,7 +82,7 @@
 <link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="blog" />
+  <meta name="keywords" content="tf.contrib.learn,tensorflow," />
 
 
 
@@ -98,12 +98,31 @@
 
 
 
-<meta property="og:type" content="website">
-<meta property="og:title" content="Klpek's Note Library">
-<meta property="og:url" content="http://yoursite.com/index.html">
+<meta name="description" content="[TOC]
+tf.contrib.learn 基本用法https://www.tensorflow.org/get_started/tflearn
+基本过程
+Load file containing training/test data into a TensorFlow Dataset
+Construct a neural network classifier
+Fit the model usi">
+<meta property="og:type" content="article">
+<meta property="og:title" content="tf.contrib.learn 阅读历程">
+<meta property="og:url" content="http://yoursite.com/2017/08/18/tf-contrib-learn/index.html">
 <meta property="og:site_name" content="Klpek's Note Library">
+<meta property="og:description" content="[TOC]
+tf.contrib.learn 基本用法https://www.tensorflow.org/get_started/tflearn
+基本过程
+Load file containing training/test data into a TensorFlow Dataset
+Construct a neural network classifier
+Fit the model usi">
+<meta property="og:updated_time" content="2017-08-18T08:19:41.619Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Klpek's Note Library">
+<meta name="twitter:title" content="tf.contrib.learn 阅读历程">
+<meta name="twitter:description" content="[TOC]
+tf.contrib.learn 基本用法https://www.tensorflow.org/get_started/tflearn
+基本过程
+Load file containing training/test data into a TensorFlow Dataset
+Construct a neural network classifier
+Fit the model usi">
 
 
 
@@ -131,13 +150,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/"/>
+  <link rel="canonical" href="http://yoursite.com/2017/08/18/tf-contrib-learn/"/>
 
 
 
 
 
-  <title> Klpek's Note Library </title><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+  <title> tf.contrib.learn 阅读历程 | Klpek's Note Library </title><!-- hexo-inject:begin --><!-- hexo-inject:end -->
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="en">
@@ -162,9 +181,7 @@
     
   
 
-  <!-- hexo-inject:begin --><!-- hexo-inject:end --><div class="container sidebar-position-left 
-   page-home 
- ">
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><div class="container sidebar-position-left page-post-detail ">
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
@@ -291,9 +308,9 @@
         <div class="content-wrap">
           <div id="content" class="content">
             
-  <section id="posts" class="posts-expand">
+
+  <div id="posts" class="posts-expand">
     
-      
 
   
 
@@ -323,10 +340,7 @@
             
             
               
-                
-                <a class="post-title-link" href="/2017/08/18/tf-contrib-learn/" itemprop="url">
-                  tf.contrib.learn 阅读历程
-                </a>
+                tf.contrib.learn 阅读历程
               
             
           </h1>
@@ -387,9 +401,7 @@
       
 
       
-        
-          
-            <p>[TOC]</p>
+        <p>[TOC]</p>
 <h3 id="tf-contrib-learn-基本用法"><a href="#tf-contrib-learn-基本用法" class="headerlink" title="tf.contrib.learn 基本用法"></a>tf.contrib.learn 基本用法</h3><p><a href="https://www.tensorflow.org/get_started/tflearn" target="_blank" rel="external">https://www.tensorflow.org/get_started/tflearn</a></p>
 <h4 id="基本过程"><a href="#基本过程" class="headerlink" title="基本过程"></a>基本过程</h4><ol>
 <li>Load file containing training/test data into a TensorFlow Dataset</li>
@@ -728,1241 +740,74 @@
 <h6 id="tf-estimator-Estimator"><a href="#tf-estimator-Estimator" class="headerlink" title="tf.estimator.Estimator"></a>tf.estimator.Estimator</h6><p>when using a <code>Dataset</code> in the <code>input_fn</code> of <code>tf.estimator.Estimator</code>, recommend using <code>Dataset.make_one_shot_iterator()</code><br><strong>Demo</strong>:<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">dataset_input_fn</span><span class="params">()</span>:</span></div><div class="line">  filenames = [<span class="string">"/var/data/file1.tfrecord"</span>, <span class="string">"/var/data/file2.tfrecord"</span>]</div><div class="line">  dataset = tf.contrib.data.TFRecordDataset(filenames)</div><div class="line"></div><div class="line">  <span class="comment"># Use `tf.parse_single_example()` to extract data from a `tf.Example`</span></div><div class="line">  <span class="comment"># protocol buffer, and perform any additional per-record preprocessing.</span></div><div class="line">  <span class="function"><span class="keyword">def</span> <span class="title">parser</span><span class="params">(record)</span>:</span></div><div class="line">    keys_to_features = &#123;</div><div class="line">        <span class="string">"image_data"</span>: tf.FixedLenFeature((), tf.string, default_value=<span class="string">""</span>),</div><div class="line">        <span class="string">"date_time"</span>: tf.FixedLenFeature((), tf.int64, default_value=<span class="string">""</span>),</div><div class="line">        <span class="string">"label"</span>: tf.FixedLenFeature((), tf.int64,</div><div class="line">                                    default_value=tf.zeros([], dtype=tf.int64)),</div><div class="line">    &#125;</div><div class="line">    parsed = tf.parse_single_example(record, keys_to_features)</div><div class="line"></div><div class="line">    <span class="comment"># Perform additional preprocessing on the parsed data.</span></div><div class="line">    image = tf.decode_jpeg(parsed[<span class="string">"image_data"</span>])</div><div class="line">    image = tf.reshape(image, [<span class="number">299</span>, <span class="number">299</span>, <span class="number">1</span>])</div><div class="line">    label = tf.cast(parsed[<span class="string">"label"</span>], tf.int32)</div><div class="line"></div><div class="line">    <span class="keyword">return</span> &#123;<span class="string">"image_data"</span>: image, <span class="string">"date_time"</span>: parsed[<span class="string">"date_time"</span>]&#125;, label</div><div class="line"></div><div class="line">  <span class="comment"># Use `Dataset.map()` to build a pair of a feature dictionary and a label </span></div><div class="line">  <span class="comment"># tensor for each example.</span></div><div class="line">  dataset = dataset.map(parser)</div><div class="line">  dataset = dataset.shuffle(buffer_size=<span class="number">10000</span>)</div><div class="line">  dataset = dataset.batch(<span class="number">32</span>)</div><div class="line">  dataset = dataset.repeat(num_epochs)</div><div class="line">  iterator = dataset.make_one_shot_iterator()</div><div class="line"></div><div class="line">  <span class="comment"># `features` is a dictionary in which each value is a batch of values for</span></div><div class="line">  <span class="comment"># that feature; `labels` is a batch of labels.</span></div><div class="line">  features, labels = iterator.get_next()</div><div class="line">  <span class="keyword">return</span> features, labels</div></pre></td></tr></table></figure></p>
 <h3 id="later"><a href="#later" class="headerlink" title="later"></a>later</h3><p><a href="https://stackoverflow.com/questions/41175011/tf-contrib-learn-tutorial-deprecation-warning" target="_blank" rel="external">https://stackoverflow.com/questions/41175011/tf-contrib-learn-tutorial-deprecation-warning</a></p>
 
-          
+      
+    </div>
+
+    <div>
+      
         
+
       
     </div>
 
     <div>
       
-    </div>
+        
 
-    <div>
       
     </div>
 
     <div>
+      
+        
+
       
     </div>
 
     <footer class="post-footer">
       
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/06/05/conference/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Klpek">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Klpek's Note Library">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2017/06/05/conference/" itemprop="url">
-                  conference
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-06-05T20:07:07+08:00">
-                2017-06-05
-              </time>
-            
-
-            
-
-            
-          </span>
-
+        <div class="post-tags">
           
-
+            <a href="/tags/tf-contrib-learn/" rel="tag"># tf.contrib.learn</a>
           
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/2017/06/05/conference/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2017/06/05/conference/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
+            <a href="/tags/tensorflow/" rel="tag"># tensorflow</a>
           
-
-          
-          
-
-          
-
-          
-
-          
-
         </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
       
 
       
         
-          
-            <h2 id="NIPS"><a href="#NIPS" class="headerlink" title="NIPS"></a>NIPS</h2><p><a href="http://www.tuicool.com/articles/uuAjQnv" target="_blank" rel="external">http://www.tuicool.com/articles/uuAjQnv</a></p>
-<h3 id="NIPS-2016"><a href="#NIPS-2016" class="headerlink" title="NIPS 2016"></a>NIPS 2016</h3><h4 id="生成模型"><a href="#生成模型" class="headerlink" title="生成模型"></a>生成模型</h4><h5 id="highlight"><a href="#highlight" class="headerlink" title="highlight"></a>highlight</h5><h6 id="GAN"><a href="#GAN" class="headerlink" title="GAN"></a>GAN</h6><p>Plug &amp; Play Generative Networks - Ian Goodfellow</p>
-<h6 id="VAE"><a href="#VAE" class="headerlink" title="VAE"></a>VAE</h6><p>Variational Inference- David Blei<br>最有影响的是重新参数化（reparameterization）的技巧，该技巧可以通过随机变量实现反向传播，同时也推动了变自编码器上最新进展。</p>
-<h6 id="SAGA"><a href="#SAGA" class="headerlink" title="SAGA"></a>SAGA</h6><p>SAGA VS  BFGS - Francis Bach<br><a href="https://arxiv.org/abs/1407.0202" target="_blank" rel="external">https://arxiv.org/abs/1407.0202</a> </p>
-<h5 id="others"><a href="#others" class="headerlink" title="others"></a>others</h5><h6 id="Exponential-Family-Embeddings"><a href="#Exponential-Family-Embeddings" class="headerlink" title="Exponential Family Embeddings"></a>Exponential Family Embeddings</h6><p>一种多类型数据的全新强大的嵌入（embedding）技术，带来了用户使用嵌入技术评估数据的可能性。</p>
-<h6 id="Unsupervised-Learning-for-Physical-Interaction-through-Video-Prediction"><a href="#Unsupervised-Learning-for-Physical-Interaction-through-Video-Prediction" class="headerlink" title="Unsupervised Learning for Physical Interaction through Video Prediction"></a>Unsupervised Learning for Physical Interaction through Video Prediction</h6><p>利用机器人的推动动作的数据来规划可能的未来。传统的代理（agent）学习算法严重依赖于监督，而这种类型的方法或许是机器人和类似领域未来的新方法。</p>
-<h6 id="Improving-Variational-Inference-with-Inverse-Autoregressive-Flow"><a href="#Improving-Variational-Inference-with-Inverse-Autoregressive-Flow" class="headerlink" title="Improving Variational Inference with Inverse Autoregressive Flow"></a>Improving Variational Inference with Inverse Autoregressive Flow</h6><p>结合了变分推断的最新进展和自动回归网络（autoregressive network）的一些想法，得出更好的编码模型。</p>
-<h4 id="强化学习"><a href="#强化学习" class="headerlink" title="强化学习"></a>强化学习</h4><h5 id="highlight-1"><a href="#highlight-1" class="headerlink" title="highlight"></a>highlight</h5><h6 id="Value-Iteration-Network"><a href="#Value-Iteration-Network" class="headerlink" title="Value Iteration Network"></a>Value Iteration Network</h6><p>该论文的主要创新在于其模型包含了一个可微分的「规划模块（planning module），这让网络可以做出规划并更好地泛化到其它从未见过的领域。</p>
-<h6 id="Sequential-Neural-Models-with-Stochastic-Layers"><a href="#Sequential-Neural-Models-with-Stochastic-Layers" class="headerlink" title="Sequential Neural Models with Stochastic Layers"></a>Sequential Neural Models with Stochastic Layers</h6><p>将 状态空间模型（State Space Model）的想法和 RNN 结合起来，充分利用了两个领域的最好的东西。</p>
-<h6 id="Phased-LSTMs"><a href="#Phased-LSTMs" class="headerlink" title="Phased LSTMs"></a>Phased LSTMs</h6><p>将「time gate」添加到了 LSTM 中，这显著改善了针对长序列数据的优化和表现。</p>
-<h6 id="Bayesian-Intermittent-Demand-Forecasting-for-Large-Inventories"><a href="#Bayesian-Intermittent-Demand-Forecasting-for-Large-Inventories" class="headerlink" title="Bayesian Intermittent Demand Forecasting for Large Inventories"></a>Bayesian Intermittent Demand Forecasting for Large Inventories</h6><p>讨论了针对大型库存的贝叶斯间断需求预测</p>
-<h6 id="Fast-and-Provably-Good-Seedings-for-k-Means"><a href="#Fast-and-Provably-Good-Seedings-for-k-Means" class="headerlink" title="Fast and Provably Good Seedings for k-Means"></a>Fast and Provably Good Seedings for k-Means</h6><p>K-means 是许多数据科学应用的核心算法。不过，找到好的聚类中心（cluster centers）常常要依赖良好的初始化。Olivier Bachem 在论文《Fast and Provably Good Seedings for k-Means》中表明，他们可以获得良好的 centroid seeds，速度比当前最佳的算法（k-Means++）快几个数量级。更妙的是，他们还有代码，「pip install kmc2」= g2g。</p>
-<h5 id="others-1"><a href="#others-1" class="headerlink" title="others"></a>others</h5><h6 id="Attend-Infer-Repeat-Fast-Scene-Understanding-with-Generative-Models"><a href="#Attend-Infer-Repeat-Fast-Scene-Understanding-with-Generative-Models" class="headerlink" title="Attend, Infer, Repeat: Fast Scene Understanding with Generative Models"></a>Attend, Infer, Repeat: Fast Scene Understanding with Generative Models</h6><p>提出了一种极具启发性的理解图像中场景的方法。使用贝叶斯和变分推理（Bayesian and Variational Inference），该论文的作者构建了一个可以无需任何监督就能理解图像中的数字、地址和物体类型的模型。这引起了较大的关注，因为他们的模型可以在训练样本之外的分布上进行推理/推导。当然，该模型确实需要一些特别的需求，但它们也提供了新的有趣的研究探索路径。</p>
-<h6 id="DeepMath—Deep-Sequence-Models-for-Premise-Selection"><a href="#DeepMath—Deep-Sequence-Models-for-Premise-Selection" class="headerlink" title="DeepMath—Deep Sequence Models for Premise Selection"></a>DeepMath—Deep Sequence Models for Premise Selection</h6><p>提出的深度学习方法可以持续不断突破新的领域。一个来自 Google Research 的研究团队（包括 François Chollet and Geoffrey Irving）展示了世界上第一个使用深度学习进行自动理论证明（automated theorem proving）的案例。这项成果有助于加速系统的正确性证明，并可替代对该领域的专家所设计的特征的需求（其与自然语言有类似但也不同的结构）。它们可以自动选择与推理过程中的当前状态相关的操作运算，这个过程可以被扩展到其它领域，是一个非常激动人心的研究方向。</p>
-<h6 id="Supervised-Word-Mover’s-Distance"><a href="#Supervised-Word-Mover’s-Distance" class="headerlink" title="# Supervised Word Mover’s Distance"></a># Supervised Word Mover’s Distance</h6><p>词嵌入帮助改变了许多自然语言处理任务，去年《Word Movers Distance》提供一种使用它们的嵌入在不同文档进行摘要的方法。对监督任务（比如，文本分类）而言，这可以更进一步。《Supervised Word Mover’s Distance》提出了可以执行仿射变换（affine transformation）和重新调整权重（re-weightings）的方法来提供分类，实现了有效的当前最佳的表现。</p>
-<h4 id="应用-机器人与汽车"><a href="#应用-机器人与汽车" class="headerlink" title="应用:机器人与汽车"></a>应用:机器人与汽车</h4><h6 id="Learning-to-Poke-by-Poking-Experiential-Learning-of-Intuitive-Physics。"><a href="#Learning-to-Poke-by-Poking-Experiential-Learning-of-Intuitive-Physics。" class="headerlink" title="Learning to Poke by Poking: Experiential Learning of Intuitive Physics。"></a>Learning to Poke by Poking: Experiential Learning of Intuitive Physics。</h6><p>他们使用了几百个小时数据（让机器人通过戳的动作来移动物体获得的）搭建了一个系统，机器人可以四处移动物体即使它从未见过这些物体。系统使用了 CNNs 来观察世界，有两个理解相关物理世界的模型。前向模型（forward model），用来预测一个动作/戳的结果，以及一个能够获取当前状况并将之映射到行动中的逆模型（inverse model）。通过一系列令人信服的视频，很明显，机器人已经学会如何相当普遍地四处移动物体。</p>
-<h4 id="似然推理、Dessert-类比（Dessert-analogies）"><a href="#似然推理、Dessert-类比（Dessert-analogies）" class="headerlink" title="似然推理、Dessert 类比（Dessert analogies）"></a>似然推理、Dessert 类比（Dessert analogies）</h4>
-          
-        
       
-    </div>
 
-    <div>
       
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/06/05/RAM/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Klpek">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Klpek's Note Library">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2017/06/05/RAM/" itemprop="url">
-                  RAM
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-06-05T20:01:18+08:00">
-                2017-06-05
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/2017/06/05/RAM/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2017/06/05/RAM/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p><a href="http://jacoxu.com/ramreasoning-attention-memory%E4%B8%8Eqa%E7%9B%B8%E5%85%B3%E6%96%87%E7%AB%A0%E8%B5%84%E6%BA%90%E5%88%97%E8%A1%A8/" target="_blank" rel="external">http://jacoxu.com/ramreasoning-attention-memory%E4%B8%8Eqa%E7%9B%B8%E5%85%B3%E6%96%87%E7%AB%A0%E8%B5%84%E6%BA%90%E5%88%97%E8%A1%A8/</a></p>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/06/05/NLP/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Klpek">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Klpek's Note Library">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2017/06/05/NLP/" itemprop="url">
-                  NLP
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-06-05T19:55:38+08:00">
-                2017-06-05
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/2017/06/05/NLP/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2017/06/05/NLP/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p><a href="http://www.iteye.com/news/31261" target="_blank" rel="external">http://www.iteye.com/news/31261</a></p>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/06/05/CV/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Klpek">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Klpek's Note Library">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2017/06/05/CV/" itemprop="url">
-                  CV
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-06-05T19:55:34+08:00">
-                2017-06-05
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/2017/06/05/CV/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2017/06/05/CV/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p><a href="http://blog.csdn.net/Hao_Zhang_Vision/article/details/53175979?locationNum=2&amp;fps=1" target="_blank" rel="external">http://blog.csdn.net/Hao_Zhang_Vision/article/details/53175979?locationNum=2&amp;fps=1</a><br><a href="http://blog.csdn.net/cuixiaoxue/article/details/70138784" target="_blank" rel="external">http://blog.csdn.net/cuixiaoxue/article/details/70138784</a><br><a href="http://blog.csdn.net/sinat_26917383/article/details/54669846" target="_blank" rel="external">http://blog.csdn.net/sinat_26917383/article/details/54669846</a></p>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/06/05/attention/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Klpek">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Klpek's Note Library">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2017/06/05/attention/" itemprop="url">
-                  attention
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-06-05T19:39:42+08:00">
-                2017-06-05
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/2017/06/05/attention/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2017/06/05/attention/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p><a href="http://blog.csdn.net/jdbc/article/details/52948351" target="_blank" rel="external">http://blog.csdn.net/jdbc/article/details/52948351</a><br><a href="http://www.cnblogs.com/taojake-ML/p/6113459.html" target="_blank" rel="external">http://www.cnblogs.com/taojake-ML/p/6113459.html</a><br> Show, Attend and Tell: Neural Image Caption Generation with Visual Attention<br><a href="http://www.cnblogs.com/wangxiaocvpr/p/5537454.html" target="_blank" rel="external">http://www.cnblogs.com/wangxiaocvpr/p/5537454.html</a><br><a href="http://blog.csdn.net/cuixiaoxue/article/details/70138784" target="_blank" rel="external">http://blog.csdn.net/cuixiaoxue/article/details/70138784</a><br>Teaching Machines to Read and Comprehend<br><a href="http://blog.csdn.net/u014300008/article/details/52763100" target="_blank" rel="external">http://blog.csdn.net/u014300008/article/details/52763100</a><br><a href="http://chuansong.me/n/1362687251865" target="_blank" rel="external">http://chuansong.me/n/1362687251865</a></p>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/06/05/VAE/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Klpek">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Klpek's Note Library">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2017/06/05/VAE/" itemprop="url">
-                  VAE
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-06-05T19:27:24+08:00">
-                2017-06-05
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/2017/06/05/VAE/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2017/06/05/VAE/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/06/05/GAN/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Klpek">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Klpek's Note Library">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2017/06/05/GAN/" itemprop="url">
-                  GAN
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-06-05T19:27:18+08:00">
-                2017-06-05
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/2017/06/05/GAN/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2017/06/05/GAN/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/06/05/image-caption/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Klpek">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Klpek's Note Library">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2017/06/05/image-caption/" itemprop="url">
-                  image-caption
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-06-05T19:27:05+08:00">
-                2017-06-05
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/2017/06/05/image-caption/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2017/06/05/image-caption/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/06/05/RNNs/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Klpek">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Klpek's Note Library">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2017/06/05/RNNs/" itemprop="url">
-                  RNNs
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-06-05T18:39:37+08:00">
-                2017-06-05
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
             
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/2017/06/05/RNNs/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2017/06/05/RNNs/" itemprop="commentCount"></span>
-                </a>
-              </span>
+              <a href="/2017/06/05/conference/" rel="next" title="conference">
+                <i class="fa fa-chevron-left"></i> conference
+              </a>
             
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <h3 id="LSTM"><a href="#LSTM" class="headerlink" title="LSTM"></a>LSTM</h3>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2017/06/05/RNNs/#more" rel="contents">
-              Read more &raquo;
-            </a>
           </div>
-          <!--/noindex-->
-        
-      
-    </div>
 
-    <div>
-      
-    </div>
+          <span class="post-nav-divider"></span>
 
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
       
 
       
-
-      
-
-      
-      
-        <div class="post-eof"></div>
       
     </footer>
   </article>
 
 
-    
-  </section>
 
-  
-  <nav class="pagination">
-    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="extend next" rel="next" href="/page/2/"><i class="fa fa-angle-right"></i></a>
-  </nav>
-
+    <div class="post-spread">
+      
+    </div>
+  </div>
 
 
           </div>
@@ -1970,6 +815,17 @@
 
 
           
+  <div class="comments" id="comments">
+    
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    
+  </div>
+
 
         </div>
         
@@ -1989,8 +845,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            Overview
+          </li>
+        </ul>
+      
 
-      <section class="site-overview sidebar-panel sidebar-panel-active">
+      <section class="site-overview sidebar-panel">
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
           <img class="site-author-image" itemprop="image"
                src="/images/avatar.gif"
@@ -2052,6 +917,22 @@
 
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#tf-contrib-learn-基本用法"><span class="nav-number">1.</span> <span class="nav-text">tf.contrib.learn 基本用法</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#基本过程"><span class="nav-number">1.1.</span> <span class="nav-text">基本过程</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Logging-and-Monitoring-Basics-with-tf-contrib-learn"><span class="nav-number">2.</span> <span class="nav-text">Logging and Monitoring Basics with tf.contrib.learn</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Enabling-Logging"><span class="nav-number">2.1.</span> <span class="nav-text">Enabling Logging</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Configuring-a-ValidationMonitor-for-Streaming-Evaluation"><span class="nav-number">2.2.</span> <span class="nav-text">Configuring a ValidationMonitor for Streaming Evaluation</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#Evaluating-Every-N-Steps"><span class="nav-number">2.2.1.</span> <span class="nav-text">Evaluating Every N Steps</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Customizing-the-Evaluation-Metrics-with-MetricSpec"><span class="nav-number">2.2.2.</span> <span class="nav-text">Customizing the Evaluation Metrics with MetricSpec</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Early-Stopping-with-ValidationMonitor"><span class="nav-number">2.2.3.</span> <span class="nav-text">Early Stopping with ValidationMonitor</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Building-Input-Functions"><span class="nav-number">3.</span> <span class="nav-text">Building Input Functions</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Anatomy-of-an-input-fn"><span class="nav-number">3.1.</span> <span class="nav-text">Anatomy of an input_fn</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Converting-Feature-Data-to-Tensors"><span class="nav-number">3.2.</span> <span class="nav-text">Converting Feature Data to Tensors</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Passing-input-fn-Data-to-Your-Model"><span class="nav-number">3.3.</span> <span class="nav-text">Passing input_fn Data to Your Model</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Threading-and-Queues"><span class="nav-number">4.</span> <span class="nav-text">Threading and Queues</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Queue-usage-overview"><span class="nav-number">4.1.</span> <span class="nav-text">Queue usage overview</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#benefits"><span class="nav-number">4.1.1.</span> <span class="nav-text">benefits</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Coordinator"><span class="nav-number">4.2.</span> <span class="nav-text">Coordinator</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#helps-multiple-threads-stop-together"><span class="nav-number">4.2.1.</span> <span class="nav-text">helps multiple threads stop together</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Basic-Usage"><span class="nav-number">4.2.2.</span> <span class="nav-text">Basic Usage</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#more-detail"><span class="nav-number">4.2.3.</span> <span class="nav-text">more detail</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#QueueRunner"><span class="nav-number">4.3.</span> <span class="nav-text">QueueRunner</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#basic-usage"><span class="nav-number">4.3.1.</span> <span class="nav-text">basic usage</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#Step-1-create-Queue-and-add-related-ops-to-the-queue"><span class="nav-number">4.3.1.1.</span> <span class="nav-text">Step 1: create Queue and add related ops to the queue.</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#2-create-QueueRunner-and-combine-with-Coordinator"><span class="nav-number">4.3.1.2.</span> <span class="nav-text">2. create QueueRunner and combine with Coordinator</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#Handling-exceptions"><span class="nav-number">4.3.1.3.</span> <span class="nav-text">Handling exceptions</span></a></li></ol></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Reading-data"><span class="nav-number">5.</span> <span class="nav-text">Reading data</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Reading-from-files"><span class="nav-number">5.1.</span> <span class="nav-text">Reading from files</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#Step-1-Create-string-input-producer"><span class="nav-number">5.1.0.1.</span> <span class="nav-text">Step 1: Create string_input_producer</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#Step-2-create-a-Reader"><span class="nav-number">5.1.0.2.</span> <span class="nav-text">Step 2: create a Reader</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#Step-3-call-tf-train-start-queue-runners"><span class="nav-number">5.1.0.3.</span> <span class="nav-text">Step 3: call tf.train.start_queue_runners</span></a></li></ol></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Standard-TensorFlow-format-TFRecords"><span class="nav-number">5.1.1.</span> <span class="nav-text">Standard TensorFlow format -TFRecords</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Preprocessing"><span class="nav-number">5.1.2.</span> <span class="nav-text">Preprocessing</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Batching"><span class="nav-number">5.1.3.</span> <span class="nav-text">Batching</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#multiple-reader-and-one-single-filename-queue"><span class="nav-number">5.1.3.1.</span> <span class="nav-text">multiple reader and one single filename queue</span></a></li></ol></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Creating-threads-to-prefetch-using-QueueRunner-objects"><span class="nav-number">5.1.4.</span> <span class="nav-text">Creating threads to prefetch using QueueRunner objects</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Summarize"><span class="nav-number">5.1.5.</span> <span class="nav-text">Summarize</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#read-data-process"><span class="nav-number">5.1.5.1.</span> <span class="nav-text">read data process</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#Filtering-records-or-producing-multiple-examples-per-record"><span class="nav-number">5.1.5.2.</span> <span class="nav-text">Filtering records or producing multiple examples per record</span></a></li></ol></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Using-the-Dataset"><span class="nav-number">6.</span> <span class="nav-text">Using the Dataset</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#Two-API-abstractions"><span class="nav-number">6.0.1.</span> <span class="nav-text">Two API abstractions</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#tf-contrib-data-Dataset"><span class="nav-number">6.0.1.1.</span> <span class="nav-text">tf.contrib.data.Dataset</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#tf-contrib-data-Iterator"><span class="nav-number">6.0.1.2.</span> <span class="nav-text">tf.contrib.data.Iterator</span></a></li></ol></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Basic-mechanics"><span class="nav-number">6.0.2.</span> <span class="nav-text">Basic mechanics</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#Define-a-source"><span class="nav-number">6.0.2.1.</span> <span class="nav-text">Define a source</span></a></li></ol></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Dataset-structure"><span class="nav-number">6.0.3.</span> <span class="nav-text">Dataset structure</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Creating-an-iterator"><span class="nav-number">6.0.4.</span> <span class="nav-text">Creating an iterator</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#one-shot"><span class="nav-number">6.0.4.1.</span> <span class="nav-text">one-shot</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#initializable"><span class="nav-number">6.0.4.2.</span> <span class="nav-text">initializable</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#reinitializable"><span class="nav-number">6.0.4.3.</span> <span class="nav-text">reinitializable</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#feedable"><span class="nav-number">6.0.4.4.</span> <span class="nav-text">feedable</span></a></li></ol></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Consuming-values-from-an-iterator"><span class="nav-number">6.0.5.</span> <span class="nav-text">Consuming values from an iterator</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Reading-input-data"><span class="nav-number">6.1.</span> <span class="nav-text">Reading input data</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#Consuming-NumPy-arrays"><span class="nav-number">6.1.1.</span> <span class="nav-text">Consuming NumPy arrays</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Consuming-TFRecord-data"><span class="nav-number">6.1.2.</span> <span class="nav-text">Consuming TFRecord data</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Consuming-text-data"><span class="nav-number">6.1.3.</span> <span class="nav-text">Consuming text data</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Preprocessing-data-with-Dataset-map"><span class="nav-number">6.2.</span> <span class="nav-text">Preprocessing data with Dataset.map()</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#Parsing-tf-Example-protocol-buffer-messages"><span class="nav-number">6.2.1.</span> <span class="nav-text">Parsing tf.Example protocol buffer messages</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Decoding-image-data-and-resizing-it"><span class="nav-number">6.2.2.</span> <span class="nav-text">Decoding image data and resizing it</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Applying-arbitrary-Python-logic-with-tf-py-func"><span class="nav-number">6.2.3.</span> <span class="nav-text">Applying arbitrary Python logic with tf.py_func()</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Batching-dataset-elements"><span class="nav-number">6.3.</span> <span class="nav-text">Batching dataset elements</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#Simple-batching"><span class="nav-number">6.3.1.</span> <span class="nav-text">Simple batching</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Batching-tensors-with-padding"><span class="nav-number">6.3.2.</span> <span class="nav-text">Batching tensors with padding</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Training-workflows"><span class="nav-number">6.4.</span> <span class="nav-text">Training workflows</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#Processing-multiple-epochs"><span class="nav-number">6.4.1.</span> <span class="nav-text">Processing multiple epochs</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Randomly-shuffling-input-data"><span class="nav-number">6.4.2.</span> <span class="nav-text">Randomly shuffling input data</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Using-high-level-APIs"><span class="nav-number">6.4.3.</span> <span class="nav-text">Using high-level APIs</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#tf-train-MonitoredTrainingSession"><span class="nav-number">6.4.3.1.</span> <span class="nav-text">tf.train.MonitoredTrainingSession</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#tf-estimator-Estimator"><span class="nav-number">6.4.3.2.</span> <span class="nav-text">tf.estimator.Estimator</span></a></li></ol></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#later"><span class="nav-number">7.</span> <span class="nav-text">later</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       
@@ -2169,6 +1050,10 @@
 
 
   
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
 
   
 
@@ -2185,9 +1070,9 @@
 
     <script type="text/javascript">
       var disqus_shortname = 'klpek';
-      var disqus_identifier = 'index.html';
+      var disqus_identifier = '2017/08/18/tf-contrib-learn/';
 
-      var disqus_title = "";
+      var disqus_title = "tf.contrib.learn 阅读历程";
 
 
       function run_disqus_script(disqus_script) {
@@ -2200,6 +1085,13 @@
 
       run_disqus_script('count.js');
 
+      
+        var disqus_config = function () {
+            this.page.url = disqus_url;
+            this.page.identifier = disqus_identifier;
+            this.page.title = disqus_title;
+        };
+        run_disqus_script('embed.js');
       
 
     </script>
@@ -2343,37 +1235,7 @@
     $('.popup').click(function(e){
       e.stopPropagation();
     });
-  </script>
-
-
-
-
-
-  
-
-  
-
-  
-  
-    <script type="text/x-mathjax-config">
-      MathJax.Hub.Config({
-        tex2jax: {
-          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
-          processEscapes: true,
-          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
-        }
-      });
-    </script>
-
-    <script type="text/x-mathjax-config">
-      MathJax.Hub.Queue(function() {
-        var all = MathJax.Hub.getAllJax(), i;
-        for (i=0; i < all.length; i += 1) {
-          all[i].SourceElement().parentNode.className += ' has-jax';
-        }
-      });
-    </script>
-    <script type="text/javascript" src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
+  </script><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
 <script type="text/x-mathjax-config">
   MathJax.Hub.Config({"tex2jax":{"inlineMath":[["$","$"],["\\(","\\)"]],"skipTags":["script","noscript","style","textarea","pre","code"],"processEscapes":true},"TeX":{"equationNumbers":{"autoNumber":"AMS"}}});
 </script>
@@ -2391,6 +1253,16 @@
 </script>
 <!-- End: Injected MathJax -->
 <!-- hexo-inject:end -->
+
+
+
+
+
+  
+
+  
+
+  
   
 
 
