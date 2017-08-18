@@ -388,347 +388,290 @@
 
       
         
-          
-            <p>[TOC]</p>
-<h3 id="tf-contrib-learn-基本用法"><a href="#tf-contrib-learn-基本用法" class="headerlink" title="tf.contrib.learn 基本用法"></a>tf.contrib.learn 基本用法</h3><p><a href="https://www.tensorflow.org/get_started/tflearn" target="_blank" rel="external">https://www.tensorflow.org/get_started/tflearn</a></p>
+          <h3 id="tf-contrib-learn-基本用法"><a href="#tf-contrib-learn-基本用法" class="headerlink" title="tf.contrib.learn 基本用法"></a>tf.contrib.learn 基本用法</h3><p><a href="https://www.tensorflow.org/get_started/tflearn">https://www.tensorflow.org/get_started/tflearn</a></p>
 <h4 id="基本过程"><a href="#基本过程" class="headerlink" title="基本过程"></a>基本过程</h4><ol>
 <li>Load file containing training/test data into a TensorFlow Dataset</li>
 <li>Construct a neural network classifier</li>
 <li>Fit the model using the training data</li>
 <li>Evaluate the accuracy of the model</li>
-<li>Classify new samples/infer work</li>
-</ol>
-<h3 id="Logging-and-Monitoring-Basics-with-tf-contrib-learn"><a href="#Logging-and-Monitoring-Basics-with-tf-contrib-learn" class="headerlink" title="Logging and Monitoring Basics with tf.contrib.learn"></a>Logging and Monitoring Basics with tf.contrib.learn</h3><p><a href="https://www.tensorflow.org/get_started/monitors" target="_blank" rel="external">https://www.tensorflow.org/get_started/monitors</a><br>To track and evaluate progress in real time, When training a model.<br>Without any logging, model training feels like a bit of a black box; you can’t see what’s happening as TensorFlow steps through gradient descent, get a sense of whether the model is converging appropriately, or audit to determine whether early stopping might be appropriate.<br>One way to address this problem would be to split model training into multiple fit calls with smaller numbers of steps in order to evaluate accuracy more progressively. However, this is not recommended practice, as it greatly slows down model training.<br>tf.contrib.learn offers another solution: a Monitor API designed to help you log metrics and evaluate your model while training is in progress.</p>
-<h4 id="Enabling-Logging"><a href="#Enabling-Logging" class="headerlink" title="Enabling Logging"></a>Enabling Logging</h4><p>TensorFlow uses five different levels for log messages: DEBUG, INFO, WARN, ERROR, and FATAL.<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">tf.logging.set_verbosity(tf.logging.INFO)</div></pre></td></tr></table></figure></p>
-<p>when tracking model training, you’ll want to adjust the level to INFO, which will provide additional feedback as fit operations are in progress.<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">INFO:tensorflow:loss = <span class="number">1.18812</span>, step = <span class="number">1</span></div><div class="line">INFO:tensorflow:loss = <span class="number">0.210323</span>, step = <span class="number">101</span></div><div class="line">INFO:tensorflow:loss = <span class="number">0.109025</span>, step = <span class="number">201</span></div></pre></td></tr></table></figure></p>
-<p>With <strong>INFO</strong>-level logging, tf.contrib.learn automatically outputs training-loss metrics to <strong><em>stderr</em></strong> after every <strong>100</strong> steps.</p>
-<h4 id="Configuring-a-ValidationMonitor-for-Streaming-Evaluation"><a href="#Configuring-a-ValidationMonitor-for-Streaming-Evaluation" class="headerlink" title="Configuring a ValidationMonitor for Streaming Evaluation"></a>Configuring a ValidationMonitor for Streaming Evaluation</h4><p> tf.contrib.learn provides several high-level Monitors you can attach to your fit operations to further track metrics and/or debug lower-level TensorFlow operations during model training, including:</p>
-<div class="table-container">
-<table>
-<thead>
-<tr>
-<th>Monitor</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>CaptureVariable</td>
-<td>Saves a specified variable’s values into a collection at every n steps of training</td>
-</tr>
-<tr>
-<td>PrintTensor</td>
-<td>Logs a specified tensor’s values at every n steps of training</td>
-</tr>
-<tr>
-<td>SummarySaver</td>
-<td>Saves <code>tf.Summary protocol buffers</code> for a given tensor using a <code>tf.summary.FileWriter</code> at every n steps of training</td>
-</tr>
-<tr>
-<td>ValidationMonitor</td>
-<td>Logs a specified set of evaluation metrics at every n steps of training, and, if desired, implements early stopping under certain conditions</td>
-</tr>
-</tbody>
-</table>
-</div>
-<h5 id="Evaluating-Every-N-Steps"><a href="#Evaluating-Every-N-Steps" class="headerlink" title="Evaluating Every N Steps"></a>Evaluating Every N Steps</h5><p>while logging training loss, you might also want to simultaneously evaluate against test data to see how well the model is generalizing.<br>You can accomplish this by configuring a <code>ValidationMonitor</code> with the test data,, and setting how often to evaluate with <code>every_n_steps</code>. The default value of <code>every_n_steps</code> is 100.<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">validation_monitor = tf.contrib.learn.monitors.ValidationMonitor(</div><div class="line">    test_set.data,</div><div class="line">    test_set.target,</div><div class="line">    every_n_steps=<span class="number">50</span>)</div></pre></td></tr></table></figure></p>
-<p>ValidationMonitors rely on saved checkpoints to perform evaluation operations, so you’ll want to modify instantiation of the classifier to add a <code>tf.contrib.learn.RunConfig</code> that includes <code>save_checkpoints_secs</code>, which specifies how many seconds should elapse between checkpoint saves during training.</p>
-<h5 id="Customizing-the-Evaluation-Metrics-with-MetricSpec"><a href="#Customizing-the-Evaluation-Metrics-with-MetricSpec" class="headerlink" title="Customizing the Evaluation Metrics with MetricSpec"></a>Customizing the Evaluation Metrics with MetricSpec</h5><p>To specify the exact metrics you’d like to run in each evaluation pass, you can add a metrics param to the ValidationMonitor constructor.<br>metrics takes a dict of key/value pairs, where each key is the name you’d like logged for the metric, and the corresponding value is a MetricSpec object.<br>MetricSpec constructor: metric_fn, prediction_key, label_key, weights_key.</p>
-<h5 id="Early-Stopping-with-ValidationMonitor"><a href="#Early-Stopping-with-ValidationMonitor" class="headerlink" title="Early Stopping with ValidationMonitor"></a>Early Stopping with ValidationMonitor</h5><p>In addition to logging eval metrics, ValidationMonitors make it easy to implement early stopping when specified conditions are met, via three params:</p>
-<div class="table-container">
-<table>
-<thead>
-<tr>
-<th>Param</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>early_stopping_metric</td>
-<td>Metric that triggers early stopping (e.g., loss or accuracy) under conditions specified in early_stopping_rounds and early_stopping_metric_minimize. Default is “loss”.</td>
-</tr>
-<tr>
-<td>early_stopping_metric_minimize</td>
-<td>True if desired model behavior is to minimize the value of early_stopping_metric; False if desired model behavior is to maximize the value of early_stopping_metric. Default is True.</td>
-</tr>
-<tr>
-<td>early_stopping_rounds</td>
-<td>Sets a number of steps during which if the early_stopping_metric does not decrease (if early_stopping_metric_minimize is True) or increase (if early_stopping_metric_minimize is False), training will be stopped. Default is None, which means early stopping will never occur.</td>
-</tr>
-</tbody>
-</table>
-</div>
-<h3 id="Building-Input-Functions"><a href="#Building-Input-Functions" class="headerlink" title="Building Input Functions"></a>Building Input Functions</h3><p><a href="https://www.tensorflow.org/get_started/input_fn" target="_blank" rel="external">https://www.tensorflow.org/get_started/input_fn</a></p>
-<p>How to construct an input_fn to preprocess and feed data into your models.<br>tf.contrib.learn supports using a custom input function (input_fn) to <strong>encapsulate</strong> the logic for preprocessing and piping data <strong>into your models</strong>.</p>
-<h4 id="Anatomy-of-an-input-fn"><a href="#Anatomy-of-an-input-fn" class="headerlink" title="Anatomy of an input_fn"></a>Anatomy of an input_fn</h4><p>the basic skeleton for an input function:<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">my_input_fn</span><span class="params">()</span>:</span></div><div class="line"></div><div class="line">    <span class="comment"># Preprocess your data here...</span></div><div class="line"></div><div class="line">    <span class="comment"># ...then return 1) a mapping of feature columns to Tensors with</span></div><div class="line">    <span class="comment"># the corresponding feature data, and 2) a Tensor containing labels</span></div><div class="line">    <span class="keyword">return</span> feature_cols, labels</div></pre></td></tr></table></figure></p>
-<p>The body of the input function contains the specific logic for preprocessing your input data, such as scrubbing out bad examples or feature scaling.<br>Input functions must return the following two values containing the final feature and label data to be fed into your model (as shown in the above code skeleton):</p>
-<ol>
-<li>feature_cols (list of <strong>Tensors</strong>)<br>A dict containing key/value pairs that map feature column names to <strong>Tensors</strong> (or SparseTensors) containing the corresponding feature data.</li>
-<li>labels<br>A <strong>Tensor</strong> containing your label (target) values: the values your model aims to predict.</li>
-</ol>
-<h4 id="Converting-Feature-Data-to-Tensors"><a href="#Converting-Feature-Data-to-Tensors" class="headerlink" title="Converting Feature Data to Tensors"></a>Converting Feature Data to Tensors</h4><p>For continuous data, you can create and populate a Tensor using tf.constant:<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">feature_column_data = [<span class="number">1</span>, <span class="number">2.4</span>, <span class="number">0</span>, <span class="number">9.9</span>, <span class="number">3</span>, <span class="number">120</span>]</div><div class="line">feature_tensor = tf.constant(feature_column_data)</div></pre></td></tr></table></figure></p>
-<p>For sparse, categorical data (data where the majority of values are 0), you’ll instead want to populate a SparseTensor, which is instantiated with three arguments:</p>
-<ol>
-<li>dense_shape<br>The shape of the tensor. Takes a list indicating the number of elements in each dimension.</li>
-<li>indices.<br>The indices of the elements in your tensor that contain nonzero values. Takes a list of terms, where each term is itself a list containing the index of a nonzero element.</li>
-<li>values<br>A one-dimensional tensor of values. Term i in values corresponds to term i in indices and specifies its value.<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">sparse_tensor = tf.SparseTensor(indices=[[<span class="number">0</span>,<span class="number">1</span>], [<span class="number">2</span>,<span class="number">4</span>]],</div><div class="line">                                values=[<span class="number">6</span>, <span class="number">0.5</span>],</div><div class="line">                                dense_shape=[<span class="number">3</span>, <span class="number">5</span>])</div><div class="line">[[<span class="number">0</span>, <span class="number">6</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>]</div><div class="line"> [<span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>]</div><div class="line"> [<span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0.5</span>]]</div></pre></td></tr></table></figure>
-</li>
-</ol>
-<h4 id="Passing-input-fn-Data-to-Your-Model"><a href="#Passing-input-fn-Data-to-Your-Model" class="headerlink" title="Passing input_fn Data to Your Model"></a>Passing input_fn Data to Your Model</h4><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">classifier.fit(input_fn=my_input_fn, steps=<span class="number">2000</span>)</div></pre></td></tr></table></figure>
-<h3 id="Threading-and-Queues"><a href="#Threading-and-Queues" class="headerlink" title="Threading and Queues"></a>Threading and Queues</h3><p>Queues are a powerful mechanism for asynchronous computation using TensorFlow.<br>A queue is a node in a TensorFlow graph. In particular, nodes can enqueue new items in to the queue, or dequeue existing items from the queue.<br><strong>N.B.</strong> Queue methods (such as q.enqueue(…)) must run on <strong>the same device</strong> as the queue. Incompatible device placement directives will be ignored when creating these operations.</p>
-<h4 id="Queue-usage-overview"><a href="#Queue-usage-overview" class="headerlink" title="Queue usage overview"></a>Queue usage overview</h4><p>Queues, such as tf.FIFOQueue and tf.RandomShuffleQueue, are important TensorFlow objects for computing tensors asynchronously in a graph.<br>A typical input architecture is to use a RandomShuffleQueue to prepare inputs for training a model:</p>
-<ul>
-<li>Multiple threads prepare training examples and push them in the queue.</li>
-<li>A training thread executes a training op that dequeues mini-batches from the queue.</li>
-</ul>
-<h5 id="benefits"><a href="#benefits" class="headerlink" title="benefits"></a>benefits</h5><ul>
-<li>in the Reading data</li>
-<li>Session object is multithreaded, so multiple threads can easily use the same session and run ops in parallel.<br>However,<em>it is not always easy in Python</em><br>because All threads must be able to stop together, exceptions must be caught and reported, and queues must be properly closed when stopping.<br>so, TensorFlow provides two classes to help: <code>tf.train.Coordinator</code> and <code>tf.train.QueueRunner</code>.`</li>
-<li><strong>tf.train.Coordinator</strong><ol>
-<li>helps multiple threads stop together,</li>
-<li>report exceptions to a program that waits for them to stop. </li>
-</ol>
-</li>
-<li><strong>QueueRunner</strong><ol>
-<li>create a number of threads cooperating to enqueue tensors in the same queue.</li>
-</ol>
-</li>
-</ul>
-<h4 id="Coordinator"><a href="#Coordinator" class="headerlink" title="Coordinator"></a>Coordinator</h4><h5 id="helps-multiple-threads-stop-together"><a href="#helps-multiple-threads-stop-together" class="headerlink" title="helps multiple threads stop together"></a>helps multiple threads stop together</h5><p>Method:</p>
-<ul>
-<li>tf.train.Coordinator.should_stop: returns True if the threads should stop.</li>
-<li>tf.train.Coordinator.request_stop: requests that threads should stop.</li>
-<li>tf.train.Coordinator.join: waits until the specified threads have stopped.</li>
-</ul>
-<h5 id="Basic-Usage"><a href="#Basic-Usage" class="headerlink" title="Basic Usage"></a>Basic Usage</h5><ol>
-<li>first create a Coordinator object,</li>
-<li>then create a number of threads that use the coordinator.</li>
-<li>The threads typically run loops that stop when <code>coordinator.should_stop()</code> returns True.</li>
-<li>Any thread can decide that the computation should stop by calling <code>coordinator.request_stop()</code>, to ask for all the threads to stop. To cooperate with the requests, each thread must check for <code>coord.should_stop()</code> on a regular basis.<br><code>coord.should_stop()</code> returns True as soon as <code>coord.request_stop()</code> has been called.</li>
-</ol>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line"><span class="comment"># Thread body: loop until the coordinator indicates a stop was requested.</span></div><div class="line"><span class="comment"># If some condition becomes true, ask the coordinator to stop.</span></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">MyLoop</span><span class="params">(coord)</span>:</span></div><div class="line">  <span class="keyword">while</span> <span class="keyword">not</span> coord.should_stop():</div><div class="line">    ...do something...</div><div class="line">    <span class="keyword">if</span> ...some condition...:</div><div class="line">      coord.request_stop()</div><div class="line"></div><div class="line"><span class="comment"># Main thread: create a coordinator.</span></div><div class="line">coord = tf.train.Coordinator()</div><div class="line"></div><div class="line"><span class="comment"># Create 10 threads that run 'MyLoop()'</span></div><div class="line">threads = [threading.Thread(target=MyLoop, args=(coord,)) <span class="keyword">for</span> i <span class="keyword">in</span> xrange(<span class="number">10</span>)]</div><div class="line"></div><div class="line"><span class="comment"># Start the threads and wait for all of them to stop.</span></div><div class="line"><span class="keyword">for</span> t <span class="keyword">in</span> threads:</div><div class="line">  t.start()</div><div class="line">coord.join(threads)</div></pre></td></tr></table></figure>
-<h5 id="more-detail"><a href="#more-detail" class="headerlink" title="more detail"></a>more detail</h5><p><a href="https://www.tensorflow.org/api_docs/python/tf/train/Coordinator" target="_blank" rel="external">https://www.tensorflow.org/api_docs/python/tf/train/Coordinator</a></p>
-<h4 id="QueueRunner"><a href="#QueueRunner" class="headerlink" title="QueueRunner"></a>QueueRunner</h4><p>The QueueRunner class creates a number of threads that repeatedly run an enqueue op.<br>These threads can use a coordinator to stop together.<br>In addition, a queue runner runs a <strong>closer thread</strong> that automatically closes the queue if an exception is reported to the coordinator.</p>
-<h5 id="basic-usage"><a href="#basic-usage" class="headerlink" title="basic usage"></a>basic usage</h5><h6 id="Step-1-create-Queue-and-add-related-ops-to-the-queue"><a href="#Step-1-create-Queue-and-add-related-ops-to-the-queue" class="headerlink" title="Step 1: create Queue and add related ops to the queue."></a>Step 1: create Queue and add related ops to the queue.</h6><ol>
-<li>First create a queue (e.g. a tf.RandomShuffleQueue).</li>
-<li>Add ops that process examples and enqueue them in the queue.</li>
-<li>Create dequeue ops from the queue, and return data tensor .</li>
-<li>Use data tensor to build the Tensorflow graph.<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">example = ...ops to create one example...</div><div class="line"><span class="comment"># Create a queue, and an op that enqueues examples one at a time in the queue.</span></div><div class="line">queue = tf.RandomShuffleQueue(...)</div><div class="line">enqueue_op = queue.enqueue(example)</div><div class="line"><span class="comment"># Create a training graph that starts by dequeuing a batch of examples.</span></div><div class="line">inputs = queue.dequeue_many(batch_size)</div><div class="line">train_op = ...use <span class="string">'inputs'</span> to build the training part of the graph...</div></pre></td></tr></table></figure>
-</li>
-</ol>
-<h6 id="2-create-QueueRunner-and-combine-with-Coordinator"><a href="#2-create-QueueRunner-and-combine-with-Coordinator" class="headerlink" title="2. create QueueRunner and combine with Coordinator"></a>2. create QueueRunner and combine with Coordinator</h6><ol>
-<li>create a QueueRunner that will run a few threads to process and enqueue examples. .</li>
-<li>Launch the graph.</li>
-<li>Create a coordinator, launch the queue runner threads.</li>
-<li>Run the training loop, controlling termination with the coordinator.</li>
-<li>When done, ask the threads to stop.</li>
-<li>wait for all threads to actually stop.</li>
-</ol>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line"><span class="comment"># Create a queue runner that will run 4 threads in parallel to enqueue</span></div><div class="line"><span class="comment"># examples.</span></div><div class="line">qr = tf.train.QueueRunner(queue, [enqueue_op] * <span class="number">4</span>)</div><div class="line"></div><div class="line"><span class="comment"># Launch the graph.</span></div><div class="line">sess = tf.Session()</div><div class="line"><span class="comment"># Create a coordinator, launch the queue runner threads.</span></div><div class="line">coord = tf.train.Coordinator()</div><div class="line">enqueue_threads = qr.create_threads(sess, coord=coord, start=<span class="keyword">True</span>)</div><div class="line"><span class="comment"># Run the training loop, controlling termination with the coordinator.</span></div><div class="line"><span class="keyword">for</span> step <span class="keyword">in</span> xrange(<span class="number">1000000</span>):</div><div class="line">    <span class="keyword">if</span> coord.should_stop():</div><div class="line">        <span class="keyword">break</span></div><div class="line">    sess.run(train_op)</div><div class="line"><span class="comment"># When done, ask the threads to stop.</span></div><div class="line">coord.request_stop()</div><div class="line"><span class="comment"># And wait for them to actually do it.</span></div><div class="line">coord.join(enqueue_threads)</div></pre></td></tr></table></figure>
-<h6 id="Handling-exceptions"><a href="#Handling-exceptions" class="headerlink" title="Handling exceptions"></a>Handling exceptions</h6><p>Threads started by queue runners do more than just run the enqueue ops.<br><code>tf.errors.OutOfRangeError</code> exception, which is used to report that a queue was closed.<br> A coordinator must similarly catch and report exceptions in its main loop.<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">try</span>:</div><div class="line">    <span class="keyword">for</span> step <span class="keyword">in</span> xrange(<span class="number">1000000</span>):</div><div class="line">        <span class="keyword">if</span> coord.should_stop():</div><div class="line">            <span class="keyword">break</span></div><div class="line">        sess.run(train_op)</div><div class="line"><span class="keyword">except</span> Exception, e:</div><div class="line">    <span class="comment"># Report exceptions to the coordinator.</span></div><div class="line">    coord.request_stop(e)</div><div class="line"><span class="keyword">finally</span>:</div><div class="line">    <span class="comment"># Terminate as usual. It is safe to call `coord.request_stop()` twice.</span></div><div class="line">    coord.request_stop()</div><div class="line">    coord.join(threads)</div></pre></td></tr></table></figure></p>
-<h3 id="Reading-data"><a href="#Reading-data" class="headerlink" title="Reading data"></a>Reading data</h3><p><a href="https://www.tensorflow.org/programmers_guide/reading_data" target="_blank" rel="external">https://www.tensorflow.org/programmers_guide/reading_data</a></p>
-<h4 id="Reading-from-files"><a href="#Reading-from-files" class="headerlink" title="Reading from files"></a>Reading from files</h4><p>A typical pipeline for reading records from files has the following stages:</p>
-<h6 id="Step-1-Create-string-input-producer"><a href="#Step-1-Create-string-input-producer" class="headerlink" title="Step 1: Create string_input_producer"></a>Step 1: Create string_input_producer</h6><p>Creates a FIFO queue for holding the filenames until the reader needs them<br>Arguments:</p>
-<ul>
-<li>filenames list. <ul>
-<li>filename in list is either a constant string Tensor or <code>tf.train.match_filenames_once</code> function.</li>
-</ul>
-</li>
-<li>shuffle and maximum number of epochs.<ul>
-<li>A queue runner adds the whole list of filenames to the queue once for each epoch</li>
-<li>shuffling the <strong>filenames</strong> within an epoch if shuffle=True.</li>
-<li>This procedure provides a uniform sampling of files, so that examples are not under- or over- sampled relative to each other.</li>
-<li>The queue runner works in a thread separate from the reader that pulls filenames from the queue, so the shuffling and enqueuing process does not block the reader.</li>
-</ul>
-</li>
-</ul>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">filename_queue = tf.train.string_input_producer([<span class="string">"file0.csv"</span>, <span class="string">"file1.csv"</span>])</div></pre></td></tr></table></figure>
-<h6 id="Step-2-create-a-Reader"><a href="#Step-2-create-a-Reader" class="headerlink" title="Step 2: create a Reader"></a>Step 2: create a Reader</h6><p>A. Select the reader that matches your input file format<br>B. Then pass the filename queue to the reader’s read method.</p>
-<ul>
-<li>The read method outputs a key  and a scalar string value.<ul>
-<li>key: identifying the file and record (useful for debugging if you have some weird records)</li>
-<li>Each execution of read reads <strong>a single line</strong> from the file.</li>
-</ul>
-</li>
-</ul>
-<p>C. Use one (or more) of the decoder and conversion ops to decode this string into the tensors that make up an example.</p>
-<h6 id="Step-3-call-tf-train-start-queue-runners"><a href="#Step-3-call-tf-train-start-queue-runners" class="headerlink" title="Step 3: call tf.train.start_queue_runners"></a>Step 3: call tf.train.start_queue_runners</h6><p>call <code>tf.train.start_queue_runners</code> to populate the queue before you call run or eval to execute the read. </p>
-<h5 id="Standard-TensorFlow-format-TFRecords"><a href="#Standard-TensorFlow-format-TFRecords" class="headerlink" title="Standard TensorFlow format -TFRecords"></a>Standard TensorFlow format -TFRecords</h5><p>more details:<br><a href="https://www.tensorflow.org/api_guides/python/python_io#tfrecords_format_details" target="_blank" rel="external">https://www.tensorflow.org/api_guides/python/python_io#tfrecords_format_details</a><br><a href="https://www.github.com/tensorflow/tensorflow/blob/r1.2/tensorflow/examples/how_tos/reading_data/convert_to_records.py" target="_blank" rel="external">https://www.github.com/tensorflow/tensorflow/blob/r1.2/tensorflow/examples/how_tos/reading_data/convert_to_records.py</a></p>
-<h5 id="Preprocessing"><a href="#Preprocessing" class="headerlink" title="Preprocessing"></a>Preprocessing</h5><p>You can then do any preprocessing of these examples you want.<br>Examples include normalization of your data, picking a random slice, adding noise or distortions<br>more details:<br><a href="https://github.com/tensorflow/models/tree/master/tutorials/image/cifar10/cifar10_input.py" target="_blank" rel="external">https://github.com/tensorflow/models/tree/master/tutorials/image/cifar10/cifar10_input.py</a></p>
-<h5 id="Batching"><a href="#Batching" class="headerlink" title="Batching"></a>Batching</h5><p>At the end of the pipeline we use another <strong>queue</strong> to batch together examples for training, evaluation, or inference. For this we use a queue that randomizes the order of examples, using the <code>tf.train.shuffle_batch</code>.<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">read_my_file_format</span><span class="params">(filename_queue)</span>:</span></div><div class="line">  reader = tf.SomeReader()</div><div class="line">  key, record_string = reader.read(filename_queue)</div><div class="line">  example, label = tf.some_decoder(record_string)</div><div class="line">  processed_example = some_processing(example)</div><div class="line">  <span class="keyword">return</span> processed_example, label</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">input_pipeline</span><span class="params">(filenames, batch_size, num_epochs=None)</span>:</span></div><div class="line">  filename_queue = tf.train.string_input_producer(</div><div class="line">      filenames, num_epochs=num_epochs, shuffle=<span class="keyword">True</span>)</div><div class="line">  example, label = read_my_file_format(filename_queue)</div><div class="line">  <span class="comment"># min_after_dequeue defines how big a buffer we will randomly sample</span></div><div class="line">  <span class="comment">#   from -- bigger means better shuffling but slower start up and more</span></div><div class="line">  <span class="comment">#   memory used.</span></div><div class="line">  <span class="comment"># capacity must be larger than min_after_dequeue and the amount larger</span></div><div class="line">  <span class="comment">#   determines the maximum we will prefetch.  Recommendation:</span></div><div class="line">  <span class="comment">#   min_after_dequeue + (num_threads + a small safety margin) * batch_size</span></div><div class="line">  min_after_dequeue = <span class="number">10000</span></div><div class="line">  capacity = min_after_dequeue + <span class="number">3</span> * batch_size</div><div class="line">  example_batch, label_batch = tf.train.shuffle_batch(</div><div class="line">      [example, label], batch_size=batch_size, capacity=capacity,</div><div class="line">      min_after_dequeue=min_after_dequeue)</div><div class="line">  <span class="keyword">return</span> example_batch, label_batch</div></pre></td></tr></table></figure></p>
-<h6 id="multiple-reader-and-one-single-filename-queue"><a href="#multiple-reader-and-one-single-filename-queue" class="headerlink" title="multiple reader and one single filename queue"></a>multiple reader and one single filename queue</h6><p>If we need more parallelism or shuffling of examples between files, use multiple reader instances using the <strong>tf.train.shuffle_batch_join</strong>. For example:<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">read_my_file_format</span><span class="params">(filename_queue)</span>:</span></div><div class="line">  <span class="comment"># Same as above</span></div><div class="line"></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">input_pipeline</span><span class="params">(filenames, batch_size, read_threads, num_epochs=None)</span>:</span></div><div class="line">  filename_queue = tf.train.string_input_producer(</div><div class="line">      filenames, num_epochs=num_epochs, shuffle=<span class="keyword">True</span>)</div><div class="line">  example_list = [read_my_file_format(filename_queue)</div><div class="line">                  <span class="keyword">for</span> _ <span class="keyword">in</span> range(read_threads)]</div><div class="line">  min_after_dequeue = <span class="number">10000</span></div><div class="line">  capacity = min_after_dequeue + <span class="number">3</span> * batch_size</div><div class="line">  example_batch, label_batch = tf.train.shuffle_batch_join(</div><div class="line">      example_list, batch_size=batch_size, capacity=capacity,</div><div class="line">      min_after_dequeue=min_after_dequeue)</div><div class="line">  <span class="keyword">return</span> example_batch, label_batch</div></pre></td></tr></table></figure></p>
-<p>We still only use a single filename queue that is shared by all the readers.</p>
-<ul>
-<li>That way we ensure that the different readers use different files from the same epoch until all the files from the epoch have been started.</li>
-<li>It is also usually sufficient for a single thread to fill the filename queue.)</li>
-</ul>
-<p>How many threads do you need?<br>the tf.train.shuffle_batch* functions add a summary to the graph that indicates how full the example queue is. If you have enough reading threads, that summary will stay above zero.</p>
-<h5 id="Creating-threads-to-prefetch-using-QueueRunner-objects"><a href="#Creating-threads-to-prefetch-using-QueueRunner-objects" class="headerlink" title="Creating threads to prefetch using QueueRunner objects"></a>Creating threads to prefetch using QueueRunner objects</h5><p>many of the tf.train functions listed above add tf.train.QueueRunner objects to your graph.<br>These require that you call tf.train.start_queue_runners before running any training or inference steps, or it will hang forever.<br>This is best combined with a tf.train.Coordinator to cleanly shut down these threads when there are errors.<br>The recommended code pattern:<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div></pre></td><td class="code"><pre><div class="line"><span class="comment"># Create the graph, etc.</span></div><div class="line">init_op = tf.global_variables_initializer()</div><div class="line"></div><div class="line"><span class="comment"># Create a session for running operations in the Graph.</span></div><div class="line">sess = tf.Session()</div><div class="line"></div><div class="line"><span class="comment"># Initialize the variables (like the epoch counter).</span></div><div class="line">sess.run(init_op)</div><div class="line"></div><div class="line"><span class="comment"># Start input enqueue threads.</span></div><div class="line">coord = tf.train.Coordinator()</div><div class="line">threads = tf.train.start_queue_runners(sess=sess, coord=coord)</div><div class="line"></div><div class="line"><span class="keyword">try</span>:</div><div class="line">    <span class="keyword">while</span> <span class="keyword">not</span> coord.should_stop():</div><div class="line">        <span class="comment"># Run training steps or whatever</span></div><div class="line">        sess.run(train_op)</div><div class="line"></div><div class="line"><span class="keyword">except</span> tf.errors.OutOfRangeError:</div><div class="line">    print(<span class="string">'Done training -- epoch limit reached'</span>)</div><div class="line"><span class="keyword">finally</span>:</div><div class="line">    <span class="comment"># When done, ask the threads to stop.</span></div><div class="line">    coord.request_stop()</div><div class="line"></div><div class="line"><span class="comment"># Wait for threads to finish.</span></div><div class="line">coord.join(threads)</div><div class="line">sess.close()</div></pre></td></tr></table></figure></p>
-<h5 id="Summarize"><a href="#Summarize" class="headerlink" title="Summarize"></a>Summarize</h5><h6 id="read-data-process"><a href="#read-data-process" class="headerlink" title="read data process"></a>read data process</h6><p>First we create the graph.<br>It will have a few pipeline stages that are connected by queues.</p>
-<ul>
-<li>The first stage: generate filenames to read and enqueue them in the filename queue.</li>
-<li>The second stage: consumes filenames (using a Reader), produces examples, and enqueues them in an example queue.<ul>
-<li>Depending on how you have set things up, you may actually have a few independent copies of the second stage (in ther word, several readers), so that you can read from multiple files in parallel.</li>
-<li>At the end is an enqueue operation, which enqueues into a queue that the next stage dequeues from.</li>
-</ul>
-</li>
-</ul>
-<p>We want to <strong>start threads running these enqueuing operations</strong>, so that our training loop can dequeue examples from the example queue.<br>Method: add a <code>tf.train.QueueRunner</code> to the graph using the <code>tf.train.add_queue_runner</code> function. </p>
-<ul>
-<li>Each QueueRunner is responsible for one stage, and holds the list of enqueue operations that need to be run in threads. </li>
-</ul>
-<p>Once the graph is constructed, the <code>tf.train.start_queue_runners</code> function asks each QueueRunner in the graph to start its threads running the enqueuing operations.</p>
-<p>If all goes well, you can now run your training steps and the queues will be filled by the background threads.<br>If you have set an epoch limit, at some point an attempt to dequeue examples will get an tf.errors.OutOfRangeError(Equal to EOS/EOF).</p>
-<p>The last ingredient is the tf.train.Coordinator. This is responsible for letting all the threads know if anything has signalled a shut down.</p>
-<ul>
-<li>Most commonly this would be because an exception was raised, for example one of the threads got an error when running some operation (or an ordinary Python exception).</li>
-</ul>
-<h6 id="Filtering-records-or-producing-multiple-examples-per-record"><a href="#Filtering-records-or-producing-multiple-examples-per-record" class="headerlink" title="Filtering records or producing multiple examples per record"></a>Filtering records or producing multiple examples per record</h6><p>Instead of examples with shapes [x, y, z], you will produce a batch of examples with shape [batch, x, y, z]. The batch size can be 0 if you want to filter this record out (maybe it is in a hold-out set?), or bigger than 1 if you are producing multiple examples per record. Then simply set enqueue_many=True when calling one of the batching functions (such as shuffle_batch or shuffle_batch_join).</p>
-<h3 id="Using-the-Dataset"><a href="#Using-the-Dataset" class="headerlink" title="Using the Dataset"></a>Using the Dataset</h3><p><a href="https://www.tensorflow.org/programmers_guide/datasets" target="_blank" rel="external">https://www.tensorflow.org/programmers_guide/datasets</a></p>
-<h5 id="Two-API-abstractions"><a href="#Two-API-abstractions" class="headerlink" title="Two API abstractions"></a>Two API abstractions</h5><h6 id="tf-contrib-data-Dataset"><a href="#tf-contrib-data-Dataset" class="headerlink" title="tf.contrib.data.Dataset"></a>tf.contrib.data.Dataset</h6><p>contains a sequence of elements<br>There are two distinct ways to create a dataset:</p>
-<ul>
-<li>Creating a <code>source</code> (e.g. Dataset.from_tensor_slices()) constructs a dataset from one or more tf.Tensor objects.</li>
-<li>Applying a <code>transformation</code> (e.g. Dataset.batch()) constructs a dataset from one or more tf.contrib.data.Dataset objects.</li>
-</ul>
-<h6 id="tf-contrib-data-Iterator"><a href="#tf-contrib-data-Iterator" class="headerlink" title="tf.contrib.data.Iterator"></a>tf.contrib.data.Iterator</h6><p>Provides the main way to extract elements from a dataset.<br>The operation returned by <code>Iterator.get_next()</code> yields the next element of a Dataset when executed, and typically acts as the interface between input pipeline code and your model.<br>For more sophisticated uses, the Iterator.initializer operation enables you to reinitialize and parameterize an iterator with different datasets, so that you can, for example, iterate over training and validation data multiple times in the same program.</p>
-<h5 id="Basic-mechanics"><a href="#Basic-mechanics" class="headerlink" title="Basic mechanics"></a>Basic mechanics</h5><h6 id="Define-a-source"><a href="#Define-a-source" class="headerlink" title="Define a source"></a>Define a source</h6><ul>
-<li>construct a <code>Dataset</code> from some tensors in memory<ul>
-<li>use <code>tf.contrib.data.Dataset.from_tensors()</code></li>
-<li>use <code>tf.contrib.data.Dataset.from_tensor_slices()</code></li>
-</ul>
-</li>
-<li>construct a <code>Dataset</code> from your input data are on disk in the recommend TFRecord format<ul>
-<li>use <code>tf.contrib.data.TFRecordDataset</code></li>
-</ul>
-</li>
-<li>transform a Dataset into a new Dataset<ul>
-<li>apply per-element transformations such as <code>Dataset.map()</code>(to apply a function to each element), and multi-element transformations such as <code>Dataset.batch()</code>.</li>
-</ul>
-</li>
-<li>The <strong>most common</strong> way to consume values from a Dataset<ul>
-<li>make an iterator object that provides access to one element of the dataset at a time.</li>
-<li>for example, by calling <code>Dataset.make_one_shot_iterator()</code>.</li>
-<li>A tf.contrib.data.Iterator provides two operations:<ol>
-<li><code>Iterator.initializer</code><ul>
-<li>enables you to (re)initialize the iterator’s state</li>
-</ul>
-</li>
-<li><code>Iterator.get_next()</code><ul>
-<li>returns <code>tf.Tensor</code> objects that correspond to the symbolic next element.</li>
-</ul>
-</li>
-</ol>
-</li>
-<li>Depending on your use case, you might choose a different type of iterator, and the options are outlined below.</li>
-</ul>
-</li>
-</ul>
-<h5 id="Dataset-structure"><a href="#Dataset-structure" class="headerlink" title="Dataset structure"></a>Dataset structure</h5><p>A dataset comprises elements that each have the same structure, called components.</p>
-<ul>
-<li>Each component has a tf.DType and a tf.TensorShape.</li>
-<li>The <code>Dataset.output_types</code> and <code>Dataset.output_shapes</code> properties allow you to inspect the inferred types and shapes of each component of a dataset element.</li>
-<li>The nested structure of these properties map to the structure of an element, which may be a single tensor, a tuple of tensors, or a nested tuple of tensors.</li>
-</ul>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line">dataset1 = tf.contrib.data.Dataset.from_tensor_slices(tf.random_uniform([<span class="number">4</span>, <span class="number">10</span>]))</div><div class="line">print(dataset1.output_types)  <span class="comment"># ==&gt; "tf.float32"</span></div><div class="line">print(dataset1.output_shapes)  <span class="comment"># ==&gt; "(10,)"</span></div><div class="line"></div><div class="line">dataset2 = tf.contrib.data.Dataset.from_tensor_slices(</div><div class="line">   (tf.random_uniform([<span class="number">4</span>]),</div><div class="line">    tf.random_uniform([<span class="number">4</span>, <span class="number">100</span>], maxval=<span class="number">100</span>, dtype=tf.int32)))</div><div class="line">print(dataset2.output_types)  <span class="comment"># ==&gt; "(tf.float32, tf.int32)"</span></div><div class="line">print(dataset2.output_shapes)  <span class="comment"># ==&gt; "((), (100,))"</span></div><div class="line"></div><div class="line">dataset3 = tf.contrib.data.Dataset.zip((dataset1, dataset2))</div><div class="line">print(dataset3.output_types)  <span class="comment"># ==&gt; (tf.float32, (tf.float32, tf.int32))</span></div><div class="line">print(dataset3.output_shapes)  <span class="comment"># ==&gt; "(10, ((), (100,)))"</span></div></pre></td></tr></table></figure>
-<ul>
-<li>use <code>collections.namedtuple</code> or a dictionary mapping strings to tensors to represent a single element of a Dataset.</li>
-</ul>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">dataset = tf.contrib.data.Dataset.from_tensor_slices(</div><div class="line">   &#123;<span class="string">"a"</span>: tf.random_uniform([<span class="number">4</span>]),</div><div class="line">    <span class="string">"b"</span>: tf.random_uniform([<span class="number">4</span>, <span class="number">100</span>], maxval=<span class="number">100</span>, dtype=tf.int32)&#125;)</div><div class="line">print(dataset.output_types)  <span class="comment"># ==&gt; "&#123;'a': tf.float32, 'b': tf.int32&#125;"</span></div><div class="line">print(dataset.output_shapes)  <span class="comment"># ==&gt; "&#123;'a': (), 'b': (100,)&#125;"</span></div></pre></td></tr></table></figure>
-<p>The Dataset transformations support datasets of any structure. When using the Dataset.map(), Dataset.flat_map(), and Dataset.filter() transformations, which apply a function to each element, the element structure determines the arguments of the function:</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">dataset1 = dataset1.map(<span class="keyword">lambda</span> x: ...)</div><div class="line"></div><div class="line">dataset2 = dataset2.flat_map(<span class="keyword">lambda</span> x, y: ...)</div><div class="line"></div><div class="line"><span class="comment"># Note: Argument destructuring is not available in Python 3.</span></div><div class="line">dataset3 = dataset3.filter(<span class="keyword">lambda</span> x, (y, z): ...)</div></pre></td></tr></table></figure>
-<h5 id="Creating-an-iterator"><a href="#Creating-an-iterator" class="headerlink" title="Creating an iterator"></a>Creating an iterator</h5><p>After building a Dataset, the next step is to create an Iterator to access elements from that dataset.<br>The Dataset API currently supports three kinds of iterator, in increasing level of sophistication:</p>
-<h6 id="one-shot"><a href="#one-shot" class="headerlink" title="one-shot"></a>one-shot</h6><ul>
-<li>supports iterating once through a dataset</li>
-<li>no need for explicit initialization</li>
-<li>handle almost all of the cases that the existing queue-based input pipelines support</li>
-</ul>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">dataset = tf.contrib.data.Dataset.range(<span class="number">100</span>)</div><div class="line">iterator = dataset.make_one_shot_iterator()</div><div class="line">next_element = iterator.get_next()</div><div class="line"></div><div class="line"><span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">100</span>):</div><div class="line">  value = sess.run(next_element)</div><div class="line">  <span class="keyword">assert</span> i == value</div></pre></td></tr></table></figure>
-<h6 id="initializable"><a href="#initializable" class="headerlink" title="initializable"></a>initializable</h6><ul>
-<li>must run an explicit <code>iterator.initializer</code> operation before using it.</li>
-<li>enables you to parameterize the definition of the dataset</li>
-<li>using one or more tf.placeholder() tensors that can be fed when you initialize the iterator.</li>
-</ul>
-<h6 id="reinitializable"><a href="#reinitializable" class="headerlink" title="reinitializable"></a>reinitializable</h6><ul>
-<li>can be initialized from multiple different Dataset objects</li>
-<li>A reinitializable iterator is defined by its structure.</li>
-<li>For example, training input pipeline uses random perturbations and validation input pipeline uses on unmodified data.</li>
-<li>These pipelines will typically use different Dataset objects that have the same structure (i.e. the same types and compatible shapes for each component).</li>
-</ul>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div></pre></td><td class="code"><pre><div class="line"><span class="comment"># Define training and validation datasets with the same structure.</span></div><div class="line">training_dataset = tf.contrib.data.Dataset.range(<span class="number">100</span>).map(</div><div class="line">    <span class="keyword">lambda</span> x: x + tf.random_uniform([], <span class="number">-10</span>, <span class="number">10</span>, tf.int64))</div><div class="line">validation_dataset = tf.contrib.data.Dataset.range(<span class="number">50</span>)</div><div class="line"></div><div class="line"><span class="comment"># A reinitializable iterator is defined by its structure. We could use the</span></div><div class="line"><span class="comment"># `output_types` and `output_shapes` properties of either `training_dataset`</span></div><div class="line"><span class="comment"># or `validation_dataset` here, because they are compatible.</span></div><div class="line">iterator = Iterator.from_structure(training_dataset.output_types,</div><div class="line">                                   training_dataset.output_shapes)</div><div class="line">next_element = iterator.get_next()</div><div class="line"></div><div class="line">training_init_op = iterator.make_initializer(training_dataset)</div><div class="line">validation_init_op = iterator.make_initializer(validation_dataset)</div><div class="line"></div><div class="line"><span class="comment"># Run 20 epochs in which the training dataset is traversed, followed by the</span></div><div class="line"><span class="comment"># validation dataset.</span></div><div class="line"><span class="keyword">for</span> _ <span class="keyword">in</span> range(<span class="number">20</span>):</div><div class="line">  <span class="comment"># Initialize an iterator over the training dataset.</span></div><div class="line">  sess.run(training_init_op)</div><div class="line">  <span class="keyword">for</span> _ <span class="keyword">in</span> range(<span class="number">100</span>):</div><div class="line">    sess.run(next_element)</div><div class="line"></div><div class="line">  <span class="comment"># Initialize an iterator over the validation dataset.</span></div><div class="line">  sess.run(validation_init_op)</div><div class="line">  <span class="keyword">for</span> _ <span class="keyword">in</span> range(<span class="number">50</span>):</div><div class="line">    sess.run(next_element)</div></pre></td></tr></table></figure>
-<h6 id="feedable"><a href="#feedable" class="headerlink" title="feedable"></a>feedable</h6><ul>
-<li>used together with <code>tf.placeholder</code> to <strong>select</strong> what Iterator to use in each call to tf.Session.run</li>
-<li>offers the same functionality as a reinitializable iterator</li>
-<li>not require to initialize the iterator from the start of a dataset when you switch between iterators</li>
-<li>use <code>tf.contrib.data.Iterator.from_string_handle</code> to define a feedable iterator that allows you to switch between the two datasets</li>
-</ul>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div></pre></td><td class="code"><pre><div class="line"><span class="comment"># Define training and validation datasets with the same structure.</span></div><div class="line">training_dataset = tf.contrib.data.Dataset.range(<span class="number">100</span>).map(</div><div class="line">    <span class="keyword">lambda</span> x: x + tf.random_uniform([], <span class="number">-10</span>, <span class="number">10</span>, tf.int64)).repeat()</div><div class="line">validation_dataset = tf.contrib.data.Dataset.range(<span class="number">50</span>)</div><div class="line"></div><div class="line"><span class="comment"># A feedable iterator is defined by a handle placeholder and its structure. We</span></div><div class="line"><span class="comment"># could use the `output_types` and `output_shapes` properties of either</span></div><div class="line"><span class="comment"># `training_dataset` or `validation_dataset` here, because they have</span></div><div class="line"><span class="comment"># identical structure.</span></div><div class="line">handle = tf.placeholder(tf.string, shape=[])</div><div class="line">iterator = tf.contrib.data.Iterator.from_string_handle(</div><div class="line">    handle, training_dataset.output_types, training_dataset.output_shapes)</div><div class="line">next_element = iterator.get_next()</div><div class="line"></div><div class="line"><span class="comment"># You can use feedable iterators with a variety of different kinds of iterator</span></div><div class="line"><span class="comment"># (such as one-shot and initializable iterators).</span></div><div class="line">training_iterator = training_dataset.make_one_shot_iterator()</div><div class="line">validation_iterator = validation_dataset.make_initializable_iterator()</div><div class="line"></div><div class="line"><span class="comment"># The `Iterator.string_handle()` method returns a tensor that can be evaluated</span></div><div class="line"><span class="comment"># and used to feed the `handle` placeholder.</span></div><div class="line">training_handle = sess.run(training_iterator.string_handle())</div><div class="line">validation_handle = sess.run(validation_iterator.string_handle())</div><div class="line"></div><div class="line"><span class="comment"># Loop forever, alternating between training and validation.</span></div><div class="line"><span class="keyword">while</span> <span class="keyword">True</span>:</div><div class="line">  <span class="comment"># Run 200 steps using the training dataset. Note that the training dataset is</span></div><div class="line">  <span class="comment"># infinite, and we resume from where we left off in the previous `while` loop</span></div><div class="line">  <span class="comment"># iteration.</span></div><div class="line">  <span class="keyword">for</span> _ <span class="keyword">in</span> range(<span class="number">200</span>):</div><div class="line">    sess.run(next_element, feed_dict=&#123;handle: training_handle&#125;)</div><div class="line"></div><div class="line">  <span class="comment"># Run one pass over the validation dataset.</span></div><div class="line">  sess.run(validation_iterator.initializer)</div><div class="line">  <span class="keyword">for</span> _ <span class="keyword">in</span> range(<span class="number">50</span>):</div><div class="line">    sess.run(next_element, feed_dict=&#123;handle: validation_handle&#125;)</div></pre></td></tr></table></figure>
-<h5 id="Consuming-values-from-an-iterator"><a href="#Consuming-values-from-an-iterator" class="headerlink" title="Consuming values from an iterator"></a>Consuming values from an iterator</h5><p>If the iterator reaches the end of the dataset, executing the Iterator.get_next() operation will raise a tf.errors.OutOfRangeError.<br>Must initialize it again if you want to use it further.<br>If each element of the dataset has a nested structure, the return value of Iterator.get_next() will be one or more tf.Tensor objects in the same nested structure:</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line">dataset1 = tf.contrib.data.Dataset.range(<span class="number">50</span>)</div><div class="line">dataset2 = tf.contrib.data.Dataset.range(<span class="number">50</span>)</div><div class="line">dataset3 = tf.contrib.data.Dataset.zip((dataset1, dataset2))</div><div class="line"></div><div class="line">iterator = dataset3.make_initializable_iterator()</div><div class="line">sess = tf.Session()</div><div class="line">sess.run(iterator.initializer)</div><div class="line">next1, next2 = iterator.get_next()</div><div class="line">print(sess.run([next1]))</div><div class="line">print(sess.run([next2]))</div><div class="line"><span class="comment"># evaluating any of next1, next2, or next3 will advance the iterator for all components</span></div><div class="line">print(sess.run(iterator.get_next())</div><div class="line"><span class="comment"># A typical consumer of an iterator will include all components in a single expression.</span></div><div class="line">print(sess.run([next1, next2 + <span class="number">1</span>]))</div></pre></td></tr></table></figure>
-<p><strong><em>Notice</em></strong>:</p>
-<ul>
-<li>evaluating any of next1, next2, or next3 will advance the iterator for <strong>all</strong> components</li>
-<li>A typical consumer of an iterator will include all components in a single expression.</li>
-</ul>
-<h4 id="Reading-input-data"><a href="#Reading-input-data" class="headerlink" title="Reading input data"></a>Reading input data</h4><h5 id="Consuming-NumPy-arrays"><a href="#Consuming-NumPy-arrays" class="headerlink" title="Consuming NumPy arrays"></a>Consuming NumPy arrays</h5><p>Dataset + tf.placeholder() + Iterator + feed</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line"><span class="comment"># Load the training data into two NumPy arrays, for example using `np.load()`.</span></div><div class="line"><span class="keyword">with</span> np.load(<span class="string">"/var/data/training_data.npy"</span>) <span class="keyword">as</span> data:</div><div class="line">  features = data[<span class="string">"features"</span>]</div><div class="line">  labels = data[<span class="string">"labels"</span>]</div><div class="line"></div><div class="line"><span class="comment"># Assume that each row of `features` corresponds to the same row as `labels`.</span></div><div class="line"><span class="keyword">assert</span> features.shape[<span class="number">0</span>] == labels.shape[<span class="number">0</span>]</div><div class="line"></div><div class="line">features_placeholder = tf.placeholder(features.dtype, features.shape)</div><div class="line">labels_placeholder = tf.placeholder(labels.dtype, labels.shape)</div><div class="line"></div><div class="line">dataset = tf.contrib.data.Dataset.from_tensor_slices((features_placeholder, labels_placeholder))</div><div class="line"><span class="comment"># [Other transformations on `dataset`...]</span></div><div class="line">dataset = ...</div><div class="line">iterator = dataset.make_initializable_iterator()</div><div class="line"></div><div class="line">sess.run(iterator.initializer, feed_dict=&#123;features_placeholder: features,</div><div class="line">                                          labels_placeholder: labels&#125;)</div></pre></td></tr></table></figure>
-<h5 id="Consuming-TFRecord-data"><a href="#Consuming-TFRecord-data" class="headerlink" title="Consuming TFRecord data"></a>Consuming TFRecord data</h5><p><code>tf.contrib.data.TFRecordDataset</code></p>
-<ul>
-<li>if you have two sets of files for training and validation<ul>
-<li><code>tf.placeholder</code> + <code>iterator</code></li>
-</ul>
-</li>
-</ul>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line">filenames = tf.placeholder(tf.string, shape=[<span class="keyword">None</span>])</div><div class="line">dataset = tf.contrib.data.TFRecordDataset(filenames)</div><div class="line">dataset = dataset.map(...)  <span class="comment"># Parse the record into tensors.</span></div><div class="line">dataset = dataset.repeat()  <span class="comment"># Repeat the input indefinitely.</span></div><div class="line">dataset = dataset.batch(<span class="number">32</span>)</div><div class="line">iterator = dataset.make_initializable_iterator()</div><div class="line"></div><div class="line"><span class="comment"># You can feed the initializer with the appropriate filenames for the current</span></div><div class="line"><span class="comment"># phase of execution, e.g. training vs. validation.</span></div><div class="line"></div><div class="line"><span class="comment"># Initialize `iterator` with training data.</span></div><div class="line">training_filenames = [<span class="string">"/var/data/file1.tfrecord"</span>, <span class="string">"/var/data/file2.tfrecord"</span>]</div><div class="line">sess.run(iterator.initializer, feed_dict=&#123;filenames: training_filenames&#125;)</div><div class="line"></div><div class="line"><span class="comment"># Initialize `iterator` with validation data.</span></div><div class="line">validation_filenames = [<span class="string">"/var/data/validation1.tfrecord"</span>, ...]</div><div class="line">sess.run(iterator.initializer, feed_dict=&#123;filenames: validation_filenames&#125;)</div></pre></td></tr></table></figure>
-<h5 id="Consuming-text-data"><a href="#Consuming-text-data" class="headerlink" title="Consuming text data"></a>Consuming text data</h5><p><code>tf.contrib.data.TextLineDataset</code></p>
-<ul>
-<li>Given one or more filenames,</li>
-<li>produce one string-valued element per line of those files.</li>
-<li>can use <code>tf.placeholder(tf.string)</code></li>
-<li>remove unrelated lines using the <code>Dataset.skip()</code> and <code>Dataset.filter()</code>, more than one filename use <code>Dataset.flat_map()</code> in addition.</li>
-</ul>
-<h4 id="Preprocessing-data-with-Dataset-map"><a href="#Preprocessing-data-with-Dataset-map" class="headerlink" title="Preprocessing data with Dataset.map()"></a>Preprocessing data with Dataset.map()</h4><p>Dataset.map() transformation works in each item in dataset.</p>
-<h5 id="Parsing-tf-Example-protocol-buffer-messages"><a href="#Parsing-tf-Example-protocol-buffer-messages" class="headerlink" title="Parsing tf.Example protocol buffer messages"></a>Parsing tf.Example protocol buffer messages</h5><p>For <code>TFRecordDataset</code> and TFRecord-format file<br>Each tf.train.Example record contains one or more “features”, and the input pipeline typically converts these features into tensors.<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line"><span class="comment"># Transforms a scalar string `example_proto` into a pair of a scalar string and</span></div><div class="line"><span class="comment"># a scalar integer, representing an image and its label, respectively.</span></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">_parse_function</span><span class="params">(example_proto)</span>:</span></div><div class="line">  features = &#123;<span class="string">"image"</span>: tf.FixedLenFeature((), tf.string, default_value=<span class="string">""</span>),</div><div class="line">              <span class="string">"label"</span>: tf.FixedLenFeature((), tf.int32, default_value=<span class="number">0</span>)&#125;</div><div class="line">  parsed_features = tf.parse_single_example(example_proto, features)</div><div class="line">  <span class="keyword">return</span> parsed_features[<span class="string">"image"</span>], parsed_features[<span class="string">"label"</span>]</div><div class="line"></div><div class="line"><span class="comment"># Creates a dataset that reads all of the examples from two files, and extracts</span></div><div class="line"><span class="comment"># the image and label features.</span></div><div class="line">filenames = [<span class="string">"/var/data/file1.tfrecord"</span>, <span class="string">"/var/data/file2.tfrecord"</span>]</div><div class="line">dataset = tf.contrib.data.TFRecordDataset(filenames)</div><div class="line">dataset = dataset.map(_parse_function)</div></pre></td></tr></table></figure></p>
-<h5 id="Decoding-image-data-and-resizing-it"><a href="#Decoding-image-data-and-resizing-it" class="headerlink" title="Decoding image data and resizing it"></a>Decoding image data and resizing it</h5><p>necessary to convert images of different sizes to a common size, so that they may be batched into a fixed size.</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line"><span class="comment"># Reads an image from a file, decodes it into a dense tensor, and resizes it</span></div><div class="line"><span class="comment"># to a fixed shape.</span></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">_parse_function</span><span class="params">(filename, label)</span>:</span></div><div class="line">  image_string = tf.read_file(filename)</div><div class="line">  image_decoded = tf.image.decode_image(image_string)</div><div class="line">  image_resized = tf.image.resize_images(image_decoded, [<span class="number">28</span>, <span class="number">28</span>])</div><div class="line">  <span class="keyword">return</span> image_resized, label</div><div class="line"></div><div class="line"><span class="comment"># A vector of filenames.</span></div><div class="line">filenames = tf.constant([<span class="string">"/var/data/image1.jpg"</span>, <span class="string">"/var/data/image2.jpg"</span>, ...])</div><div class="line"></div><div class="line"><span class="comment"># `labels[i]` is the label for the image in `filenames[i].</span></div><div class="line">labels = tf.constant([<span class="number">0</span>, <span class="number">37</span>, ...])</div><div class="line"></div><div class="line">dataset = tf.contrib.data.Dataset.from_tensor_slices((filenames, labels))</div><div class="line">dataset = dataset.map(_parse_function)</div></pre></td></tr></table></figure>
-<h5 id="Applying-arbitrary-Python-logic-with-tf-py-func"><a href="#Applying-arbitrary-Python-logic-with-tf-py-func" class="headerlink" title="Applying arbitrary Python logic with tf.py_func()"></a>Applying arbitrary Python logic with tf.py_func()</h5><p>sometimes useful to call upon external Python libraries when parsing your input data<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> cv2</div><div class="line"></div><div class="line"><span class="comment"># Use a custom OpenCV function to read the image, instead of the standard</span></div><div class="line"><span class="comment"># TensorFlow `tf.read_file()` operation.</span></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">_read_py_function</span><span class="params">(filename, label)</span>:</span></div><div class="line">  image_decoded = cv2.imread(image_string, cv2.IMREAD_GRAYSCALE)</div><div class="line">  <span class="keyword">return</span> image_decoded, label</div><div class="line"></div><div class="line"><span class="comment"># Use standard TensorFlow operations to resize the image to a fixed shape.</span></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">_resize_function</span><span class="params">(image_decoded, label)</span>:</span></div><div class="line">  image_decoded.set_shape([<span class="keyword">None</span>, <span class="keyword">None</span>, <span class="keyword">None</span>])</div><div class="line">  image_resized = tf.image.resize_images(image_decoded, [<span class="number">28</span>, <span class="number">28</span>])</div><div class="line">  <span class="keyword">return</span> image_resized, label</div><div class="line"></div><div class="line">filenames = [<span class="string">"/var/data/image1.jpg"</span>, <span class="string">"/var/data/image2.jpg"</span>, ...]</div><div class="line">labels = [<span class="number">0</span>, <span class="number">37</span>, <span class="number">29</span>, <span class="number">1</span>, ...]</div><div class="line"></div><div class="line">dataset = tf.contrib.data.Dataset.from_tensor_slices((filenames, labels))</div><div class="line">dataset = dataset.map(</div><div class="line">    <span class="keyword">lambda</span> filename, label: tf.py_func(</div><div class="line">        _read_py_function, [filename, label], [tf.uint8, label.dtype]))</div><div class="line">dataset = dataset.map(_resize_function)</div></pre></td></tr></table></figure></p>
-<h4 id="Batching-dataset-elements"><a href="#Batching-dataset-elements" class="headerlink" title="Batching dataset elements"></a>Batching dataset elements</h4><h5 id="Simple-batching"><a href="#Simple-batching" class="headerlink" title="Simple batching"></a>Simple batching</h5><p><code>Dataset.batch()</code> transformation<br>batching stacks n consecutive elements of a dataset into a single element<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">inc_dataset = tf.contrib.data.Dataset.range(<span class="number">100</span>)</div><div class="line">dec_dataset = tf.contrib.data.Dataset.range(<span class="number">0</span>, <span class="number">-100</span>, <span class="number">-1</span>)</div><div class="line">dataset = tf.contrib.data.Dataset.zip((inc_dataset, dec_dataset))</div><div class="line">batched_dataset = dataset.batch(<span class="number">4</span>)</div><div class="line"></div><div class="line">iterator = batched_dataset.make_one_shot_iterator()</div><div class="line">next_element = iterator.get_next()</div><div class="line"></div><div class="line">sess = tf.Session()</div><div class="line">print(sess.run(next_element))  <span class="comment"># ==&gt; ([0, 1, 2,   3],   [ 0, -1,  -2,  -3])</span></div><div class="line">print(sess.run(next_element))  <span class="comment"># ==&gt; ([4, 5, 6,   7],   [-4, -5,  -6,  -7])</span></div><div class="line">print(sess.run(next_element))  <span class="comment"># ==&gt; ([8, 9, 10, 11],   [-8, -9, -10, -11])</span></div></pre></td></tr></table></figure></p>
-<h5 id="Batching-tensors-with-padding"><a href="#Batching-tensors-with-padding" class="headerlink" title="Batching tensors with padding"></a>Batching tensors with padding</h5><p><code>Dataset.padded_batch()</code> transformation<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">dataset = tf.contrib.data.Dataset.range(<span class="number">100</span>)</div><div class="line">dataset = dataset.map(<span class="keyword">lambda</span> x: tf.fill([tf.cast(x, tf.int32)], x))</div><div class="line">dataset = dataset.padded_batch(<span class="number">4</span>, padded_shapes=[<span class="keyword">None</span>])</div><div class="line"></div><div class="line">iterator = dataset.make_one_shot_iterator()</div><div class="line">next_element = iterator.get_next()</div><div class="line"></div><div class="line">print(sess.run(next_element))  <span class="comment"># ==&gt; [[0, 0, 0], [1, 0, 0], [2, 2, 0], [3, 3, 3]]</span></div><div class="line">print(sess.run(next_element))  <span class="comment"># ==&gt; [[4, 4, 4, 4, 0, 0, 0],</span></div><div class="line">                               <span class="comment">#      [5, 5, 5, 5, 5, 0, 0],</span></div><div class="line">                               <span class="comment">#      [6, 6, 6, 6, 6, 6, 0],</span></div><div class="line">                               <span class="comment">#      [7, 7, 7, 7, 7, 7, 7]]</span></div></pre></td></tr></table></figure></p>
-<p>The Dataset.padded_batch() transformation allows you to set different padding for each dimension of each component</p>
-<h4 id="Training-workflows"><a href="#Training-workflows" class="headerlink" title="Training workflows"></a>Training workflows</h4><h5 id="Processing-multiple-epochs"><a href="#Processing-multiple-epochs" class="headerlink" title="Processing multiple epochs"></a>Processing multiple epochs</h5><p>Dataset API offers two main ways to process multiple epochs of the same data.</p>
-<ul>
-<li>The simplest way: <code>Dataset.repeat(num_repeat)</code><ul>
-<li>with no arguments will repeat the input indefinitely</li>
-<li>without signaling the end of one epoch and the beginning of the next epoch</li>
-</ul>
-</li>
-</ul>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">filenames = [<span class="string">"/var/data/file1.tfrecord"</span>, <span class="string">"/var/data/file2.tfrecord"</span>]</div><div class="line">dataset = tf.contrib.data.TFRecordDataset(filenames)</div><div class="line">dataset = dataset.map(...)</div><div class="line">dataset = dataset.repeat(<span class="number">10</span>)</div><div class="line">dataset = dataset.batch(<span class="number">32</span>)</div></pre></td></tr></table></figure>
-<ul>
-<li>loop + catch the <code>tf.errors.OutOfRangeError</code>,<ul>
-<li>If want to receive a signal at the end of each epoch, to use a training loop that catches the <code>tf.errors.OutOfRangeError</code>. </li>
-<li>No need <code>repeat</code>.</li>
-</ul>
-</li>
-</ul>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line">filenames = [<span class="string">"/var/data/file1.tfrecord"</span>, <span class="string">"/var/data/file2.tfrecord"</span>]</div><div class="line">dataset = tf.contrib.data.TFRecordDataset(filenames)</div><div class="line">dataset = dataset.map(...)</div><div class="line">dataset = dataset.batch(<span class="number">32</span>)</div><div class="line">iterator = dataset.make_initializable_iterator()</div><div class="line">next_element = iterator.get_next()</div><div class="line"></div><div class="line"><span class="comment"># Compute for 100 epochs.</span></div><div class="line"><span class="keyword">for</span> _ <span class="keyword">in</span> range(<span class="number">100</span>):</div><div class="line">  sess.run(iterator.initializer)</div><div class="line">  <span class="keyword">while</span> <span class="keyword">True</span>:</div><div class="line">    <span class="keyword">try</span>:</div><div class="line">      sess.run(next_element)</div><div class="line">    <span class="keyword">except</span> tf.errors.OutOfRangeError:</div><div class="line">      <span class="keyword">break</span></div><div class="line"></div><div class="line">  <span class="comment"># [Perform end-of-epoch calculations here.]</span></div></pre></td></tr></table></figure>
-<h5 id="Randomly-shuffling-input-data"><a href="#Randomly-shuffling-input-data" class="headerlink" title="Randomly shuffling input data"></a>Randomly shuffling input data</h5><p><code>Dataset.shuffle()</code> tansformation</p>
-<ul>
-<li>Randomly shuffles the input dataset using a similar algorithm to <code>tf.RandomShuffleQueue</code><ul>
-<li>maintains a fixed-size buffer and chooses the next element uniformly at random from that buffer.</li>
-</ul>
-</li>
-</ul>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">filenames = [<span class="string">"/var/data/file1.tfrecord"</span>, <span class="string">"/var/data/file2.tfrecord"</span>]</div><div class="line">dataset = tf.contrib.data.TFRecordDataset(filenames)</div><div class="line">dataset = dataset.map(...)</div><div class="line">dataset = dataset.shuffle(buffer_size=<span class="number">10000</span>)</div><div class="line">dataset = dataset.batch(<span class="number">32</span>)</div><div class="line">dataset = dataset.repeat()</div></pre></td></tr></table></figure>
-<h5 id="Using-high-level-APIs"><a href="#Using-high-level-APIs" class="headerlink" title="Using high-level APIs"></a>Using high-level APIs</h5><h6 id="tf-train-MonitoredTrainingSession"><a href="#tf-train-MonitoredTrainingSession" class="headerlink" title="tf.train.MonitoredTrainingSession"></a>tf.train.MonitoredTrainingSession</h6><p><code>tf.train.MonitoredTrainingSession</code> Simplifies many aspects of running TensorFlow in a distributed setting.</p>
-<ul>
-<li>uses the <code>tf.errors.OutOfRangeError</code> to signal that training has completed<br>when used with <code>Dataset</code> API, recommend <code>using Dataset.make_one_shot_iterator()</code></li>
-</ul>
-<p><strong>Demo</strong>:<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line">filenames = [<span class="string">"/var/data/file1.tfrecord"</span>, <span class="string">"/var/data/file2.tfrecord"</span>]</div><div class="line">dataset = tf.contrib.data.TFRecordDataset(filenames)</div><div class="line">dataset = dataset.map(...)</div><div class="line">dataset = dataset.shuffle(buffer_size=<span class="number">10000</span>)</div><div class="line">dataset = dataset.batch(<span class="number">32</span>)</div><div class="line">dataset = dataset.repeat(num_epochs)</div><div class="line">iterator = dataset.make_one_shot_iterator()</div><div class="line"></div><div class="line">next_example, next_label = iterator.get_next()</div><div class="line">loss = model_function(next_example, next_label)</div><div class="line"></div><div class="line">training_op = tf.train.AdagradOptimizer(...).minimize(loss)</div><div class="line"></div><div class="line"><span class="keyword">with</span> tf.train.MonitoredTrainingSession(...) <span class="keyword">as</span> sess:</div><div class="line">  <span class="keyword">while</span> <span class="keyword">not</span> sess.should_stop():</div><div class="line">    sess.run(training_op)</div></pre></td></tr></table></figure></p>
-<h6 id="tf-estimator-Estimator"><a href="#tf-estimator-Estimator" class="headerlink" title="tf.estimator.Estimator"></a>tf.estimator.Estimator</h6><p>when using a <code>Dataset</code> in the <code>input_fn</code> of <code>tf.estimator.Estimator</code>, recommend using <code>Dataset.make_one_shot_iterator()</code><br><strong>Demo</strong>:<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">dataset_input_fn</span><span class="params">()</span>:</span></div><div class="line">  filenames = [<span class="string">"/var/data/file1.tfrecord"</span>, <span class="string">"/var/data/file2.tfrecord"</span>]</div><div class="line">  dataset = tf.contrib.data.TFRecordDataset(filenames)</div><div class="line"></div><div class="line">  <span class="comment"># Use `tf.parse_single_example()` to extract data from a `tf.Example`</span></div><div class="line">  <span class="comment"># protocol buffer, and perform any additional per-record preprocessing.</span></div><div class="line">  <span class="function"><span class="keyword">def</span> <span class="title">parser</span><span class="params">(record)</span>:</span></div><div class="line">    keys_to_features = &#123;</div><div class="line">        <span class="string">"image_data"</span>: tf.FixedLenFeature((), tf.string, default_value=<span class="string">""</span>),</div><div class="line">        <span class="string">"date_time"</span>: tf.FixedLenFeature((), tf.int64, default_value=<span class="string">""</span>),</div><div class="line">        <span class="string">"label"</span>: tf.FixedLenFeature((), tf.int64,</div><div class="line">                                    default_value=tf.zeros([], dtype=tf.int64)),</div><div class="line">    &#125;</div><div class="line">    parsed = tf.parse_single_example(record, keys_to_features)</div><div class="line"></div><div class="line">    <span class="comment"># Perform additional preprocessing on the parsed data.</span></div><div class="line">    image = tf.decode_jpeg(parsed[<span class="string">"image_data"</span>])</div><div class="line">    image = tf.reshape(image, [<span class="number">299</span>, <span class="number">299</span>, <span class="number">1</span>])</div><div class="line">    label = tf.cast(parsed[<span class="string">"label"</span>], tf.int32)</div><div class="line"></div><div class="line">    <span class="keyword">return</span> &#123;<span class="string">"image_data"</span>: image, <span class="string">"date_time"</span>: parsed[<span class="string">"date_time"</span>]&#125;, label</div><div class="line"></div><div class="line">  <span class="comment"># Use `Dataset.map()` to build a pair of a feature dictionary and a label </span></div><div class="line">  <span class="comment"># tensor for each example.</span></div><div class="line">  dataset = dataset.map(parser)</div><div class="line">  dataset = dataset.shuffle(buffer_size=<span class="number">10000</span>)</div><div class="line">  dataset = dataset.batch(<span class="number">32</span>)</div><div class="line">  dataset = dataset.repeat(num_epochs)</div><div class="line">  iterator = dataset.make_one_shot_iterator()</div><div class="line"></div><div class="line">  <span class="comment"># `features` is a dictionary in which each value is a batch of values for</span></div><div class="line">  <span class="comment"># that feature; `labels` is a batch of labels.</span></div><div class="line">  features, labels = iterator.get_next()</div><div class="line">  <span class="keyword">return</span> features, labels</div></pre></td></tr></table></figure></p>
-<h3 id="later"><a href="#later" class="headerlink" title="later"></a>later</h3><p><a href="https://stackoverflow.com/questions/41175011/tf-contrib-learn-tutorial-deprecation-warning" target="_blank" rel="external">https://stackoverflow.com/questions/41175011/tf-contrib-learn-tutorial-deprecation-warning</a></p>
+<li>Classify new samples/infer work
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2017/08/18/tf-contrib-learn/#more" rel="contents">
+              Read more &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/06/10/temp/rs2 (copy)/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Klpek">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Klpek's Note Library">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2017/06/10/temp/rs2 (copy)/" itemprop="url">
+                  Research Plan
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-06-10T13:49:53+08:00">
+                2017-06-10
+              </time>
+            
+
+            
+
+            
+          </span>
 
           
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2017/06/10/temp/rs2 (copy)/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2017/06/10/temp/rs2 (copy)/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <h3 id="Objective"><a href="#Objective" class="headerlink" title="Objective"></a>Objective</h3>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2017/06/10/temp/rs2 (copy)/#more" rel="contents">
+              Read more &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/06/10/temp/rs2/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Klpek">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Klpek's Note Library">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2017/06/10/temp/rs2/" itemprop="url">
+                  Research Plan
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-06-10T13:49:53+08:00">
+                2017-06-10
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2017/06/10/temp/rs2/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2017/06/10/temp/rs2/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <h3 id="Objective"><a href="#Objective" class="headerlink" title="Objective"></a>Objective</h3>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2017/06/10/temp/rs2/#more" rel="contents">
+              Read more &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
         
       
     </div>
@@ -1691,271 +1634,6 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/06/05/image-caption/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Klpek">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Klpek's Note Library">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2017/06/05/image-caption/" itemprop="url">
-                  image-caption
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-06-05T19:27:05+08:00">
-                2017-06-05
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/2017/06/05/image-caption/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2017/06/05/image-caption/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/06/05/RNNs/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Klpek">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Klpek's Note Library">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2017/06/05/RNNs/" itemprop="url">
-                  RNNs
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-06-05T18:39:37+08:00">
-                2017-06-05
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/2017/06/05/RNNs/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2017/06/05/RNNs/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <h3 id="LSTM"><a href="#LSTM" class="headerlink" title="LSTM"></a>LSTM</h3>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2017/06/05/RNNs/#more" rel="contents">
-              Read more &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -2005,7 +1683,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">18</span>
+                <span class="site-state-item-count">20</span>
                 <span class="site-state-item-name">posts</span>
               </a>
             </div>
@@ -2027,7 +1705,7 @@
             
             <div class="site-state-item site-state-tags">
               <a href="/tags/index.html">
-                <span class="site-state-item-count">12</span>
+                <span class="site-state-item-count">13</span>
                 <span class="site-state-item-name">tags</span>
               </a>
             </div>

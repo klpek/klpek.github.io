@@ -30,8 +30,8 @@
 
 <script>
   (function(){
-    if ('654321'){
-      if (prompt('Please input reading password','') !== '654321'){
+    if ('62600844'){
+      if (prompt('Please input reading password','') !== '62600844'){
         alert('error password.');
         history.back();
         }
@@ -82,7 +82,7 @@
 <link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="blog" />
+  <meta name="keywords" content="plan," />
 
 
 
@@ -98,16 +98,20 @@
 
 
 
-<meta name="description" content="整理scope配对数据整理从scope数据库找到的连配对。汇总并统计数据。">
+<meta name="description" content="Objective">
 <meta property="og:type" content="article">
-<meta property="og:title" content="work_temp">
-<meta property="og:url" content="http://yoursite.com/2017/06/05/work-temp/index.html">
+<meta property="og:title" content="Research Plan">
+<meta property="og:url" content="http://yoursite.com/2017/06/10/temp/rs2/index.html">
 <meta property="og:site_name" content="Klpek's Note Library">
-<meta property="og:description" content="整理scope配对数据整理从scope数据库找到的连配对。汇总并统计数据。">
-<meta property="og:updated_time" content="2017-06-05T05:53:48.081Z">
+<meta property="og:description" content="Objective">
+<meta property="og:image" content="http://ops2n4lue.bkt.clouddn.com/model.png">
+<meta property="og:image" content="http://ops2n4lue.bkt.clouddn.com/MCB.png">
+<meta property="og:image" content="http://ops2n4lue.bkt.clouddn.com/100_family_0-50_16.png">
+<meta property="og:updated_time" content="2017-08-14T03:18:56.466Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="work_temp">
-<meta name="twitter:description" content="整理scope配对数据整理从scope数据库找到的连配对。汇总并统计数据。">
+<meta name="twitter:title" content="Research Plan">
+<meta name="twitter:description" content="Objective">
+<meta name="twitter:image" content="http://ops2n4lue.bkt.clouddn.com/model.png">
 
 
 
@@ -135,13 +139,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2017/06/05/work-temp/"/>
+  <link rel="canonical" href="http://yoursite.com/2017/06/10/temp/rs2/"/>
 
 
 
 
 
-  <title> work_temp | Klpek's Note Library </title><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+  <title> Research Plan | Klpek's Note Library </title><!-- hexo-inject:begin --><!-- hexo-inject:end -->
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="en">
@@ -304,7 +308,7 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/06/05/work-temp/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/06/10/temp/rs2/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Klpek">
@@ -325,7 +329,7 @@
             
             
               
-                work_temp
+                Research Plan
               
             
           </h1>
@@ -340,8 +344,8 @@
               
                 <span class="post-meta-item-text">Posted on</span>
               
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-06-05T13:50:09+08:00">
-                2017-06-05
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-06-10T13:49:53+08:00">
+                2017-06-10
               </time>
             
 
@@ -359,8 +363,8 @@
                 <span class="post-meta-item-icon">
                   <i class="fa fa-comment-o"></i>
                 </span>
-                <a href="/2017/06/05/work-temp/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2017/06/05/work-temp/" itemprop="commentCount"></span>
+                <a href="/2017/06/10/temp/rs2/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2017/06/10/temp/rs2/" itemprop="commentCount"></span>
                 </a>
               </span>
             
@@ -386,7 +390,37 @@
       
 
       
-        <h4 id="整理scope配对数据"><a href="#整理scope配对数据" class="headerlink" title="整理scope配对数据"></a>整理scope配对数据</h4><p>整理从scope数据库找到的连配对。<br>汇总并统计数据。<br><a id="more"></a></p>
+        <h3 id="Objective"><a href="#Objective" class="headerlink" title="Objective"></a>Objective</h3><a id="more"></a>
+<p>To propose a new sequence alignment method based on neural network.</p>
+<h4 id="Problem"><a href="#Problem" class="headerlink" title="Problem"></a>Problem</h4><p>Given an sequence pair set S.</p>
+<p>In set S, each sequence pair &lt; ${Seq}_A$, ${Seq}_B$&gt; has best alignment form $Align({Seq}_A,{Seq}_B)$.</p>
+<p>For example, pair &lt; ${Seq}_A$, ${Seq}_B$&gt;:</p>
+<blockquote>
+<p>LDRCVPKFWTLHKN</p>
+<p>LEKCWTMNMCQKN</p>
+</blockquote>
+<p>the best alignment form is:</p>
+<blockquote>
+<p>LDRCVPKFWTL——HKN</p>
+<p>LEKC——WTMNMCQKN</p>
+</blockquote>
+<p>For a new sequence pair not in S, how to predict its best alignment form.</p>
+<h4 id="Further-Formalize-Problem"><a href="#Further-Formalize-Problem" class="headerlink" title="Further Formalize Problem"></a>Further Formalize Problem</h4><p>We change this problem to another scenery.</p>
+<p>There are two queue QueueA and QueueB. SeqA is in QueueA, SeqB is in QueueB. There are three allowed action to be adopted at two queue: M, I,and D. which means,<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">M: dequeue QueueA and QueueB</div><div class="line"></div><div class="line">I: only dequeue QueueA</div><div class="line"></div><div class="line">D: only dequeue QueueB</div></pre></td></tr></table></figure></p>
+<p>each time adopts a stategy.</p>
+<p>when two queue is empty, we get a strategy sequence.</p>
+<p>then problem is change to this statement.</p>
+<p>Given an sequence pair set S.</p>
+<p>In set S, each sequence pair &lt; ${Seq}_A$, ${Seq}_B$&gt; has best dequeue strategy process $Align({Seq}_A,{Seq}_B)$.</p>
+<p>For SeqA and SeqB above, the best dequeue strategy process is:</p>
+<blockquote>
+<p>MMMMIIIIMMMMMDDDDMMM</p>
+</blockquote>
+<p>For a new sequence pair not in S, how to predict its best strategy process.</p>
+<h3 id="Motivation"><a href="#Motivation" class="headerlink" title="Motivation"></a>Motivation</h3><p>The strength of deep learning is feature extraction, metric space mapping and big data processing. Consider the  problem complexity of sequence alignment, only simple deep learning method is not enough.</p>
+<p>Seq2seq model provides a simple end-to-end architecture to deal with a multi-step decision problem. Furthermore, Seq2seq model can be easily modified and expanded. </p>
+<p>By formalizing sequence alignment to strategy sequence, we adopt seq2seq neural network to model sequence alignment problem.</p>
+<h3 id="Method"><a href="#Method" class="headerlink" title="Method"></a>Method</h3><h4 id="DataSet"><a href="#DataSet" class="headerlink" title="DataSet"></a>DataSet</h4><p>SCOPe2.6</p>
 <div class="table-container">
 <table>
 <thead>
@@ -444,11 +478,41 @@
 </tbody>
 </table>
 </div>
-<h4 id="Tensorflow-框架下NMT分析"><a href="#Tensorflow-框架下NMT分析" class="headerlink" title="Tensorflow 框架下NMT分析"></a>Tensorflow 框架下NMT分析</h4><h5 id="google-seq2seq"><a href="#google-seq2seq" class="headerlink" title="google - seq2seq"></a>google - seq2seq</h5><p>A general-purpose encoder-decoder framework<br>used for the paper:Massive Exploration of Neural Machine Translation Architectures</p>
-<h5 id="eske-seq2seq-baseline-branch"><a href="#eske-seq2seq-baseline-branch" class="headerlink" title="eske - seq2seq (baseline branch)"></a>eske - seq2seq (baseline branch)</h5><p>replicate “Neural Machine Translation by Jointly Learning to Align and Translate”</p>
-<h5 id="paarthneekhara-byteNet-tensorflow-need-to-read"><a href="#paarthneekhara-byteNet-tensorflow-need-to-read" class="headerlink" title="paarthneekhara - byteNet-tensorflow (need to read)"></a>paarthneekhara - byteNet-tensorflow (need to read)</h5><p>replicate  “Neural Machine Translation in Linear Time.”</p>
-<h5 id="ufal-neuralmonkey-N"><a href="#ufal-neuralmonkey-N" class="headerlink" title="ufal - neuralmonkey N"></a>ufal - neuralmonkey <del>N</del></h5><p>An open-source tool for sequence learning in NLP built on TensorFlow.</p>
-
+<h4 id="Model"><a href="#Model" class="headerlink" title="Model"></a>Model</h4><p><img src="http://ops2n4lue.bkt.clouddn.com/model.png" alt=""></p>
+<h5 id="Textual-Encoder"><a href="#Textual-Encoder" class="headerlink" title="Textual Encoder"></a>Textual Encoder</h5><p>Given two input sequences</p>
+<p>$X_1=(a_1,a_2,…,a_{T_1}),X_2=(b_1,b_2,…,b_{T_2})$<br>by Bi-LSTM and Multi_LSTM, get encodes of input sequences<br><em>In another perspective, we can consider encoders as memory of input.</em></p>
+<p>$A^{X_1}=Encoder(a_1,a_2,…,a_{T_1})=\{h_1^{X_1},h_2^{X_1},…,h_{T1}^{X_1}\}$</p>
+<p>$A^{X_2}=Encoder(b_1,b_2,…,b_{T_2})=\{h_1^{X_2},h_2^{X_2},…,h_{T2}^{X_2}\}$</p>
+<h5 id="Joint-mutimodal-representation"><a href="#Joint-mutimodal-representation" class="headerlink" title="Joint mutimodal representation"></a>Joint mutimodal representation</h5><h6 id="Mutimodal-Vector-Concat"><a href="#Mutimodal-Vector-Concat" class="headerlink" title="Mutimodal Vector Concat"></a>Mutimodal Vector Concat</h6><p>For first try, we consider to concat two input memory to get a joint representation.</p>
+<script type="math/tex; mode=display">A = concat(A^{X_1},A^{X_2})</script><h6 id="Bilinear-pooling"><a href="#Bilinear-pooling" class="headerlink" title="Bilinear pooling."></a>Bilinear pooling.</h6><p>Bilinear models (Tenenbaum and Freeman, 2000) take the outer product of two vectors $x ∈ R^{n_1}$ and $q ∈ R^{n_2}$ and learn a model $W$ (here linear), i.e.<br>$z = W [x ⊗ q]$, where $⊗$ denotes the outer product$(xq^T)$ and $[]$ denotes linearizing the matrix in a vector.<br>However, the high dimensional representation leads to an infeasible number of parameters to learn in $W$.<br>We thus need a method that projects the outer product to a lower dimensional space and also avoids computing the outer product directly.</p>
+<h6 id="Multimodal-Compact-Bilinear-Pooling-MCB"><a href="#Multimodal-Compact-Bilinear-Pooling-MCB" class="headerlink" title="Multimodal Compact Bilinear Pooling (MCB)"></a>Multimodal Compact Bilinear Pooling (MCB)</h6><p><img src="http://ops2n4lue.bkt.clouddn.com/MCB.png" alt=""><br>This allows us to project the outer product to a lower dimensional space, which reduces the number of parameters in W. To avoid computing the outer product explicitly, Pham and Pagh (2013) showed that the count sketch of the outer product of two vectors can be expressed as convolution of both count sketches: $Ψ(x ⊗ q, h, s) = Ψ(x, h, s) ∗ Ψ(q, h, s)$, where ∗ is the convolution operator. Additionally, the convolution theorem states that convolution in the time domain is equivalent to element-wise product in the frequency domain. The convolution $x’∗ q’$ can be rewritten as ${FFT}^{−1}(FFT(x’) \centerdot  FFT(q’))$, where $\centerdot$ refers to element-wise product. These ideas are formalized in Algorithm 1, which is based on the Tensor Sketch algorithm of Pham and Pagh (2013). We invoke the algorithm with $A^{X_1} = x$ and $A^{X_2} = q$. We note that this easily extends and remains efficient for more than two multi-modal inputs as the combination happens as element-wise product.</p>
+<script type="math/tex; mode=display">A=MCB(A^{X_1},A^{X_2})=\{h_1,h_2,...,h_{T}\}</script><h5 id="Attention"><a href="#Attention" class="headerlink" title="Attention"></a>Attention</h5><p>At every time-step, the attention mechanism computes a context vector $c^t$, given the current decoder state $s_t$ and memory set $A^m$.<br>Firstly, we compute attention weights $α_t = softmax(v^Ttanh(W_1A + W_2s_t + b))$.<br>Then, the context vector is obtained with the following weighted sum : $c_t =\sum\limits ^{|A|}_{i=1} α_{ti}h_i$</p>
+<h5 id="Decoder"><a href="#Decoder" class="headerlink" title="Decoder"></a>Decoder</h5><p>The decoder produces an output sequence $Y = (y1, y2, …, y_{T_0} )$, is initialized by $s0 = tanh(W_{init}h^t_T + b_{init})$ where $h^t_T$ is the textual encoder’s last state.<br>The next decoder states are obtained as follows:<br>$s_t, o_t = Decoder(s_{t−1}, W_{in}[y_{t−1}: c_{t−1}])$<br>During training, $y_{t−1}$ is the ground truth symbol in the sentence while $c_{t−1}$ is the previous attention vector computed by the attention model. The current attention vector $c_t$, concatenated with the output $o_t$, is used to compute a new vector $o’_t = W_{proj} [o_t; c_t] + b{proj} $.<br>The probability distribution over the target vocabulary is computed by the equation :<br>$p(y_t|y_{t−1}, s_{t−1}, c_{t−1}, A^{X_1}, A^{X_2}) = softmax(W_{out}o’_t + b_{out})$</p>
+<h5 id="Loss-Function"><a href="#Loss-Function" class="headerlink" title="Loss Function"></a>Loss Function</h5><h6 id="Cross-Entropy"><a href="#Cross-Entropy" class="headerlink" title="Cross Entropy"></a>Cross Entropy</h6><script type="math/tex; mode=display">H(p,q)=− \sum_x p(x)\log q(x)</script><p>Evaluate the difference between the predicted probability distribution and the true distribution of the current training.</p>
+<h5 id="Optimizer"><a href="#Optimizer" class="headerlink" title="Optimizer"></a>Optimizer</h5><h6 id="Adam"><a href="#Adam" class="headerlink" title="Adam"></a>Adam</h6><p>Adam(Adaptive Moment Estimation): To use the first order moment estimation and second order moment estimation of the gradient to dynamically adjust the learning rate of each parameter.<br>Commonly used together with RNN.</p>
+<h4 id="Results"><a href="#Results" class="headerlink" title="Results"></a>Results</h4><h5 id="Experiment-1"><a href="#Experiment-1" class="headerlink" title="Experiment 1"></a>Experiment 1</h5><h6 id="DataSet-1"><a href="#DataSet-1" class="headerlink" title="DataSet"></a>DataSet</h6><p>sequences in SCOPe100_2.06, and sequence are aligned between family. Furthermore, the length of sequences are less than 50.</p>
+<p>Training Set: 50952<br>Evaluation Set: 6369<br>Testing Set: 6369<br>Training:Evaluation:Testing=8:1:1</p>
+<h6 id="Data-Format"><a href="#Data-Format" class="headerlink" title="Data Format"></a>Data Format</h6><p>Input1: _AG AGK GKK KKL KLF LFK FKC KCN CNE NEC ECK CKK KKT KTF TFT FTQ TQS QSS SSS SSL SLT LTV TVH VHQ HQR QRI RIH IHT HTG TGE GEK EK_</p>
+<p>Input2: _VK VKP KPY PYG YGC GCS CSE SEC ECG CGK GKA KAF AFR FRS RSK SKS KSY SYL YLI LII IIH IHM HMR MRT RTH TH_</p>
+<p>Target: D M D M M M M M M M M M M M M M M M M M M M M M M M M M D D D D</p>
+<h6 id="Multimodel-Joint-Style"><a href="#Multimodel-Joint-Style" class="headerlink" title="Multimodel Joint Style"></a>Multimodel Joint Style</h6><p><strong>Mutimodal Vector Concat</strong><br>concat two input memory to get a joint representation<br>For reason: easy to achievement, and use less memory.</p>
+<h6 id="Effect"><a href="#Effect" class="headerlink" title="Effect"></a>Effect</h6><p><img src="http://ops2n4lue.bkt.clouddn.com/100_family_0-50_16.png" alt=""><br>Horizontal axis coordinates: steps<br>Vertical axis coordinates: loss</p>
+<p>Analysis: </p>
+<ol>
+<li>Fluctuation of losses illustrate different batch data has different characteristic and current training model result havn’t catch it.</li>
+<li>Overall decline of traing loss and evaluation loss illustrate  current training model result learning something from traing dataset.</li>
+</ol>
+<p>Test Result:</p>
+<ul>
+<li>CASE 1:<br>I D M M M M M M M M M M M M M M M M M M M M M M M M M M M<br>I D M M M M M M M M M M M M M M M M M M M M M M M M M M M</li>
+<li>CASE 2:<br>I I I M M M M M M M M M M M M M M I M M M M M M M M M M M M M M M D M M M M M M M M M M M<br>I I I M M M M M M M M M M M M M M I M M M M M M M M M M M M M M M M D M M M M M M M M M M</li>
+<li>CASE 3:<br>D D D D D D D I I I I M M I M I I I M M M M I M M M M M I M M M M M M M M M M M M D D M M M M I I I I I I<br>D I I I M M D D D D M M M M I I I M M M M M M I I M M M M M M M M M M M M M M D M M M M M I I I I I</li>
+<li>CASE 4:<br>D I I M M M D D D M M M D D M M M M M D D D D D I I M M M M M M M I I M M M M I M M M M M D M M D D D M<br>I I I M M M D D D D D M M M D M M M D D D D D D M I I I M M M M M M M M M M M M I I M M M M M M D M D D D</li>
+</ul>
+<p>Easy case work.<br>Too long sequence doesn’t work well.</p>
+<p>For the difference between IDM-style align result and the difference between straightforward-style align result, the relationship between the two foramt is not so straight-forward.</p>
+<h6 id="Problelm"><a href="#Problelm" class="headerlink" title="Problelm"></a>Problelm</h6><p>How to evaluate result is still a problem? not just a loss. Or is there a better loss.<br>Memory footprint and data loading.</p>
+<h4 id="Conclusion"><a href="#Conclusion" class="headerlink" title="Conclusion"></a>Conclusion</h4>
       
     </div>
 
@@ -475,6 +539,12 @@
 
     <footer class="post-footer">
       
+        <div class="post-tags">
+          
+            <a href="/tags/plan/" rel="tag"># plan</a>
+          
+        </div>
+      
 
       
         
@@ -484,8 +554,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2017/05/22/biovec/" rel="next" title="Embeddings in Biological Sequences">
-                <i class="fa fa-chevron-left"></i> Embeddings in Biological Sequences
+              <a href="/2017/06/05/conference/" rel="next" title="conference">
+                <i class="fa fa-chevron-left"></i> conference
               </a>
             
           </div>
@@ -494,8 +564,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2017/06/05/VQA/" rel="prev" title="VQA">
-                VQA <i class="fa fa-chevron-right"></i>
+              <a href="/2017/06/10/temp/rs2 (copy)/" rel="prev" title="Research Plan">
+                Research Plan <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -632,7 +702,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#整理scope配对数据"><span class="nav-number">1.</span> <span class="nav-text">整理scope配对数据</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Tensorflow-框架下NMT分析"><span class="nav-number">2.</span> <span class="nav-text">Tensorflow 框架下NMT分析</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#google-seq2seq"><span class="nav-number">2.1.</span> <span class="nav-text">google - seq2seq</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#eske-seq2seq-baseline-branch"><span class="nav-number">2.2.</span> <span class="nav-text">eske - seq2seq (baseline branch)</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#paarthneekhara-byteNet-tensorflow-need-to-read"><span class="nav-number">2.3.</span> <span class="nav-text">paarthneekhara - byteNet-tensorflow (need to read)</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#ufal-neuralmonkey-N"><span class="nav-number">2.4.</span> <span class="nav-text">ufal - neuralmonkey N</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#Objective"><span class="nav-number">1.</span> <span class="nav-text">Objective</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Problem"><span class="nav-number">1.1.</span> <span class="nav-text">Problem</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Further-Formalize-Problem"><span class="nav-number">1.2.</span> <span class="nav-text">Further Formalize Problem</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Motivation"><span class="nav-number">2.</span> <span class="nav-text">Motivation</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Method"><span class="nav-number">3.</span> <span class="nav-text">Method</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#DataSet"><span class="nav-number">3.1.</span> <span class="nav-text">DataSet</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Model"><span class="nav-number">3.2.</span> <span class="nav-text">Model</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#Textual-Encoder"><span class="nav-number">3.2.1.</span> <span class="nav-text">Textual Encoder</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Joint-mutimodal-representation"><span class="nav-number">3.2.2.</span> <span class="nav-text">Joint mutimodal representation</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#Mutimodal-Vector-Concat"><span class="nav-number">3.2.2.1.</span> <span class="nav-text">Mutimodal Vector Concat</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#Bilinear-pooling"><span class="nav-number">3.2.2.2.</span> <span class="nav-text">Bilinear pooling.</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#Multimodal-Compact-Bilinear-Pooling-MCB"><span class="nav-number">3.2.2.3.</span> <span class="nav-text">Multimodal Compact Bilinear Pooling (MCB)</span></a></li></ol></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Attention"><span class="nav-number">3.2.3.</span> <span class="nav-text">Attention</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Decoder"><span class="nav-number">3.2.4.</span> <span class="nav-text">Decoder</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Loss-Function"><span class="nav-number">3.2.5.</span> <span class="nav-text">Loss Function</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#Cross-Entropy"><span class="nav-number">3.2.5.1.</span> <span class="nav-text">Cross Entropy</span></a></li></ol></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Optimizer"><span class="nav-number">3.2.6.</span> <span class="nav-text">Optimizer</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#Adam"><span class="nav-number">3.2.6.1.</span> <span class="nav-text">Adam</span></a></li></ol></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Results"><span class="nav-number">3.3.</span> <span class="nav-text">Results</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#Experiment-1"><span class="nav-number">3.3.1.</span> <span class="nav-text">Experiment 1</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#DataSet-1"><span class="nav-number">3.3.1.1.</span> <span class="nav-text">DataSet</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#Data-Format"><span class="nav-number">3.3.1.2.</span> <span class="nav-text">Data Format</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#Multimodel-Joint-Style"><span class="nav-number">3.3.1.3.</span> <span class="nav-text">Multimodel Joint Style</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#Effect"><span class="nav-number">3.3.1.4.</span> <span class="nav-text">Effect</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#Problelm"><span class="nav-number">3.3.1.5.</span> <span class="nav-text">Problelm</span></a></li></ol></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Conclusion"><span class="nav-number">3.4.</span> <span class="nav-text">Conclusion</span></a></li></ol></li></ol></div>
             
 
           </div>
@@ -775,9 +845,9 @@
 
     <script type="text/javascript">
       var disqus_shortname = 'klpek';
-      var disqus_identifier = '2017/06/05/work-temp/';
+      var disqus_identifier = '2017/06/10/temp/rs2/';
 
-      var disqus_title = "work_temp";
+      var disqus_title = "Research Plan";
 
 
       function run_disqus_script(disqus_script) {

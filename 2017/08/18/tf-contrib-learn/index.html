@@ -98,31 +98,28 @@
 
 
 
-<meta name="description" content="[TOC]
-tf.contrib.learn 基本用法https://www.tensorflow.org/get_started/tflearn
+<meta name="description" content="tf.contrib.learn 基本用法https://www.tensorflow.org/get_started/tflearn
 基本过程
 Load file containing training/test data into a TensorFlow Dataset
 Construct a neural network classifier
-Fit the model usi">
+Fit the model using the">
 <meta property="og:type" content="article">
 <meta property="og:title" content="tf.contrib.learn 阅读历程">
 <meta property="og:url" content="http://yoursite.com/2017/08/18/tf-contrib-learn/index.html">
 <meta property="og:site_name" content="Klpek's Note Library">
-<meta property="og:description" content="[TOC]
-tf.contrib.learn 基本用法https://www.tensorflow.org/get_started/tflearn
+<meta property="og:description" content="tf.contrib.learn 基本用法https://www.tensorflow.org/get_started/tflearn
 基本过程
 Load file containing training/test data into a TensorFlow Dataset
 Construct a neural network classifier
-Fit the model usi">
-<meta property="og:updated_time" content="2017-08-18T08:19:41.619Z">
+Fit the model using the">
+<meta property="og:updated_time" content="2017-08-18T08:22:46.821Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="tf.contrib.learn 阅读历程">
-<meta name="twitter:description" content="[TOC]
-tf.contrib.learn 基本用法https://www.tensorflow.org/get_started/tflearn
+<meta name="twitter:description" content="tf.contrib.learn 基本用法https://www.tensorflow.org/get_started/tflearn
 基本过程
 Load file containing training/test data into a TensorFlow Dataset
 Construct a neural network classifier
-Fit the model usi">
+Fit the model using the">
 
 
 
@@ -401,17 +398,16 @@ Fit the model usi">
       
 
       
-        <p>[TOC]</p>
-<h3 id="tf-contrib-learn-基本用法"><a href="#tf-contrib-learn-基本用法" class="headerlink" title="tf.contrib.learn 基本用法"></a>tf.contrib.learn 基本用法</h3><p><a href="https://www.tensorflow.org/get_started/tflearn" target="_blank" rel="external">https://www.tensorflow.org/get_started/tflearn</a></p>
+        <h3 id="tf-contrib-learn-基本用法"><a href="#tf-contrib-learn-基本用法" class="headerlink" title="tf.contrib.learn 基本用法"></a>tf.contrib.learn 基本用法</h3><p><a href="https://www.tensorflow.org/get_started/tflearn" target="_blank" rel="external">https://www.tensorflow.org/get_started/tflearn</a></p>
 <h4 id="基本过程"><a href="#基本过程" class="headerlink" title="基本过程"></a>基本过程</h4><ol>
 <li>Load file containing training/test data into a TensorFlow Dataset</li>
 <li>Construct a neural network classifier</li>
 <li>Fit the model using the training data</li>
 <li>Evaluate the accuracy of the model</li>
-<li>Classify new samples/infer work</li>
+<li>Classify new samples/infer work<a id="more"></a>
+<h3 id="Logging-and-Monitoring-Basics-with-tf-contrib-learn"><a href="#Logging-and-Monitoring-Basics-with-tf-contrib-learn" class="headerlink" title="Logging and Monitoring Basics with tf.contrib.learn"></a>Logging and Monitoring Basics with tf.contrib.learn</h3><a href="https://www.tensorflow.org/get_started/monitors" target="_blank" rel="external">https://www.tensorflow.org/get_started/monitors</a><br>To track and evaluate progress in real time, When training a model.<br>Without any logging, model training feels like a bit of a black box; you can’t see what’s happening as TensorFlow steps through gradient descent, get a sense of whether the model is converging appropriately, or audit to determine whether early stopping might be appropriate.<br>One way to address this problem would be to split model training into multiple fit calls with smaller numbers of steps in order to evaluate accuracy more progressively. However, this is not recommended practice, as it greatly slows down model training.<br>tf.contrib.learn offers another solution: a Monitor API designed to help you log metrics and evaluate your model while training is in progress.<h4 id="Enabling-Logging"><a href="#Enabling-Logging" class="headerlink" title="Enabling Logging"></a>Enabling Logging</h4>TensorFlow uses five different levels for log messages: DEBUG, INFO, WARN, ERROR, and FATAL.<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">tf.logging.set_verbosity(tf.logging.INFO)</div></pre></td></tr></table></figure>
+</li>
 </ol>
-<h3 id="Logging-and-Monitoring-Basics-with-tf-contrib-learn"><a href="#Logging-and-Monitoring-Basics-with-tf-contrib-learn" class="headerlink" title="Logging and Monitoring Basics with tf.contrib.learn"></a>Logging and Monitoring Basics with tf.contrib.learn</h3><p><a href="https://www.tensorflow.org/get_started/monitors" target="_blank" rel="external">https://www.tensorflow.org/get_started/monitors</a><br>To track and evaluate progress in real time, When training a model.<br>Without any logging, model training feels like a bit of a black box; you can’t see what’s happening as TensorFlow steps through gradient descent, get a sense of whether the model is converging appropriately, or audit to determine whether early stopping might be appropriate.<br>One way to address this problem would be to split model training into multiple fit calls with smaller numbers of steps in order to evaluate accuracy more progressively. However, this is not recommended practice, as it greatly slows down model training.<br>tf.contrib.learn offers another solution: a Monitor API designed to help you log metrics and evaluate your model while training is in progress.</p>
-<h4 id="Enabling-Logging"><a href="#Enabling-Logging" class="headerlink" title="Enabling Logging"></a>Enabling Logging</h4><p>TensorFlow uses five different levels for log messages: DEBUG, INFO, WARN, ERROR, and FATAL.<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">tf.logging.set_verbosity(tf.logging.INFO)</div></pre></td></tr></table></figure></p>
 <p>when tracking model training, you’ll want to adjust the level to INFO, which will provide additional feedback as fit operations are in progress.<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">INFO:tensorflow:loss = <span class="number">1.18812</span>, step = <span class="number">1</span></div><div class="line">INFO:tensorflow:loss = <span class="number">0.210323</span>, step = <span class="number">101</span></div><div class="line">INFO:tensorflow:loss = <span class="number">0.109025</span>, step = <span class="number">201</span></div></pre></td></tr></table></figure></p>
 <p>With <strong>INFO</strong>-level logging, tf.contrib.learn automatically outputs training-loss metrics to <strong><em>stderr</em></strong> after every <strong>100</strong> steps.</p>
 <h4 id="Configuring-a-ValidationMonitor-for-Streaming-Evaluation"><a href="#Configuring-a-ValidationMonitor-for-Streaming-Evaluation" class="headerlink" title="Configuring a ValidationMonitor for Streaming Evaluation"></a>Configuring a ValidationMonitor for Streaming Evaluation</h4><p> tf.contrib.learn provides several high-level Monitors you can attach to your fit operations to further track metrics and/or debug lower-level TensorFlow operations during model training, including:</p>
@@ -783,8 +779,8 @@ Fit the model usi">
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2017/06/05/conference/" rel="next" title="conference">
-                <i class="fa fa-chevron-left"></i> conference
+              <a href="/2017/06/10/temp/rs2 (copy)/" rel="next" title="Research Plan">
+                <i class="fa fa-chevron-left"></i> Research Plan
               </a>
             
           </div>
@@ -870,7 +866,7 @@ Fit the model usi">
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">18</span>
+                <span class="site-state-item-count">20</span>
                 <span class="site-state-item-name">posts</span>
               </a>
             </div>
@@ -892,7 +888,7 @@ Fit the model usi">
             
             <div class="site-state-item site-state-tags">
               <a href="/tags/index.html">
-                <span class="site-state-item-count">12</span>
+                <span class="site-state-item-count">13</span>
                 <span class="site-state-item-name">tags</span>
               </a>
             </div>
