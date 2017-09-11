@@ -1,0 +1,1168 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="en">
+<head>
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+<script>
+  (function(){
+    if (''){
+      if (prompt('Please input reading password','') !== ''){
+        alert('error password.');
+        history.back();
+        }
+    }
+  })();
+</script>
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="blog" />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="MonitoredSessionhttps://www.tensorflow.org/api_docs/python/tf/train/MonitoredSessionhook
+Experimenthttps://www.tensorflow.org/api_docs/python/tf/contrib/learn/ExperimentExperiment is a class containin">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Klpek's Note Library">
+<meta property="og:url" content="http://yoursite.com/2017/08/27/tf_train/index.html">
+<meta property="og:site_name" content="Klpek's Note Library">
+<meta property="og:description" content="MonitoredSessionhttps://www.tensorflow.org/api_docs/python/tf/train/MonitoredSessionhook
+Experimenthttps://www.tensorflow.org/api_docs/python/tf/contrib/learn/ExperimentExperiment is a class containin">
+<meta property="og:updated_time" content="2017-08-27T08:07:06.950Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Klpek's Note Library">
+<meta name="twitter:description" content="MonitoredSessionhttps://www.tensorflow.org/api_docs/python/tf/train/MonitoredSessionhook
+Experimenthttps://www.tensorflow.org/api_docs/python/tf/contrib/learn/ExperimentExperiment is a class containin">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2017/08/27/tf_train/"/>
+
+
+
+
+
+  <title>  | Klpek's Note Library </title><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="en">
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Klpek's Note Library</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            Categories
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            Archives
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            Tags
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            Search
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocapitalize="off" autocomplete="off" autocorrect="off"
+             placeholder="Searching..." spellcheck="false"
+             type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/08/27/tf_train/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Klpek">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Klpek's Note Library">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-08-27T16:07:06+08:00">
+                2017-08-27
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2017/08/27/tf_train/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2017/08/27/tf_train/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>MonitoredSession<br><a href="https://www.tensorflow.org/api_docs/python/tf/train/MonitoredSession" target="_blank" rel="external">https://www.tensorflow.org/api_docs/python/tf/train/MonitoredSession</a><br>hook</p>
+<h3 id="Experiment"><a href="#Experiment" class="headerlink" title="Experiment"></a>Experiment</h3><p><a href="https://www.tensorflow.org/api_docs/python/tf/contrib/learn/Experiment" target="_blank" rel="external">https://www.tensorflow.org/api_docs/python/tf/contrib/learn/Experiment</a><br>Experiment is a class containing all information needed to train a model.<br>by passing an Estimator and inputs for training and evaluation, an Experiment instance knows how to invoke training and eval loops in a sensible fashion for distributed training.</p>
+<h4 id="method"><a href="#method" class="headerlink" title="method"></a>method</h4><h5 id="Constructor"><a href="#Constructor" class="headerlink" title="Constructor"></a>Constructor</h5><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line">__init__(</div><div class="line">    estimator,</div><div class="line">    train_input_fn,</div><div class="line">    eval_input_fn,</div><div class="line">    eval_metrics=<span class="keyword">None</span>,</div><div class="line">    train_steps=<span class="keyword">None</span>,</div><div class="line">    eval_steps=<span class="number">100</span>,</div><div class="line">    train_monitors=<span class="keyword">None</span>,</div><div class="line">    eval_hooks=<span class="keyword">None</span>,</div><div class="line">    local_eval_frequency=<span class="keyword">None</span>,</div><div class="line">    eval_delay_secs=<span class="number">120</span>,</div><div class="line">    continuous_eval_throttle_secs=<span class="number">60</span>,</div><div class="line">    min_eval_frequency=<span class="keyword">None</span>,</div><div class="line">    delay_workers_by_global_step=<span class="keyword">False</span>,</div><div class="line">    export_strategies=<span class="keyword">None</span>,</div><div class="line">    train_steps_per_iteration=<span class="keyword">None</span></div><div class="line">)</div></pre></td></tr></table></figure>
+<p>Creates an Experiment instance.<br>None of the functions passed to this constructor are executed at construction time.<br>They are stored and used when a method is executed which requires it.</p>
+<ul>
+<li>estimator<ul>
+<li>Object implementing Estimator interface,</li>
+</ul>
+</li>
+<li>train_input_fn<ul>
+<li>function, returns features and labels for training.</li>
+</ul>
+</li>
+<li>eval_input_fn<ul>
+<li>function, returns features and labels for evaluation.</li>
+<li>If eval_steps is None, this should be configured only to produce for a finite number of batches (generally, 1 epoch over the evaluation data).</li>
+</ul>
+</li>
+<li>eval_metrics<ul>
+<li>dict of string, metric function.</li>
+<li>If None, default set is used. This should be None if the estimator is ${tf.estimator.Estimator}$. If metrics are provided they will be appended to the default set.</li>
+</ul>
+</li>
+<li>train_steps<ul>
+<li>Perform this many steps of training. None, the default, means train forever.</li>
+</ul>
+</li>
+<li>eval_steps<ul>
+<li>evaluate runs until input is exhausted (or another exception is raised), or for eval_steps steps, if specified.</li>
+</ul>
+</li>
+<li>train_monitors<ul>
+<li>A list of monitors to pass to the Estimator’s fit function.</li>
+</ul>
+</li>
+<li>eval_hooks<ul>
+<li>A list of SessionRunHook hooks to pass to the Estimator’s evaluate function.</li>
+</ul>
+</li>
+<li>eval_delay_secs<ul>
+<li>Start evaluating after waiting for this many seconds.</li>
+</ul>
+</li>
+<li>continuous_eval_throttle_secs<ul>
+<li>when the last evaluation was started at least this many seconds ago for continuous_eval(), re-evaluate.</li>
+</ul>
+</li>
+<li>min_eval_frequency<ul>
+<li>(applies only to train_and_evaluate).</li>
+<li>the minimum number of steps between evaluations.</li>
+<li>Of course, evaluation does not occur if no new snapshot is available, hence, this is the minimum. If 0, the evaluation will only happen after training. If None, defaults to 1, unless model_dir is on GCS, in which case the default is 1000.</li>
+</ul>
+</li>
+<li>delay_workers_by_global_step<ul>
+<li>if True delays training workers based on global step instead of time.</li>
+</ul>
+</li>
+<li>export_strategies<ul>
+<li>Iterable of ExportStrategys, or a single one, or None.</li>
+</ul>
+</li>
+<li>train_steps_per_iteration<ul>
+<li>(applies only to continuous_train_and_eval).</li>
+<li>Perform this many (integer) number of train steps for each training-evaluation iteration.</li>
+<li>With a small value, the model will be evaluated more frequently with more checkpoints saved. </li>
+<li>If None, will use a default value (which is smaller than train_steps if provided).</li>
+</ul>
+</li>
+</ul>
+<h3 id="supervisor"><a href="#supervisor" class="headerlink" title="supervisor"></a>supervisor</h3><h4 id="basic-use-process"><a href="#basic-use-process" class="headerlink" title="basic use process"></a>basic use process</h4><ol>
+<li>Create a Supervisor object,<ul>
+<li>parameter: logdir</li>
+<li>the path to a directory where to save checkpoints and summaries.</li>
+</ul>
+</li>
+<li>Ask the supervisor for a session with <code>tf.train.Supervisor.managed_session</code></li>
+<li>Use the session to execute a train op, checking at each step if the supervisor requests that the training stops.</li>
+</ol>
+<h5 id="started-services"><a href="#started-services" class="headerlink" title="started services"></a>started services</h5><p>The managed_session() call starts a few services, which run in their own threads and use the managed session to run ops in your graph.<br>If your graph contains an integer variable named global_step, the services use its value to measure the number of training steps executed.</p>
+<ul>
+<li>Checkpointing service: Saves a copy of the graph variables in the logdir. <ul>
+<li>The checkpoint filename uses the value of the global_step variable if one was added to your graph.</li>
+<li>Runs every 10 minutes by default.</li>
+</ul>
+</li>
+<li>Summary service: Runs all the summary ops and appends their output to an events file in the logdir.<ul>
+<li>Runs every 2 minutes by default.</li>
+</ul>
+</li>
+<li>Step counter: Counts how many steps have been executed, by looking at changes in the global_step variable.<ul>
+<li>Appends a summary to the events file reporting the number of global steps per second.</li>
+<li>The summary tag is “global_step/sec”. </li>
+<li>This also runs every 2 minutes by default.</li>
+</ul>
+</li>
+<li><em>Queue Runners</em>: If any <code>tf.train.QueueRunner</code> were added to the graph, the supervisor launches them in their own threads.</li>
+</ul>
+<h5 id="Checking-for-Stop"><a href="#Checking-for-Stop" class="headerlink" title="Checking for Stop"></a>Checking for Stop</h5><p>The check for stop in the main training loop is important and necessary.</p>
+<ol>
+<li>Exceptions raised in the service threads are reported to the supervisor which then sets its should_stop() condition to true.</li>
+<li>Other service threads notice that condition and terminate properly. </li>
+<li>The main training loop, within the managed_session() block, must also check for the stop condition and terminate.</li>
+</ol>
+<p><strong><em>Notice</em></strong>:<br><code>managed_session()</code> takes care of catching exceptions raised from the training loop to report them to the supervisor.<br>The main loop does not need to do anything special about exceptions. It only needs to check for the stop condition.</p>
+<h5 id="Recovery"><a href="#Recovery" class="headerlink" title="Recovery"></a>Recovery</h5><p>If the training program shuts down or crashes, its most recent checkpoint and event files are left in the logdir.<br>When you restart the program, managed_session() restores the graph from the most recent checkpoint and resumes training where it stopped.<br>A new events file is created. If you start TensorBoard and point it to the logdir, it will know how to <strong>merge</strong> the contents of the two events files and will show the training resuming at the last global step from the checkpoint.</p>
+<h4 id="Larger-Model-Scenario"><a href="#Larger-Model-Scenario" class="headerlink" title="Larger Model Scenario"></a>Larger Model Scenario</h4><p>Larger models may run out memory when the summary service runs:</p>
+<ul>
+<li>The summary ops are run in parallel with the main loop running the train op.</li>
+<li>This can cause memory usage to peak to up to two times the normal use.</li>
+</ul>
+<p>For a larger model you can tell the supervisor to <strong>not run</strong> the summary service and instead run it yourself in your main training loop:</p>
+<ul>
+<li>pass <code>summary_op=None</code> when constructing the supervisor.</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line">...create graph...</div><div class="line">my_train_op = ...</div><div class="line">my_summary_op = tf.summary.merge_all()</div><div class="line"></div><div class="line">sv = tf.train.Supervisor(logdir=<span class="string">"/my/training/directory"</span>,</div><div class="line">                   summary_op=<span class="keyword">None</span>) <span class="comment"># Do not run the summary service</span></div><div class="line"><span class="keyword">with</span> sv.managed_session() <span class="keyword">as</span> sess:</div><div class="line">  <span class="keyword">for</span> step <span class="keyword">in</span> range(<span class="number">100000</span>):</div><div class="line">    <span class="keyword">if</span> sv.should_stop():</div><div class="line">      <span class="keyword">break</span></div><div class="line">    <span class="keyword">if</span> step % <span class="number">100</span> == <span class="number">0</span>:</div><div class="line">      _, summ = sess.run([my_train_op, my_summary_op])</div><div class="line">      sv.summary_computed(sess, summ)</div><div class="line">    <span class="keyword">else</span>:</div><div class="line">      sess.run(my_train_op)</div></pre></td></tr></table></figure>
+<h4 id="Pre-trained-Model-Scenario"><a href="#Pre-trained-Model-Scenario" class="headerlink" title="Pre-trained Model Scenario"></a>Pre-trained Model Scenario</h4><p>The managed_session() call takes care of initializing the model in the session</p>
+<ul>
+<li>If model is available, it is restored from a checkpoint.</li>
+<li>otherwise, initialized from scratch.</li>
+</ul>
+<p>One common scenario is to initialize the model by loading a “pre-trained” checkpoint that was saved while training a usually slightly different model using a different dataset.</p>
+<h5 id="init-function"><a href="#init-function" class="headerlink" title="init function"></a>init function</h5><ul>
+<li>is called only if the model needs to be initialized from scratch</li>
+<li>not when the model can be recovered from a checkpoint from the logdir.</li>
+</ul>
+<p>To load the pre-trained model, the init function needs a <code>tf.train.Saver</code> object</p>
+<ul>
+<li>This saver must only restore the pre-trained variables</li>
+<li>This is usually a good idea because the new model may contain variables that are not present in the pre-trained checkpoint</li>
+<li>If you were using the default saver, you could get an error trying to restore all the variables of the new model from the pre-trained checkpoint.</li>
+</ul>
+<p>The process is below:<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line">...create graph...</div><div class="line"><span class="comment"># Create a saver that restores only the pre-trained variables.</span></div><div class="line">pre_train_saver = tf.train.Saver([pre_train_var1, pre_train_var2])</div><div class="line"></div><div class="line"><span class="comment"># Define an init function that loads the pretrained checkpoint.</span></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">load_pretrain</span><span class="params">(sess)</span>:</span></div><div class="line">  pre_train_saver.restore(sess, <span class="string">"&lt;path to pre-trained-checkpoint&gt;"</span>)</div><div class="line"></div><div class="line"><span class="comment"># Pass the init function to the supervisor.</span></div><div class="line"><span class="comment">#</span></div><div class="line"><span class="comment"># The init function is called _after_ the variables have been initialized</span></div><div class="line"><span class="comment"># by running the init_op.</span></div><div class="line">sv = tf.train.Supervisor(logdir=<span class="string">"/my/training/directory"</span>,</div><div class="line">                   init_fn=load_pretrain)</div><div class="line"><span class="keyword">with</span> sv.managed_session() <span class="keyword">as</span> sess:</div><div class="line">  <span class="comment"># Here sess was either initialized from the pre-trained-checkpoint or</span></div><div class="line">  <span class="comment"># recovered from a checkpoint saved in a previous run of this code.</span></div><div class="line">  ...</div></pre></td></tr></table></figure></p>
+<h4 id="Running-Your-Own-Services"><a href="#Running-Your-Own-Services" class="headerlink" title="Running Your Own Services"></a>Running Your Own Services</h4><p>For example to fetch different sets of summaries on a different schedule than the usual summary service.<br>Use the <code>tf.train.Supervisor.loop</code>method</p>
+<ul>
+<li>It repeatedly calls a function of your choice on a timer until the supervisor stop condition becomes true</li>
+<li>It plays nicely with the other services.</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">my_additional_summaries</span><span class="params">(sv, sess)</span>:</span></div><div class="line"> ...fetch <span class="keyword">and</span> write summaries, see below...</div><div class="line"></div><div class="line">...</div><div class="line">  sv = tf.train.Supervisor(logdir=<span class="string">"/my/training/directory"</span>)</div><div class="line">  <span class="keyword">with</span> sv.managed_session() <span class="keyword">as</span> sess:</div><div class="line">    <span class="comment"># Call my_additional_summaries() every 1200s, or 20mn,</span></div><div class="line">    <span class="comment"># passing (sv, sess) as arguments.</span></div><div class="line">    sv.loop(<span class="number">1200</span>, my_additional_summaries, args=(sv, sess))</div><div class="line">    ...main training loop...</div></pre></td></tr></table></figure>
+<h4 id="Writing-Summaries"><a href="#Writing-Summaries" class="headerlink" title="Writing Summaries"></a>Writing Summaries</h4><p>The supervisor always creates an events file in its logdir, as well as a <code>tf.summary.FileWriter</code> to append events and summaries to that file.<br>If you want to write your own summaries it is a good idea to append them to that same events file</p>
+<ul>
+<li>TensorBoard likes it better when only one events file in a directory is being actively appended to.</li>
+</ul>
+<p>Method: <code>tf.train.Supervisor.summary_computed</code><br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">my_additional_summaries</span><span class="params">(sv, sess)</span>:</span></div><div class="line">  summaries = sess.run(my_additional_summary_op)</div><div class="line">  sv.summary_computed(sess, summaries)</div></pre></td></tr></table></figure></p>
+<p>For more advanced usages:<br><code>tf.train.Supervisor.summary_writer</code><br><a href="https://www.tensorflow.org/api_docs/python/tf/train/Supervisor#summary_writer" target="_blank" rel="external">https://www.tensorflow.org/api_docs/python/tf/train/Supervisor#summary_writer</a></p>
+<h4 id="Supervisor-Reference"><a href="#Supervisor-Reference" class="headerlink" title="Supervisor Reference"></a>Supervisor Reference</h4><h5 id="Checkpointing-Where-and-When"><a href="#Checkpointing-Where-and-When" class="headerlink" title="Checkpointing: Where and When."></a>Checkpointing: Where and When.</h5><p>checkpointing service can be configured by the following keyword arguments to the Supervisor() constructor:</p>
+<ul>
+<li>logdir:<ul>
+<li>path where the checkpointing service creates <strong>checkpoints</strong>.</li>
+<li>Passing None disables the checkpointing and the summary services.</li>
+</ul>
+</li>
+<li>checkpoint_basename<ul>
+<li>Name of the checkpoint files to create, defaults to “model.ckpt”.</li>
+<li>If the model contains a scalar integer variable named global_step, the value of that variable is appended to the checkpoint filename.</li>
+</ul>
+</li>
+<li>save_model_secs<ul>
+<li>Number of seconds between each checkpoint. Defaults to 600, or 10 minutes.</li>
+</ul>
+</li>
+<li>saver<ul>
+<li>A <code>tf.train.Saver</code> object to use for checkpointing.</li>
+<li>Default creates one for you by calling tf.train.Saver(), which add ops to save and restore all variables in your model.</li>
+<li>customer Saver need create customized Saver.</li>
+</ul>
+</li>
+</ul>
+<h5 id="Summaries-Where-and-When"><a href="#Summaries-Where-and-When" class="headerlink" title="Summaries: Where and When"></a>Summaries: Where and When</h5><p>the summary service can be configured by the following keyword arguments to the Supervisor() constructor:</p>
+<ul>
+<li>logdir<ul>
+<li>Path to a directory where the summary service creates <strong>event</strong> files.</li>
+<li>Passing None disables the summary service as well as the checkpointing services.</li>
+</ul>
+</li>
+<li>save_summaries_secs<ul>
+<li>Number of seconds between each run of the summary service</li>
+<li>Defaults to 120, or 2 minutes.</li>
+<li>Pass 0 to disable the summary service.</li>
+</ul>
+</li>
+<li>summary_op<ul>
+<li>Op to use to fetch the summaries.</li>
+<li>Default use the first op in the <code>tf.GraphKeys.SUMMARY_OP</code> graph collection.</li>
+<li>If the collection is empty the supervisor creates an op that aggregates all summaries in the graph using <code>tf.summary.merge_all()</code></li>
+<li>Passing None disables the summary service.</li>
+</ul>
+</li>
+<li>global_step<ul>
+<li>Tensor to use to count the global step.</li>
+<li>Default uses the first tensor in the tf.GraphKeys.GLOBAL_STEP graph collection.</li>
+<li>If the collection is empty, the supervisor looks for a scalar integer variable named <code>global_step</code> in the graph.</li>
+<li>If found, the global step tensor is used to measure the number of training steps executed</li>
+<li>Note that your training op is responsible for incrementing the global step value.</li>
+</ul>
+</li>
+</ul>
+<h5 id="Model-Initialization-and-Recovery"><a href="#Model-Initialization-and-Recovery" class="headerlink" title="Model Initialization and Recovery"></a>Model Initialization and Recovery</h5><h6 id="initialization"><a href="#initialization" class="headerlink" title="initialization"></a>initialization</h6><p>The <code>managed_session()</code> call takes care of initializing or recovering a session.<br>It returns a session with a fully initialized model, ready to run ops.<br>If a checkpoint <strong>exists</strong> in the logdir when <code>managed_session()</code> is called, the model is initialized by loading that <strong>checkpoint</strong><br><strong>otherwise</strong> it is initialized by calling an init op and optionally an init function.<br>When no checkpoint is available, model initialization is controlled by the following keyword arguments to the <code>Supervisor()</code> constructor:</p>
+<ul>
+<li>init_op<ul>
+<li>Op to run to initialize the model.</li>
+<li>Default uses the first op in the <code>tf.GraphKeys.INIT_OP</code> collection.</li>
+<li>If the collection is empty, the supervisor adds an op to initialize all the variables in the graph by calling <code>tf.global_variables_initializer()</code>.</li>
+<li>Pass None to not use an init op.</li>
+</ul>
+</li>
+<li>init_fn<ul>
+<li>Python function to call to initialize the model.</li>
+<li>If specified, called as init_fn(sess) where sess is the managed session. </li>
+<li>If an init op is also used, the init function is called after the init op.</li>
+</ul>
+</li>
+<li>local_init_op<ul>
+<li>An additional op to initialize parts of the graph that are not saved in checkpoints such as tables and local variables.</li>
+<li>The local init op is run before the init op and the init function.</li>
+<li>If not specified, the supervisor uses the first op in the <code>tf.GraphKeys.LOCAL_INIT_OP</code> collection.</li>
+<li>If the collection is empty the supervisor adds an op to initialize all the tables and local variables in the graph by calling <code>tf.tables_initializer()</code> and <code>tf.local_variables_initializer()</code>.</li>
+<li>Pass None to not use a local init op.</li>
+</ul>
+</li>
+<li>ready_op<ul>
+<li>Op to check if the model is initialized.</li>
+<li>After running the local init op, the init op, and the init function, the supervisor verifies that the model is fully initialized by running the ready op. </li>
+<li>This is an op that returns an empty string if the model is initialized, or a description of what parts of the model are not initialized if not.</li>
+<li>This is an op that returns an empty string if the model is initialized, or a description of what parts of the model are not initialized if not.</li>
+<li>If not specified, the supervisor uses the first op in the tf.GraphKeys.READY_OP collection.</li>
+<li>f the collection is empty the supervisor creates a ready op that verifies that all variables are initialized by calling <code>tf.report_uninitialized_variables()</code>.</li>
+<li>Pass None to disable the ready op. In that case the model is not checked after initialization.</li>
+</ul>
+</li>
+</ul>
+<h6 id="Recovery-1"><a href="#Recovery-1" class="headerlink" title="Recovery"></a>Recovery</h6><p>Checkpoint recovery is controlled by the following keyword arguments to the Supervisor() constructor:</p>
+<ul>
+<li>logdir<ul>
+<li>Path to a directory in which to look for checkpoints.</li>
+<li>The checkpoint service saves a metadata file, named “checkpoint”, in the checkpoint directory that indicates the path to the most recent checkpoint.</li>
+<li>This file is in text format. When in a pinch, you can edit it manually to recover from a different checkpoint than the most recent one.</li>
+</ul>
+</li>
+<li>ready_op: (see above).<ul>
+<li>The ready op is run before and after loading the checkpoint. </li>
+<li>The first run checks if the model needs to be initialized</li>
+<li>the second run verifies that the model is fully initialized.</li>
+</ul>
+</li>
+<li>local_init_op: (see above).<ul>
+<li>The local init op is run before running the ready op the first time, to initialize local variables and tables.</li>
+<li>saver: (see above). Saver object used to load the checkpoint.</li>
+</ul>
+</li>
+</ul>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/08/23/tf_distributed/" rel="next" title="">
+                <i class="fa fa-chevron-left"></i> 
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/09/01/Alignment_Quality_Evaluation/" rel="prev" title="">
+                 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.gif"
+               alt="Klpek" />
+          <p class="site-author-name" itemprop="name">Klpek</p>
+           
+              <p class="site-description motion-element" itemprop="description"></p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">28</span>
+                <span class="site-state-item-name">posts</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/categories/index.html">
+                <span class="site-state-item-count">3</span>
+                <span class="site-state-item-name">categories</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">17</span>
+                <span class="site-state-item-name">tags</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#Experiment"><span class="nav-number">1.</span> <span class="nav-text">Experiment</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#method"><span class="nav-number">1.1.</span> <span class="nav-text">method</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#Constructor"><span class="nav-number">1.1.1.</span> <span class="nav-text">Constructor</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#supervisor"><span class="nav-number">2.</span> <span class="nav-text">supervisor</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#basic-use-process"><span class="nav-number">2.1.</span> <span class="nav-text">basic use process</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#started-services"><span class="nav-number">2.1.1.</span> <span class="nav-text">started services</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Checking-for-Stop"><span class="nav-number">2.1.2.</span> <span class="nav-text">Checking for Stop</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Recovery"><span class="nav-number">2.1.3.</span> <span class="nav-text">Recovery</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Larger-Model-Scenario"><span class="nav-number">2.2.</span> <span class="nav-text">Larger Model Scenario</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Pre-trained-Model-Scenario"><span class="nav-number">2.3.</span> <span class="nav-text">Pre-trained Model Scenario</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#init-function"><span class="nav-number">2.3.1.</span> <span class="nav-text">init function</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Running-Your-Own-Services"><span class="nav-number">2.4.</span> <span class="nav-text">Running Your Own Services</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Writing-Summaries"><span class="nav-number">2.5.</span> <span class="nav-text">Writing Summaries</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Supervisor-Reference"><span class="nav-number">2.6.</span> <span class="nav-text">Supervisor Reference</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#Checkpointing-Where-and-When"><span class="nav-number">2.6.1.</span> <span class="nav-text">Checkpointing: Where and When.</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Summaries-Where-and-When"><span class="nav-number">2.6.2.</span> <span class="nav-text">Summaries: Where and When</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Model-Initialization-and-Recovery"><span class="nav-number">2.6.3.</span> <span class="nav-text">Model Initialization and Recovery</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#initialization"><span class="nav-number">2.6.3.1.</span> <span class="nav-text">initialization</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#Recovery-1"><span class="nav-number">2.6.3.2.</span> <span class="nav-text">Recovery</span></a></li></ol></li></ol></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Powered By Klpek</span>
+</div>
+
+
+<div class="powered-by">
+  Powered by <a class="theme-link" href="#">Klpek</a>
+</div>
+
+<div class="theme-info">
+  Theme -
+  <a class="theme-link" href="#">
+    Ekon
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+  
+  <script type="text/javascript" src="/lib/canvas-nest/canvas-nest.min.js"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.0"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+
+
+  
+
+    <script type="text/javascript">
+      var disqus_shortname = 'klpek';
+      var disqus_identifier = '2017/08/27/tf_train/';
+
+      var disqus_title = "";
+
+
+      function run_disqus_script(disqus_script) {
+        var dsq = document.createElement('script');
+        dsq.type = 'text/javascript';
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+      }
+
+      run_disqus_script('count.js');
+
+      
+        var disqus_config = function () {
+            this.page.url = disqus_url;
+            this.page.identifier = disqus_identifier;
+            this.page.title = disqus_title;
+        };
+        run_disqus_script('embed.js');
+      
+
+    </script>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length == 0) {
+      search_path = "search.xml";
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.popup').toggle();
+    }
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+      $.ajax({
+        url: path,
+        dataType: "xml",
+        async: true,
+        success: function( xmlResponse ) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = $( "entry", xmlResponse ).map(function() {
+            return {
+              title: $( "title", this ).text(),
+              content: $("content",this).text(),
+              url: $( "url" , this).text()
+            };
+          }).get();
+          var $input = document.getElementById(search_id);
+          var $resultContent = document.getElementById(content_id);
+          $input.addEventListener('input', function(){
+            var matchcounts = 0;
+            var str='<ul class=\"search-result-list\">';
+            var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+            $resultContent.innerHTML = "";
+            if (this.value.trim().length > 1) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var content_index = [];
+                var data_title = data.title.trim().toLowerCase();
+                var data_content = data.content.trim().replace(/<[^>]+>/g,"").toLowerCase();
+                var data_url = decodeURIComponent(data.url);
+                var index_title = -1;
+                var index_content = -1;
+                var first_occur = -1;
+                // only match artiles with not empty titles and contents
+                if(data_title != '') {
+                  keywords.forEach(function(keyword, i) {
+                    index_title = data_title.indexOf(keyword);
+                    index_content = data_content.indexOf(keyword);
+                    if( index_title >= 0 || index_content >= 0 ){
+                      isMatch = true;
+                      if (i == 0) {
+                        first_occur = index_content;
+                      }
+                    }
+
+                  });
+                }
+                // show search results
+                if (isMatch) {
+                  matchcounts += 1;
+                  str += "<li><a href='"+ data_url +"' class='search-result-title'>"+ data_title +"</a>";
+                  var content = data.content.trim().replace(/<[^>]+>/g,"");
+                  if (first_occur >= 0) {
+                    // cut out 100 characters
+                    var start = first_occur - 20;
+                    var end = first_occur + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if(start == 0){
+                      end = 50;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    var match_content = content.substring(start, end);
+                    // highlight all keywords
+                    keywords.forEach(function(keyword){
+                      var regS = new RegExp(keyword, "gi");
+                      match_content = match_content.replace(regS, "<b class=\"search-keyword\">"+keyword+"</b>");
+                    });
+
+                    str += "<p class=\"search-result\">" + match_content +"...</p>"
+                  }
+                  str += "</li>";
+                }
+              })};
+            str += "</ul>";
+            if (matchcounts == 0) { str = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>' }
+            if (keywords == "") { str = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>' }
+            $resultContent.innerHTML = str;
+          });
+          proceedsearch();
+        }
+      });}
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched == false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(function(e){
+      $('.popup').hide();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    });
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+  </script><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({"tex2jax":{"inlineMath":[["$","$"],["\\(","\\)"]],"skipTags":["script","noscript","style","textarea","pre","code"],"processEscapes":true},"TeX":{"equationNumbers":{"autoNumber":"AMS"}}});
+</script>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+      all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+  });
+</script>
+
+<script type="text/javascript" src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+<!-- End: Injected MathJax -->
+<!-- hexo-inject:end -->
+
+
+
+
+
+  
+
+  
+
+  
+  
+
+
+  
+
+</body>
+</html>
